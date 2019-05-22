@@ -1,5 +1,6 @@
 import * as React from "react";
-import CardsFull from "./Level2/Cards/CardsFull";
+import PapersFull from "./Level2/Cards/PapersFull";
+// import CardsFull from "./Level2/Cards/CardsFull";
 import SignOutButton from "./Level1/Buttons/SignOutButton";
 import Authentication from "../auth/Authentication";
 
@@ -7,7 +8,7 @@ export default class LoginPage extends React.PureComponent {
   public render() {
     return (
       <div>
-        <CardsFull />
+        <PapersFull />
         <SignOutButton onClick={signOut} />
       </div>
     );
