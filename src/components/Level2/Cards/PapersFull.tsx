@@ -1,26 +1,28 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { withStyles, WithStyles, createStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import {
+  Avatar,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Paper,
+  TextField,
+  Typography,
+} from "@material-ui/core/";
 import red from "@material-ui/core/colors/red";
+import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import Grid from "@material-ui/core/Grid";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { Fragment } from "react";
+import * as React from "react";
+
 import Image from "./MinjungKang.jpg";
 
 const styles = (theme: Theme) =>
   createStyles({
     paper: {
-      maxWidth: 400
+      maxWidth: theme.spacing.unit * 50
     },
     avatar: {
       backgroundColor: red[500]
@@ -72,7 +74,7 @@ class PapersFull extends React.Component<IPapersFullProps, State> {
               <Grid container alignItems="center">
                 <Grid item xs>
                   <Typography inline variant="h6">
-                    강민정
+                    <b>강민정</b>
                   </Typography>
                 </Grid>
                 <Grid item>

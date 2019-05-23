@@ -1,24 +1,21 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { withStyles, WithStyles, createStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import TextField from "@material-ui/core/TextField";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Image from "./MinjungKang.jpg";
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Checkbox from '@material-ui/core/Checkbox';
+import red from '@material-ui/core/colors/red';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import TextField from '@material-ui/core/TextField';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { Fragment } from 'react';
+import * as React from 'react';
+
+import Image from './MinjungKang.jpg';
 
 const styles = (theme: Theme) =>
   createStyles({

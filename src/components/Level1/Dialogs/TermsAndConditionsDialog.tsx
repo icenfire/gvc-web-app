@@ -1,9 +1,9 @@
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Link from "@material-ui/core/Link";
 import * as React from "react";
 
 class TermsAndConditionsDialog extends React.Component {
@@ -22,12 +22,13 @@ class TermsAndConditionsDialog extends React.Component {
   public render() {
     return (
       <div>
-        <Button
+        <Link
+          component="button"
           onClick={this.handleClickOpen}
           style={{ textTransform: "capitalize" }}
         >
           Terms and Conditions
-        </Button>
+        </Link>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -52,70 +53,69 @@ class TermsAndConditionsDialog extends React.Component {
               all agreements, notices, disclosures and other communications that
               we provide to you electronically satisfy any legal requirement
               that such communications be in writing. COPYRIGHT All content
-              included on this site, such as text, graphics, logos, button
-              icons, images, audio clips, digital downloads, data compilations,
-              and software, is the property of MYCOMPANY or its content
-              suppliers and protected by international copyright laws. The
-              compilation of all content on this site is the exclusive property
-              of MYCOMPANY, with copyright authorship for this collection by
-              MYCOMPANY, and protected by international copyright laws. TRADE
-              MARKS MYCOMPANYs trademarks and trade dress may not be used in
-              connection with any product or service that is not MYCOMPANYs, in
-              any manner that is likely to cause confusion among customers, or
-              in any manner that disparages or discredits MYCOMPANY. All other
-              trademarks not owned by MYCOMPANY or its subsidiaries that appear
-              on this site are the property of their respective owners, who may
-              or may not be affiliated with, connected to, or sponsored by
-              MYCOMPANY or its subsidiaries. LICENSE AND SITE ACCESS MYCOMPANY
-              grants you a limited license to access and make personal use of
-              this site and not to download (other than page caching) or modify
-              it, or any portion of it, except with express written consent of
-              MYCOMPANY. This license does not include any resale or commercial
-              use of this site or its contents: any collection and use of any
-              product listings, descriptions, or prices: any derivative use of
-              this site or its contents: any downloading or copying of account
-              information for the benefit of another merchant: or any use of
-              data mining, robots, or similar data gathering and extraction
-              tools. This site or any portion of this site may not be
-              reproduced, duplicated, copied, sold, resold, visited, or
-              otherwise exploited for any commercial purpose without express
-              written consent of MYCOMPANY. You may not frame or utilize framing
-              techniques to enclose any trademark, logo, or other proprietary
-              information (including images, text, page layout, or form) of
-              MYCOMPANY and our associates without express written consent. You
-              may not use any meta tags or any other "hidden text" utilizing
-              MYCOMPANYs name or trademarks without the express written consent
-              of MYCOMPANY. Any unauthorized use terminates the permission or
-              license granted by MYCOMPANY. You are granted a limited,
-              revocable, and nonexclusive right to create a hyperlink to the
-              home page of MYCOMPANY so long as the link does not portray
-              MYCOMPANY, its associates, or their products or services in a
-              false, misleading, derogatory, or otherwise offensive matter. You
-              may not use any MYCOMPANY logo or other proprietary graphic or
-              trademark as part of the link without express written permission.
-              YOUR MEMBERSHIP ACCOUNT If you use this site, you are responsible
-              for maintaining the confidentiality of your account and password
-              and for restricting access to your computer, and you agree to
-              accept responsibility for all activities that occur under your
-              account or password. If you are under 18, you may use our website
-              only with involvement of a parent or guardian. MYCOMPANY and its
-              associates reserve the right to refuse service, terminate
-              accounts, remove or edit content, or cancel orders in their sole
-              discretion. REVIEWS, COMMENTS, EMAILS, AND OTHER CONTENT Visitors
-              may post reviews, comments, and other content: and submit
-              suggestions, ideas, comments, questions, or other information, so
-              long as the content is not illegal, obscene, threatening,
-              defamatory, invasive of privacy, infringing of intellectual
-              property rights, or otherwise injurious to third parties or
-              objectionable and does not consist of or contain software viruses,
-              political campaigning, commercial solicitation, chain letters,
-              mass mailings, or any form of "spam." You may not use a false
-              e-mail address, impersonate any person or entity, or otherwise
-              mislead as to the origin of a card or other content. MYCOMPANY
-              reserves the right (but not the obligation) to remove or edit such
-              content, but does not regularly review posted content. If you do
-              post content or submit material, and unless we indicate otherwise,
-              you grant MYCOMPANY and its associates a nonexclusive,
+              included on this site, such as text, graphics, logos, Link icons,
+              images, audio clips, digital downloads, data compilations, and
+              software, is the property of MYCOMPANY or its content suppliers
+              and protected by international copyright laws. The compilation of
+              all content on this site is the exclusive property of MYCOMPANY,
+              with copyright authorship for this collection by MYCOMPANY, and
+              protected by international copyright laws. TRADE MARKS MYCOMPANYs
+              trademarks and trade dress may not be used in connection with any
+              product or service that is not MYCOMPANYs, in any manner that is
+              likely to cause confusion among customers, or in any manner that
+              disparages or discredits MYCOMPANY. All other trademarks not owned
+              by MYCOMPANY or its subsidiaries that appear on this site are the
+              property of their respective owners, who may or may not be
+              affiliated with, connected to, or sponsored by MYCOMPANY or its
+              subsidiaries. LICENSE AND SITE ACCESS MYCOMPANY grants you a
+              limited license to access and make personal use of this site and
+              not to download (other than page caching) or modify it, or any
+              portion of it, except with express written consent of MYCOMPANY.
+              This license does not include any resale or commercial use of this
+              site or its contents: any collection and use of any product
+              listings, descriptions, or prices: any derivative use of this site
+              or its contents: any downloading or copying of account information
+              for the benefit of another merchant: or any use of data mining,
+              robots, or similar data gathering and extraction tools. This site
+              or any portion of this site may not be reproduced, duplicated,
+              copied, sold, resold, visited, or otherwise exploited for any
+              commercial purpose without express written consent of MYCOMPANY.
+              You may not frame or utilize framing techniques to enclose any
+              trademark, logo, or other proprietary information (including
+              images, text, page layout, or form) of MYCOMPANY and our
+              associates without express written consent. You may not use any
+              meta tags or any other "hidden text" utilizing MYCOMPANYs name or
+              trademarks without the express written consent of MYCOMPANY. Any
+              unauthorized use terminates the permission or license granted by
+              MYCOMPANY. You are granted a limited, revocable, and nonexclusive
+              right to create a hyperlink to the home page of MYCOMPANY so long
+              as the link does not portray MYCOMPANY, its associates, or their
+              products or services in a false, misleading, derogatory, or
+              otherwise offensive matter. You may not use any MYCOMPANY logo or
+              other proprietary graphic or trademark as part of the link without
+              express written permission. YOUR MEMBERSHIP ACCOUNT If you use
+              this site, you are responsible for maintaining the confidentiality
+              of your account and password and for restricting access to your
+              computer, and you agree to accept responsibility for all
+              activities that occur under your account or password. If you are
+              under 18, you may use our website only with involvement of a
+              parent or guardian. MYCOMPANY and its associates reserve the right
+              to refuse service, terminate accounts, remove or edit content, or
+              cancel orders in their sole discretion. REVIEWS, COMMENTS, EMAILS,
+              AND OTHER CONTENT Visitors may post reviews, comments, and other
+              content: and submit suggestions, ideas, comments, questions, or
+              other information, so long as the content is not illegal, obscene,
+              threatening, defamatory, invasive of privacy, infringing of
+              intellectual property rights, or otherwise injurious to third
+              parties or objectionable and does not consist of or contain
+              software viruses, political campaigning, commercial solicitation,
+              chain letters, mass mailings, or any form of "spam." You may not
+              use a false e-mail address, impersonate any person or entity, or
+              otherwise mislead as to the origin of a card or other content.
+              MYCOMPANY reserves the right (but not the obligation) to remove or
+              edit such content, but does not regularly review posted content.
+              If you do post content or submit material, and unless we indicate
+              otherwise, you grant MYCOMPANY and its associates a nonexclusive,
               royalty-free, perpetual, irrevocable, and fully sublicensable
               right to use, reproduce, modify, adapt, publish, translate, create
               derivative works from, distribute, and display such content
@@ -194,9 +194,9 @@ class TermsAndConditionsDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Link onClick={this.handleClose} color="primary">
               Close
-            </Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>
