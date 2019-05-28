@@ -22,14 +22,14 @@ import Image from "./MinjungKang.jpg";
 const styles = (theme: Theme) =>
   createStyles({
     paper: {
-      maxWidth: theme.spacing.unit * 50
+      maxWidth: theme.spacing(50)
     },
     avatar: {
       backgroundColor: red[500]
     }
   });
 
-interface IPapersFullProps extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {}
 
 export interface State {
   prayer: string;
@@ -37,7 +37,7 @@ export interface State {
   present: boolean;
 }
 
-class PapersFull extends React.Component<IPapersFullProps, State> {
+class PapersFull extends React.Component<Props, State> {
   state: State = {
     prayer:
       "리더로서의 직분을 칙임감있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.",
@@ -60,7 +60,7 @@ class PapersFull extends React.Component<IPapersFullProps, State> {
     console.log(this.state[name]);
   };
 
-  public render() {
+  render() {
     const { classes } = this.props;
 
     return (
@@ -73,12 +73,12 @@ class PapersFull extends React.Component<IPapersFullProps, State> {
             primary={
               <Grid container alignItems="center">
                 <Grid item xs>
-                  <Typography inline variant="h6">
+                  <Typography display="inline" variant="h6">
                     <b>강민정</b>
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography inline variant="body2">
+                  <Typography display="inline" variant="body2">
                     10.09.1990
                   </Typography>
                 </Grid>

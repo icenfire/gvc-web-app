@@ -1,13 +1,15 @@
-import * as firebase from "firebase/app";
 import "firebase/auth";
 
+import * as firebase from "firebase/app";
+
 var config = {
-  apiKey: "AIzaSyD3M8CafnCd6KgqIBaZBW3aC08ym_pF9mU",
-  authDomain: "ci-nightly.firebaseapp.com",
-  databaseURL: "https://ci-nightly.firebaseio.com",
-  projectId: "ci-nightly",
-  storageBucket: "ci-nightly.appspot.com",
-  messagingSenderId: "685893098059"
+  apiKey: "AIzaSyBQf0kjL5VgL9IJuEtqWHevRkOMTBmVwiE",
+  authDomain: "london-gvc.firebaseapp.com",
+  databaseURL: "https://london-gvc.firebaseio.com",
+  projectId: "london-gvc",
+  storageBucket: "london-gvc.appspot.com",
+  messagingSenderId: "139635867699",
+  appId: "1:139635867699:web:649f0b856111fee7"
 };
 firebase.initializeApp(config);
 
