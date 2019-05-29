@@ -19,7 +19,7 @@ import PasswordTextField from "./Level1/TextFields/PasswordTextField";
 import Authentication from "../auth/Authentication";
 
 export default class LoginPage extends React.PureComponent {
-  public render() {
+  render() {
     return (
       <div>
         <EmailTextField />

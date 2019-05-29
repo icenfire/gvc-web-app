@@ -12,10 +12,8 @@ import {
   Typography,
 } from "@material-ui/core/";
 import red from "@material-ui/core/colors/red";
-import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
-import { Fragment } from "react";
-import * as React from "react";
+import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core/styles";
+import React, { Fragment } from "react";
 
 import Image from "./MinjungKang.jpg";
 

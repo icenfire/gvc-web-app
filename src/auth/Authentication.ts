@@ -1,4 +1,6 @@
-import * as firebase from "../firebase";
+import "firebase/auth";
+
+import * as firebase from "firebase/app";
 
 let user: any;
 
