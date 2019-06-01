@@ -1,2 +1,4 @@
 {
+  "typescriptHero.imports.insertSemicolons": false,
+  "prettier.semi": false
 }

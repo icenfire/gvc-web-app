@@ -1,6 +1,6 @@
-import "firebase/auth";
+import "firebase/auth"
 
-import * as firebase from "firebase/app";
+import * as firebase from "firebase/app"
 
 var config = {
   apiKey: "AIzaSyBQf0kjL5VgL9IJuEtqWHevRkOMTBmVwiE",
@@ -10,8 +10,7 @@ var config = {
   storageBucket: "london-gvc.appspot.com",
   messagingSenderId: "139635867699",
   appId: "1:139635867699:web:649f0b856111fee7"
-};
-firebase.initializeApp(config);
+}
 
-// export import auth = firebase.auth;
-export const auth = firebase.auth;
+export const app = firebase.initializeApp(config)
+export const auth = firebase.auth
