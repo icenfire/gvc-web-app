@@ -1,8 +1,8 @@
-import { InputAdornment, TextField } from "@material-ui/core";
-import Email from "@material-ui/icons/Email";
-import * as React from "react";
+import { InputAdornment, TextField } from "@material-ui/core"
+import Email from "@material-ui/icons/Email"
+import * as React from "react"
 
-export default function EmailTextField() {
+export default function EmailTextField({ onChange }: any) {
   return (
     <TextField
       id="outlined-email-input"
@@ -12,6 +12,7 @@ export default function EmailTextField() {
       name="email"
       autoComplete="email"
       margin="normal"
+      onChange={onChange}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -20,5 +21,5 @@ export default function EmailTextField() {
         )
       }}
     />
-  );
+  )
 }

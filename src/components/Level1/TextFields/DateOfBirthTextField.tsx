@@ -1,8 +1,8 @@
-import { InputAdornment, TextField } from "@material-ui/core";
-import CalendarToday from "@material-ui/icons/CalendarToday";
-import * as React from "react";
+import { InputAdornment, TextField } from "@material-ui/core"
+import CalendarToday from "@material-ui/icons/CalendarToday"
+import * as React from "react"
 
-export default function DateOfBirthTextField() {
+export default function DateOfBirthTextField({ onChange }: any) {
   return (
     <TextField
       id="standard-dob-input"
@@ -10,6 +10,7 @@ export default function DateOfBirthTextField() {
       className="dob"
       type="date"
       margin="normal"
+      onChange={onChange}
       InputLabelProps={{
         shrink: true
       }}
@@ -21,5 +22,5 @@ export default function DateOfBirthTextField() {
         )
       }}
     />
-  );
+  )
 }

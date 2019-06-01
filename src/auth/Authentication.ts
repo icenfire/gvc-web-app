@@ -10,6 +10,7 @@ const Authentication = {
   signInWithEmailAndPassword(email: string, pw: string) {
     auth()
       .signInWithEmailAndPassword(email, pw)
+      .then(() => console.log("Login succesful!"))
       .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code
