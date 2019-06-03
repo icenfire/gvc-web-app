@@ -1,14 +1,14 @@
-import * as React from "react";
-import { Route, Redirect } from "react-router-dom";
+import * as React from "react"
+import { Redirect, Route } from "react-router-dom"
 
-import Authentication from "./Authentication";
+import Authentication from "./Authentication"
 
 export default function PrivateRoute({
   component: Component,
   ...rest
 }: {
-  component: any;
-  [key: string]: any;
+  component: any
+  [key: string]: any
 }) {
   return (
     <Route
@@ -26,5 +26,5 @@ export default function PrivateRoute({
         )
       }
     />
-  );
+  )
 }

@@ -1,14 +1,15 @@
-import Button from "@material-ui/core/Button";
-import * as React from "react";
+import Button from "@material-ui/core/Button"
+import * as React from "react"
 
-export default function SignUpButton() {
+export default function SignUpButton({ onClick }: any) {
   return (
     <Button
       variant="contained"
       color="primary"
       style={{ textTransform: "capitalize" }}
+      onClick={onClick}
     >
       Sign up
     </Button>
-  );
+  )
 }

@@ -1,18 +1,11 @@
-import { CssBaseline } from "@material-ui/core";
-import * as React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { CssBaseline } from "@material-ui/core"
+import * as React from "react"
+import { BrowserRouter as Router, Link, Route } from "react-router-dom"
 
-import PrivateRoute from "../auth/PrivateRoute";
-import LeaderDatePage from "./LeaderDatePage";
-import LeaderFormPage from "./LeaderFormPage";
-
-import LoginPage from "./LoginPage";
+import PrivateRoute from "../auth/PrivateRoute"
+import LeaderDatePage from "./LeaderDatePage"
+import LeaderFormPage from "./LeaderFormPage"
+import LoginPage from "./LoginPage"
 
 export default () => (
   <>
@@ -33,7 +26,7 @@ export default () => (
       </div>
     </Router>
   </>
-);
+)
 
 // <div>
 //   <CssBaseline />

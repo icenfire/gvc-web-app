@@ -2,6 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 
 import Authentication from "../auth/Authentication"
+import { db } from "../firebase"
 import AlreadyHaveAnAccount from "./Level1/Buttons/AlreadyHaveAnAccount"
 import DontHaveAnAccount from "./Level1/Buttons/DontHaveAnAccount"
 import SignInButton from "./Level1/Buttons/SignInButton"
@@ -40,13 +41,32 @@ function LoginPage(props: Props) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => setValues({ ...values, [name]: event.target.value })
 
+  const signUpOnClick = () => {
+    console.log("check")
+    db.collection("members")
+      .add({
+        email: values.email,
+        name: values.name,
+        dob: values.dob
+      })
+      .then(docRef => {
+        console.log("Document written with ID: ", docRef.id)
+        db.collection("members")
+          .get()
+          .then(querySnapshot =>
+            querySnapshot.forEach(doc => console.log(doc.id, doc.data()))
+          )
+      })
+      .catch(error => console.error("Error adding document: ", error))
+  }
+
   return (
     <Fragment>
       <EmailTextField onChange={handleChange("email")} />
       <div />
       <PasswordTextField onChange={handleChange("pw")} />
       <div />
-      <NameTextField />
+      <NameTextField onChange={handleChange("name")} />
       <div />
       <DateOfBirthTextField onChange={handleChange("dob")} />
       <div />
@@ -60,7 +80,7 @@ function LoginPage(props: Props) {
         }
       />
       <div />
-      <SignUpButton />
+      <SignUpButton onClick={signUpOnClick} />
       <div />
       <DontHaveAnAccount /> Needs to have color control of the button label
       <div />
