@@ -1,4 +1,4 @@
-import { Container, CssBaseline } from "@material-ui/core"
+import { Container, CssBaseline, Typography } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import * as React from "react"
 import { BrowserRouter, Link, Route } from "react-router-dom"
@@ -7,6 +7,7 @@ import PrivateRoute from "../auth/PrivateRoute"
 import LeaderDatePage from "./Pages/LeaderDatePage"
 import LeaderFormPage from "./Pages/LeaderFormPage"
 import SignInUpPage from "./Pages/SignInUpPage"
+import SignInUpPageStatic from "./Pages/SignInUpPageStatic"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       padding: 0,
       minHeight: "100vh"
+      // height: "500px"
     }
   })
 )
@@ -35,7 +37,8 @@ export default function App() {
           </li>
         </ul>
         <Route path="/public" component={LeaderDatePage} />
-        <Route path="/signinup" component={SignInUpPage} />
+        <Route path="/signinup" component={SignInUpPageStatic} />
+        {/* <Route path="/signinup" component={SignInUpPage} /> */}
         <PrivateRoute path="/protected" component={LeaderFormPage} />
       </Container>
     </BrowserRouter>

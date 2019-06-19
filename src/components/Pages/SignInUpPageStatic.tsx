@@ -19,14 +19,13 @@ import Typography from "@material-ui/core/Typography"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grid: {
-      width: "100%",
       paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(6),
-      margin: 0
+      paddingRight: theme.spacing(6)
     },
-    button: { textTransform: "capitalize" },
-    collapse: {
-      width: "100%"
+    button: { textTransform: "none" },
+    footer: {
+      width: "100%",
+      marginTop: "auto"
     }
   })
 )
@@ -42,7 +41,7 @@ export interface State {
   signInPage: boolean
 }
 
-function SignInUpPage(props: Props) {
+export default function SignInUpPage(props: Props) {
   const classes = useStyles()
   const [values, setValues] = React.useState<State>({
     email: "",
@@ -89,50 +88,33 @@ function SignInUpPage(props: Props) {
         <Grid item xs={12}>
           <PasswordTextField onChange={handleChange("pw")} />
         </Grid>
-      </Grid>
-      <Collapse
-        className={classes.collapse}
-        in={!values.signInPage}
-        timeout="auto"
-        unmountOnExit
-      >
-        <Grid
-          container
-          spacing={2}
-          alignItems="center"
-          className={classes.grid}
-        >
-          <Grid item xs={12}>
-            <NameTextField onChange={handleChange("name")} />
-          </Grid>
-          <Grid item xs={12}>
-            <DateOfBirthTextField onChange={handleChange("dob")} />
-          </Grid>
+
+        {!values.signInPage && (
+          <>
+            <Grid item xs={12}>
+              <NameTextField onChange={handleChange("name")} />
+            </Grid>
+            <Grid item xs={12}>
+              <DateOfBirthTextField onChange={handleChange("dob")} />
+            </Grid>
+          </>
+        )}
+
+        {values.signInPage && (
+          <>
+            <Grid item xs>
+              <RememberMeCheckbox />
+            </Grid>
+            <Grid item>
+              <MyLink to="/ForgotPassword" color="inherit" variant="caption">
+                Forgot Password?
+              </MyLink>
+            </Grid>
+          </>
+        )}
+        <Grid item xs={12}>
+          {!values.signInPage && <TermsAndConditionsDialog />}
         </Grid>
-      </Collapse>
-      <Collapse
-        className={classes.collapse}
-        in={values.signInPage}
-        timeout="auto"
-        unmountOnExit
-      >
-        <Grid
-          container
-          spacing={2}
-          alignItems="center"
-          className={classes.grid}
-        >
-          <Grid item xs>
-            <RememberMeCheckbox />
-          </Grid>
-          <Grid item>
-            <MyLink to="/ForgotPassword" color="inherit" variant="caption">
-              Forgot Password?
-            </MyLink>
-          </Grid>
-        </Grid>
-      </Collapse>
-      <Grid container spacing={2} alignItems="center" className={classes.grid}>
         <Grid item xs={12}>
           <Button
             className={classes.button}
@@ -142,26 +124,17 @@ function SignInUpPage(props: Props) {
             onClick={signInUpOnClick}
           >
             <Typography color="textPrimary">
-              {values.signInPage ? "Sign In" : "Sign Up"}
+              {values.signInPage ? "Sign in" : "Sign up"}
             </Typography>
           </Button>
         </Grid>
       </Grid>
-      <Collapse
-        className={classes.collapse}
-        in={!values.signInPage}
-        timeout="auto"
-        unmountOnExit
-      >
-        <TermsAndConditionsDialog />
-      </Collapse>
-      {!values.signInPage && <TermsAndConditionsDialog />}
-      <ChangeSignInUp
-        signInPage={values.signInPage}
-        onClick={changePageOnClick}
-      />
+      <footer className={classes.footer}>
+        <ChangeSignInUp
+          signInPage={values.signInPage}
+          onClick={changePageOnClick}
+        />
+      </footer>
     </>
   )
 }
-
-export default SignInUpPage

@@ -6,14 +6,14 @@ import * as React from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      textTransform: "capitalize",
+      textTransform: "none",
       borderRadius: 0,
       whiteSpace: "pre-wrap"
     }
   })
 )
 
-export default function ChangeSignInOut({ onClick, signInPage }: any) {
+export default function ChangeSignInUp({ onClick, signInPage }: any) {
   const classes = useStyles()
   return (
     <Button
@@ -27,7 +27,7 @@ export default function ChangeSignInOut({ onClick, signInPage }: any) {
         {signInPage ? "Don't have an account? " : "Already have an account? "}
       </Typography>
       <Typography display="inline" variant="body2">
-        {signInPage ? "Sign Up" : "Sign In"}
+        {signInPage ? "Sign up" : "Sign in"}
       </Typography>
     </Button>
   )
