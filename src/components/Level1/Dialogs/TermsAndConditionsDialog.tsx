@@ -5,6 +5,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Link from "@material-ui/core/Link"
 import * as React from "react"
+import { Typography } from "@material-ui/core"
 
 class TermsAndConditionsDialog extends React.Component {
   public state = {
@@ -22,9 +23,16 @@ class TermsAndConditionsDialog extends React.Component {
   public render() {
     return (
       <>
-        <Link component="button" onClick={this.handleClickOpen}>
+        <Link
+          onClick={this.handleClickOpen}
+          display="block"
+          align="center"
+          variant="caption"
+          color="inherit"
+        >
           Terms and Conditions
         </Link>
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

@@ -1,4 +1,3 @@
-import Collapse from "@material-ui/core/Collapse"
 import Grid from "@material-ui/core/Grid"
 import Button from "@material-ui/core/Button"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
@@ -9,12 +8,12 @@ import { auth, db } from "../../firebase"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
-import RememberMeCheckbox from "../Level1/SelectionControls/RememberMeCheckbox"
 import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 import EmailTextField from "../Level1/TextFields/EmailTextField"
 import NameTextField from "../Level1/TextFields/NameTextField"
 import PasswordTextField from "../Level1/TextFields/PasswordTextField"
 import Typography from "@material-ui/core/Typography"
+import MyCheckBox from "../Level1/SelectionControls/MyCheckbox"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +37,7 @@ export interface State {
   name: string
   dob: string
   rememberMe: boolean
+  readTAndC: boolean
   signInPage: boolean
 }
 
@@ -49,6 +49,7 @@ export default function SignInUpPage(props: Props) {
     name: "",
     dob: "",
     rememberMe: false,
+    readTAndC: false,
     signInPage: true
   })
 
@@ -59,10 +60,21 @@ export default function SignInUpPage(props: Props) {
   const changePageOnClick = () =>
     setValues({ ...values, signInPage: !values.signInPage })
 
+  const checkHandleChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void =>
+    setValues({
+      ...values,
+      [values.signInPage ? "rememberMe" : "readTAndC"]: event.target.checked
+    })
+
   const signInUpOnClick = () => {
-    values.signInPage
-      ? Authentication.signInWithEmailAndPassword(values.email, values.pw)
-      : auth()
+    if (values.signInPage) {
+      console.log("Remember me: " + values.rememberMe)
+      Authentication.signInWithEmailAndPassword(values.email, values.pw)
+    } else {
+      if (values.readTAndC) {
+        auth()
           .createUserWithEmailAndPassword(values.email, values.pw)
           .then(() => {
             auth().onAuthStateChanged(user => {
@@ -75,8 +87,14 @@ export default function SignInUpPage(props: Props) {
               }
             })
           })
-          .then(() => {})
+          .then(() => {
+            console.log("Success!: readTAndC=" + values.readTAndC)
+          })
           .catch(error => console.error("Error signing up: ", error))
+      } else {
+        console.log("Error: readTAndC=" + values.readTAndC)
+      }
+    }
   }
 
   return (
@@ -100,20 +118,22 @@ export default function SignInUpPage(props: Props) {
           </>
         )}
 
-        {values.signInPage && (
-          <>
-            <Grid item xs>
-              <RememberMeCheckbox />
-            </Grid>
-            <Grid item>
-              <MyLink to="/ForgotPassword" color="inherit" variant="caption">
-                Forgot Password?
-              </MyLink>
-            </Grid>
-          </>
-        )}
-        <Grid item xs={12}>
-          {!values.signInPage && <TermsAndConditionsDialog />}
+        <Grid item xs>
+          {/* <RememberMeCheckbox /> */}
+          <MyCheckBox
+            signInPage={values.signInPage}
+            check={values.signInPage ? values.rememberMe : values.readTAndC}
+            handleChange={checkHandleChange}
+          />
+        </Grid>
+        <Grid item>
+          {values.signInPage ? (
+            <MyLink to="/ForgotPassword" color="inherit" variant="caption">
+              Forgot Password?
+            </MyLink>
+          ) : (
+            <TermsAndConditionsDialog />
+          )}
         </Grid>
         <Grid item xs={12}>
           <Button
