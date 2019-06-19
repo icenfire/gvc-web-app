@@ -7,7 +7,7 @@ export default function NameTextField({ onChange }: any) {
     <TextField
       id="standard-name-input"
       label="Name"
-      margin="normal"
+      fullWidth
       onChange={onChange}
       InputProps={{
         endAdornment: (

@@ -8,6 +8,7 @@ export default function SignUpButton({ onClick }: any) {
       color="primary"
       style={{ textTransform: "capitalize" }}
       onClick={onClick}
+      fullWidth
     >
       Sign up
     </Button>

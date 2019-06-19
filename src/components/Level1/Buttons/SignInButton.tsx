@@ -1,5 +1,5 @@
-import Button from "@material-ui/core/Button";
-import * as React from "react";
+import Button from "@material-ui/core/Button"
+import * as React from "react"
 
 const SignInButton: React.SFC<{ onClick: () => void }> = props => {
   return (
@@ -8,10 +8,11 @@ const SignInButton: React.SFC<{ onClick: () => void }> = props => {
       color="primary"
       style={{ textTransform: "capitalize" }}
       onClick={props.onClick}
+      fullWidth
     >
       Sign in
     </Button>
-  );
-};
+  )
+}
 
-export default SignInButton;
+export default SignInButton

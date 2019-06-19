@@ -7,9 +7,8 @@ export default function DateOfBirthTextField({ onChange }: any) {
     <TextField
       id="standard-dob-input"
       label="Date Of Birth"
-      className="dob"
       type="date"
-      margin="normal"
+      fullWidth
       onChange={onChange}
       InputLabelProps={{
         shrink: true

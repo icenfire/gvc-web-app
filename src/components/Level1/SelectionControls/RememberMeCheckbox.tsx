@@ -1,12 +1,12 @@
-import * as React from "react";
-
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Typography from "@material-ui/core/Typography"
+import * as React from "react"
 
 class RememberMeCheckbox extends React.PureComponent {
   public state = {
     checked: true
-  };
+  }
 
   public render() {
     return (
@@ -19,14 +19,18 @@ class RememberMeCheckbox extends React.PureComponent {
             color="primary"
           />
         }
-        label="Remember me"
+        label={
+          <Typography color="primary" variant="caption">
+            Remember me
+          </Typography>
+        }
       />
-    );
+    )
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ checked: event.target.checked });
-  };
+    this.setState({ checked: event.target.checked })
+  }
 }
 
-export default RememberMeCheckbox;
+export default RememberMeCheckbox

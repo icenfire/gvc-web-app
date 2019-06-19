@@ -1,17 +1,31 @@
-import { CssBaseline } from "@material-ui/core"
+import { Container, CssBaseline } from "@material-ui/core"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import * as React from "react"
-import { BrowserRouter as Router, Link, Route } from "react-router-dom"
+import { BrowserRouter, Link, Route } from "react-router-dom"
 
 import PrivateRoute from "../auth/PrivateRoute"
-import LeaderDatePage from "./LeaderDatePage"
-import LeaderFormPage from "./LeaderFormPage"
-import LoginPage from "./LoginPage"
+import LeaderDatePage from "./Pages/LeaderDatePage"
+import LeaderFormPage from "./Pages/LeaderFormPage"
+import SignInUpPage from "./Pages/SignInUpPage"
 
-export default () => (
-  <>
-    <CssBaseline />
-    <Router>
-      <div>
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: 0,
+      minHeight: "100vh"
+    }
+  })
+)
+
+export default function App() {
+  const classes = useStyles()
+  return (
+    <BrowserRouter>
+      <Container maxWidth="xs" className={classes.container}>
+        <CssBaseline />
         <ul>
           <li>
             <Link to="/public">Public Page</Link>
@@ -21,16 +35,9 @@ export default () => (
           </li>
         </ul>
         <Route path="/public" component={LeaderDatePage} />
-        <Route path="/login" component={LoginPage} />
+        <Route path="/signinup" component={SignInUpPage} />
         <PrivateRoute path="/protected" component={LeaderFormPage} />
-      </div>
-    </Router>
-  </>
-)
-
-// <div>
-//   <CssBaseline />
-//   <LoginPage />
-//   <LeaderDatePage />
-//   <LeaderFormPage />
-// </div>
+      </Container>
+    </BrowserRouter>
+  )
+}

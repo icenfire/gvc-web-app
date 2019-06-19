@@ -7,10 +7,9 @@ export default function PasswordTextField({ onChange }: any) {
     <TextField
       id="standard-password-input"
       label="Password"
-      className="password"
       type="password"
       autoComplete="current-password"
-      margin="normal"
+      fullWidth
       onChange={onChange}
       InputProps={{
         endAdornment: (

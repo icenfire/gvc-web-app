@@ -10,29 +10,29 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@material-ui/core/";
-import red from "@material-ui/core/colors/red";
-import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core/styles";
-import React, { Fragment } from "react";
+} from "@material-ui/core/"
+import red from "@material-ui/core/colors/red"
+import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core/styles"
+import React from "react"
 
-import Image from "./MinjungKang.jpg";
+import Image from "./MinjungKang.jpg"
 
 const styles = (theme: Theme) =>
   createStyles({
     paper: {
-      maxWidth: theme.spacing(50)
+      width: "100%"
     },
     avatar: {
       backgroundColor: red[500]
     }
-  });
+  })
 
 interface Props extends WithStyles<typeof styles> {}
 
 export interface State {
-  prayer: string;
-  retreat: boolean;
-  present: boolean;
+  prayer: string
+  retreat: boolean
+  present: boolean
 }
 
 class PapersFull extends React.Component<Props, State> {
@@ -41,25 +41,25 @@ class PapersFull extends React.Component<Props, State> {
       "리더로서의 직분을 칙임감있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.",
     retreat: false,
     present: false
-  };
+  }
 
   private handleChangeCheck = (name: keyof State) => (event: any) => {
     this.setState({ [name]: event.target.checked } as Pick<
       State,
       "retreat" | "present"
-    >);
-    console.log(this.state[name]);
-  };
+    >)
+    console.log(this.state[name])
+  }
 
   private handleChangeText = (name: keyof State) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    this.setState({ [name]: event.target.value } as Pick<State, "prayer">);
-    console.log(this.state[name]);
-  };
+    this.setState({ [name]: event.target.value } as Pick<State, "prayer">)
+    console.log(this.state[name])
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <Paper className={classes.paper} elevation={1}>
@@ -83,7 +83,7 @@ class PapersFull extends React.Component<Props, State> {
               </Grid>
             }
             secondary={
-              <Fragment>
+              <>
                 <TextField
                   id="standard-with-placeholder"
                   placeholder="기도제목"
@@ -121,13 +121,13 @@ class PapersFull extends React.Component<Props, State> {
                     </Grid>
                   </Grid>
                 </FormGroup>
-              </Fragment>
+              </>
             }
           />
         </ListItem>
       </Paper>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(PapersFull);
+export default withStyles(styles)(PapersFull)

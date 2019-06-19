@@ -1,32 +1,28 @@
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Link from "@material-ui/core/Link";
-import * as React from "react";
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import Link from "@material-ui/core/Link"
+import * as React from "react"
 
 class TermsAndConditionsDialog extends React.Component {
   public state = {
     open: false
-  };
+  }
 
   public handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({ open: true })
+  }
 
   public handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open: false })
+  }
 
   public render() {
     return (
-      <div>
-        <Link
-          component="button"
-          onClick={this.handleClickOpen}
-          style={{ textTransform: "capitalize" }}
-        >
+      <>
+        <Link component="button" onClick={this.handleClickOpen}>
           Terms and Conditions
         </Link>
         <Dialog
@@ -199,9 +195,9 @@ class TermsAndConditionsDialog extends React.Component {
             </Link>
           </DialogActions>
         </Dialog>
-      </div>
-    );
+      </>
+    )
   }
 }
 
-export default TermsAndConditionsDialog;
+export default TermsAndConditionsDialog

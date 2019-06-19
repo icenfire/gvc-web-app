@@ -1,5 +1,6 @@
-import * as React from "react";
-import AppBarLeaderDate from "./Level1/AppBars/AppBarLeaderDate";
+import * as React from "react"
+
+import AppBarLeaderDate from "../Level1/AppBars/AppBarLeaderDate"
 
 export default class LoginPage extends React.PureComponent {
   public render() {
@@ -7,6 +8,6 @@ export default class LoginPage extends React.PureComponent {
       <React.Fragment>
         <AppBarLeaderDate />
       </React.Fragment>
-    );
+    )
   }
 }

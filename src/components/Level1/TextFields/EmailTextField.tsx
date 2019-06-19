@@ -7,11 +7,10 @@ export default function EmailTextField({ onChange }: any) {
     <TextField
       id="outlined-email-input"
       label="Email Address"
-      className="email"
       type="email"
       name="email"
       autoComplete="email"
-      margin="normal"
+      fullWidth
       onChange={onChange}
       InputProps={{
         endAdornment: (
