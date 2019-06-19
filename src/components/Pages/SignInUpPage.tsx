@@ -1,15 +1,10 @@
-import Box from "@material-ui/core/Box"
-import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
 import React from "react"
 
 import Authentication from "../../auth/Authentication"
 import { auth, db } from "../../firebase"
-import AlreadyHaveAnAccount from "../Level1/Buttons/AlreadyHaveAnAccount"
 import ChangeSignInOut from "../Level1/Buttons/ChangeSignInOut"
-import DontHaveAnAccount from "../Level1/Buttons/DontHaveAnAccount"
 import SignInButton from "../Level1/Buttons/SignInButton"
 import SignUpButton from "../Level1/Buttons/SignUpButton"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
@@ -129,41 +124,8 @@ function SignInUpPage(props: Props) {
         signInPage={values.signInPage}
         onClick={changePageOnClick}
       />
-      {/* {values.page == "signIn" ? (
-        <DontHaveAnAccount
-          onClick={changePageOnClick("signUp")}
-          className={classes.bottom}
-        />
-      ) : (
-        <AlreadyHaveAnAccount
-          onClick={changePageOnClick("signIn")}
-          className={classes.bottom}
-        />
-      )} */}
     </>
   )
 }
 
 export default SignInUpPage
-
-// <MyLink
-//         to="/SignUp"
-//         color="inherit"
-//         style={{ width: "100%" }}
-//         underline="none" //TODO: Need to take style out
-//       >
-//         <Box
-//           bgcolor="secondary.main"
-//           p={2}
-//           display="flex"
-//           justifyContent="center"
-//           style={{ whiteSpace: "pre-wrap" }} // TODO: Need to take style out. Without this, white spaces at the end of the first typography is undesirably removed
-//         >
-//           <Typography color="primary" display="inline" variant="body2">
-//             {"Don't have an account? "}
-//           </Typography>
-//           <Typography display="inline" variant="body2">
-//             Sign up
-//           </Typography>
-//         </Box>
-//       </MyLink>
