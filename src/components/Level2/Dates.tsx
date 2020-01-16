@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface Props {
-  date: any
+  dates: any
 }
 
 export interface State {
@@ -30,25 +30,29 @@ export interface State {
 
 function Dates(props: Props) {
   const classes = useStyles()
-  const { date } = props;
-  console.log("Dates", date);
+  const { dates } = props;
   return (
     <Fragment>
-      <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={date}
-      />
+      {dates ? dates.map((date: string) => {
+        return (<Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={date}
+        />
       </Card>
+      )}) : (
+        <p>Loading...</p>
+      )}
+      
     </Fragment>
   )
 }
