@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
+export interface IPNotice {
   title: string
   content: string
 }
 
-function Notices(props: Props) {
+function Notice(props: IPNotice) {
   const classes = useStyles()
 
   return (
@@ -29,10 +29,12 @@ function Notices(props: Props) {
         <Typography color="primary" variant="h6">
           {props.title}
         </Typography>
-        <Typography color="secondary">{props.content}</Typography>
+        <Typography paragraph color="secondary">
+          {props.content}
+        </Typography>
       </Paper>
     </Fragment>
   )
 }
 
-export default Notices
+export default Notice
