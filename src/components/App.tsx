@@ -6,7 +6,7 @@ import { BrowserRouter, Link, Route } from "react-router-dom"
 import PrivateRoute from "../auth/PrivateRoute"
 import LeaderDatePage from "./Pages/LeaderDatePage"
 import LeaderFormPage from "./Pages/LeaderFormPage"
-import { Playground } from "./Pages/Playground"
+import Playground from "./Pages/Playground"
 import SignInUpPage from "./Pages/SignInUpPage"
 import SignInUpPageStatic from "./Pages/SignInUpPageStatic"
 
