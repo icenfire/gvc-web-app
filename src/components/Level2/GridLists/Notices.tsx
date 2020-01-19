@@ -32,11 +32,12 @@ function Notices(props: IPNotices) {
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
-        {props.notices.map(notice => (
-          <GridListTile>
-            <Notice {...notice} />
-          </GridListTile>
-        ))}
+        {props.notices &&
+          props.notices.map(notice => (
+            <GridListTile>
+              <Notice {...notice} />
+            </GridListTile>
+          ))}
       </GridList>
     </div>
   )

@@ -29,6 +29,10 @@ const initState = {
 }
 
 const noticeReducer = (state = initState, action: any) => {
+  switch (action.type) {
+    case "CREATE_NOTICE":
+      console.log("Created Notice", action.notice)
+  }
   return state
 }
 

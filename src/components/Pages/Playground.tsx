@@ -2,6 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { connect } from "react-redux"
 
+import NoticeCreator from "../Level2/NoticeCreator"
 import { Notices } from "./../Level2/GridLists/Notices"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
@@ -12,6 +13,7 @@ function Playground(props: any) {
   return (
     <Fragment>
       <Notices notices={props.notices} />
+      <NoticeCreator />
     </Fragment>
   )
 }

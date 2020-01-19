@@ -4,7 +4,8 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
-import { createStore } from "redux"
+import { applyMiddleware, createStore } from "redux"
+import thunk from "redux-thunk"
 
 import { rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
@@ -25,7 +26,7 @@ const theme = createMuiTheme({
   }
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <BrowserRouter>
