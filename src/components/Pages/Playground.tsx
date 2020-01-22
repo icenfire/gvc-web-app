@@ -21,13 +21,14 @@ function Playground(props: any) {
 }
 
 const mapStateToProps = (state: any) => {
-  state.firestore.data.notices && console.log(state.firestore.data.notices)
+  state.firestore.ordered.notices &&
+    console.log(state.firestore.ordered.notices)
   return {
-    notices: state.notice.notices
+    notices: state.firestore.ordered.notices
   }
 }
 
 export default compose<React.ComponentType>(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "notices" }]) // If we comment out this line, it works
+  firestoreConnect([{ collection: "notices" }])
 )(Playground)

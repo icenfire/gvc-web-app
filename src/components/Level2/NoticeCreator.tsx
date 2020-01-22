@@ -9,9 +9,14 @@ import { IPNotice } from "./../Level1/Papers/Notice"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
+interface NoticeUpload {
+  title: string
+  content: string
+}
+
 function NoticeCreator(props: any) {
   const classes = useStyles()
-  const [values, setValues] = React.useState<IPNotice>({
+  const [values, setValues] = React.useState<NoticeUpload>({
     title: "",
     content: ""
   })

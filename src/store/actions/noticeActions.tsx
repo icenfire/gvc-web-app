@@ -3,7 +3,7 @@ export const createNotice = (notice: any) => {
     const firestore = getFirestore()
     firestore
       .collection("notices")
-      .add({ ...notice })
+      .add({ ...notice, createdAt: new Date() })
       .then(() => {
         dispatch({ type: "CREATE_NOTICE", notice })
       })

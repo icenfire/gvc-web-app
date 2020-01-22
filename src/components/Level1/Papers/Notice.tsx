@@ -16,8 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPNotice {
+  id: string
   title: string
   content: string
+  createdAt: Date
 }
 
 function Notice(props: IPNotice) {

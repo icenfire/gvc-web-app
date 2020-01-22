@@ -28,16 +28,20 @@ export interface IPNotices {
 
 function Notices(props: IPNotices) {
   const classes = useStyles()
-
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
         {props.notices &&
-          props.notices.map(notice => (
-            <GridListTile>
-              <Notice {...notice} />
-            </GridListTile>
-          ))}
+          [...props.notices]
+            // Sort the notices chronologically
+            .sort((t1: IPNotice, t2: IPNotice) => {
+              return t1.createdAt > t2.createdAt ? 1 : -1
+            })
+            .map(notice => (
+              <GridListTile key={notice.id}>
+                <Notice {...notice} />
+              </GridListTile>
+            ))}
       </GridList>
     </div>
   )
