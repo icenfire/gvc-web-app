@@ -3,12 +3,15 @@ import { MuiThemeProvider } from "@material-ui/core/styles"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
+import { getFirebase, ReactReduxFirebaseProvider } from "react-redux-firebase"
 import { BrowserRouter } from "react-router-dom"
-import { applyMiddleware, createStore } from "redux"
+import { applyMiddleware, compose, createStore } from "redux"
+import { createFirestoreInstance, getFirestore, reduxFirestore } from "redux-firestore"
 import thunk from "redux-thunk"
 
 import { rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
+import firebase from "./firebase"
 
 declare let module: any
 
@@ -26,13 +29,33 @@ const theme = createMuiTheme({
   }
 })
 
-const store = createStore(rootReducer, applyMiddleware(thunk))
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore })),
+    reduxFirestore(firebase)
+  )
+)
+
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
+}
 
 ReactDOM.render(
   <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <App />
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <App />
+        </ReactReduxFirebaseProvider>
       </Provider>
     </MuiThemeProvider>
   </BrowserRouter>,
