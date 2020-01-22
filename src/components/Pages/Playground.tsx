@@ -5,7 +5,8 @@ import { firestoreConnect } from "react-redux-firebase"
 import { compose } from "redux"
 
 import NoticeCreator from "../Level2/NoticeCreator"
-import { Notices } from "./../Level2/GridLists/Notices"
+import { Notices as NoticesGridList } from "./../Level2/GridLists/Notices"
+import { Notices as NoticesSwipeable } from "./../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -14,7 +15,8 @@ function Playground(props: any) {
 
   return (
     <Fragment>
-      <Notices notices={props.notices} />
+      <NoticesGridList notices={props.notices} />
+      <NoticesSwipeable notices={props.notices} />
       <NoticeCreator />
     </Fragment>
   )
