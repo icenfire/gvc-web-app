@@ -21,12 +21,13 @@ function Playground(props: any) {
 }
 
 const mapStateToProps = (state: any) => {
+  state.firestore.data.notices && console.log(state.firestore.data.notices)
   return {
     notices: state.notice.notices
   }
 }
 
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps),
   firestoreConnect([{ collection: "notices" }]) // If we comment out this line, it works
 )(Playground)
