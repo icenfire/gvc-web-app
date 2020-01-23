@@ -23,7 +23,10 @@ function NoticeCreator(props: any) {
 
   const onChange = (name: keyof IPNotice) => (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => setValues({ ...values, [name]: event.target.value })
+  ) => {
+    console.log(event.target.value)
+    setValues({ ...values, [name]: event.target.value })
+  }
 
   const onSubmit = () => {
     props.createNotice(values)
@@ -33,10 +36,15 @@ function NoticeCreator(props: any) {
     <Fragment>
       <Textfield
         label="Title"
+        fullWidth
         onChange={onChange("title")}
         value={values.title}
       />
       <Textfield
+        id="standard-multiline-flexible"
+        fullWidth
+        multiline
+        rowsMax="4"
         label="Content"
         onChange={onChange("content")}
         value={values.content}

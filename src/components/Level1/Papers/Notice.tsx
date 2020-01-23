@@ -28,12 +28,17 @@ function Notice(props: IPNotice) {
   return (
     <Fragment>
       <Paper className={classes.paper}>
-        <Typography color="primary" variant="h6">
+        <Typography color="primary" variant="subtitle2">
           {props.title}
         </Typography>
-        <Typography paragraph color="secondary">
-          {props.content}
-        </Typography>
+
+        {props.content.split("\n").map((text, key) => {
+          return (
+            <Typography key={key} color="secondary" variant="body2">
+              {text}
+            </Typography>
+          )
+        })}
       </Paper>
     </Fragment>
   )

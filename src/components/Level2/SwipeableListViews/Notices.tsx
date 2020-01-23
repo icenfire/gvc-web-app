@@ -39,7 +39,6 @@ function Notices(props: IPNotices) {
   const classes = useStyles()
   return (
     <div className={classes.root}>
-      <Fragment>Swipeable notices</Fragment>
       <SwipeableViews
         className={classes.swipeableViews}
         slideStyle={slideStyle}
