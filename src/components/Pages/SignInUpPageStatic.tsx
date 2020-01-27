@@ -2,6 +2,7 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
 import React from "react"
 
 import Authentication from "../../auth/Authentication"
@@ -14,6 +15,7 @@ import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 import EmailTextField from "../Level1/TextFields/EmailTextField"
 import NameTextField from "../Level1/TextFields/NameTextField"
 import PasswordTextField from "../Level1/TextFields/PasswordTextField"
+import { DateOfBirthDatePicker } from "../Pages/Playground/DatePicker"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,10 +23,13 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(6),
       paddingRight: theme.spacing(6)
     },
-    button: { textTransform: "none" },
     footer: {
       width: "100%",
       marginTop: "auto"
+    },
+    signInUpButton: {
+      textTransform: "none",
+      background: theme.palette.primary.light
     }
   })
 )
@@ -35,7 +40,8 @@ export interface State {
   email: string
   pw: string
   name: string
-  dob: string
+  // dob: string
+  dob: MaterialUiPickersDate
   rememberMe: boolean
   readTAndC: boolean
   signInPage: boolean
@@ -47,15 +53,21 @@ export default function SignInUpPage(props: Props) {
     email: "",
     pw: "",
     name: "",
-    dob: "",
+    dob: null,
     rememberMe: false,
     readTAndC: false,
     signInPage: true
   })
 
-  const handleChange = (name: keyof State) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => setValues({ ...values, [name]: event.target.value })
+  const handleChange = (name: keyof State) => {
+    if (name == "dob") {
+      return (date: MaterialUiPickersDate) =>
+        setValues({ ...values, [name]: date })
+    } else {
+      return (event: React.ChangeEvent<HTMLInputElement>) =>
+        setValues({ ...values, [name]: event.target.value })
+    }
+  }
 
   const changePageOnClick = () =>
     setValues({ ...values, signInPage: !values.signInPage })
@@ -113,7 +125,11 @@ export default function SignInUpPage(props: Props) {
               <NameTextField onChange={handleChange("name")} />
             </Grid>
             <Grid item xs={12}>
-              <DateOfBirthTextField onChange={handleChange("dob")} />
+              {/* <DateOfBirthTextField onChange={handleChange("dob")} /> */}
+              <DateOfBirthDatePicker
+                dob={values.dob}
+                onChange={handleChange("dob")}
+              />
             </Grid>
           </>
         )}
@@ -137,9 +153,8 @@ export default function SignInUpPage(props: Props) {
         </Grid>
         <Grid item xs={12}>
           <Button
-            className={classes.button}
+            className={classes.signInUpButton}
             variant="contained"
-            color="primary"
             fullWidth
             onClick={signInUpOnClick}
           >

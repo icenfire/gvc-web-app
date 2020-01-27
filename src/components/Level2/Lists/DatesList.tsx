@@ -39,19 +39,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
-  dates: any
+const hey = Array("1")
+
+export interface IPDatesList {
+  dates: [string, string[]][]
 }
 
 export interface State {}
 
-function Dates(props: Props) {
+function DatesList(props: IPDatesList) {
   const classes = useStyles()
   const { dates } = props
   return (
     <List className={classes.root} subheader={<li />}>
       {dates ? (
-        dates.map((monthDates: [string, string[]]) => {
+        dates.map((monthDates: IPDatesList["dates"][0]) => {
           return (
             <li key={monthDates[0]}>
               <ul>
@@ -87,4 +89,4 @@ function Dates(props: Props) {
   )
 }
 
-export { Dates }
+export { DatesList }

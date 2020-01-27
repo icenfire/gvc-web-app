@@ -8,7 +8,11 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       textTransform: "none",
       borderRadius: 0,
-      whiteSpace: "pre-wrap"
+      whiteSpace: "pre-wrap",
+      background: theme.palette.secondary.main
+    },
+    signUpIn: {
+      color: theme.palette.common.white
     }
   })
 )
@@ -18,7 +22,7 @@ export default function ChangeSignInUp({ onClick, signInPage }: any) {
   return (
     <Button
       variant="contained"
-      color="secondary"
+      // color="secondary"
       className={classes.button}
       onClick={onClick}
       fullWidth
@@ -26,7 +30,7 @@ export default function ChangeSignInUp({ onClick, signInPage }: any) {
       <Typography color="primary" display="inline" variant="body2">
         {signInPage ? "Don't have an account? " : "Already have an account? "}
       </Typography>
-      <Typography display="inline" variant="body2">
+      <Typography display="inline" variant="body2" className={classes.signUpIn}>
         {signInPage ? "Sign up" : "Sign in"}
       </Typography>
     </Button>
