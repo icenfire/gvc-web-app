@@ -1,12 +1,14 @@
 import Button from "@material-ui/core/Button"
+import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import React from "react"
+import React, { Fragment } from "react"
 
 import Authentication from "../../auth/Authentication"
 import { auth, db } from "../../firebase"
+import Logo from "../../images/Logo.svg"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
 import { DateOfBirthDatePicker } from "../Level1/DatePickers/DateOfBirthDatePicker"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
     signInUpButton: {
       textTransform: "none",
       background: theme.palette.primary.light
+    },
+    logo: {
+      width: theme.spacing(20)
+      // marginLeft: "auto",
+      // marginRight: "auto"
     }
   })
 )
@@ -112,6 +119,11 @@ export default function SignInUpPage(props: Props) {
   return (
     <>
       <Grid container spacing={2} alignItems="center" className={classes.grid}>
+        <Grid item xs={12}>
+          <Container className={classes.logo}>
+            <img src={Logo} />
+          </Container>
+        </Grid>
         <Grid item xs={12}>
           <EmailTextField onChange={handleChange("email")} />
         </Grid>

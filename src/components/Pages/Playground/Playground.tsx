@@ -83,13 +83,9 @@ function Playground(props: any) {
   )
 }
 
-const mapStateToProps = (state: any) => {
-  state.firestore.ordered.notices &&
-    console.log(state.firestore.ordered.notices)
-  return {
-    notices: state.firestore.ordered.notices
-  }
-}
+const mapStateToProps = (state: any) => ({
+  notices: state.firestore.ordered.notices
+})
 
 export default compose<React.ComponentType>(
   connect(mapStateToProps),

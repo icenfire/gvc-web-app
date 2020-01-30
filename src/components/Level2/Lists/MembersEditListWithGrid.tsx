@@ -85,9 +85,9 @@ function MembersEditListWithGrid(props: IPMembersEditList) {
         <ListItemText primary="Add cell member" className={classes.textEdit} />
       </ListItem>
       {members ? (
-        members.map((member: IPMembersEditList["members"][0]) => {
+        members.map((member: IPMembersEditList["members"][0], index) => {
           return (
-            <ListItem className={classes.listItem}>
+            <ListItem className={classes.listItem} key={index}>
               <Paper className={classes.paper}>
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
