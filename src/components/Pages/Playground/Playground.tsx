@@ -8,13 +8,13 @@ import { connect } from "react-redux"
 import { firestoreConnect } from "react-redux-firebase"
 import { compose } from "redux"
 
-import { getKoreanInitial } from "../../../utils/getKoreanInitial"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
 import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEditList"
 import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
 import NoticeCreator from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
+import { GetNameInitialLetter } from "./GetNameInitialLetter"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,7 +77,7 @@ function Playground(props: any) {
 
       <Typography>Korean to Korean initial</Typography>
       <Container className={classes.container}>
-        <Typography>박주영 -> {getKoreanInitial("박주영")}</Typography>
+        <GetNameInitialLetter />
       </Container>
     </Fragment>
   )
