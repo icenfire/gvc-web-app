@@ -1,6 +1,8 @@
 import Avatar from "@material-ui/core/Avatar"
+import Button from "@material-ui/core/Button"
 import { red } from "@material-ui/core/colors"
 import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -14,6 +16,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
+import RemoveIcon from "@material-ui/icons/Remove"
 import React, { Fragment } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,19 +26,31 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: "auto",
       maxHeight: 200
     },
-    avatarEdit: {
+    IconButtonAddMember: {
       background: theme.palette.common.white,
-      color: theme.palette.background.default
+      color: theme.palette.background.default,
+      padding: theme.spacing(1)
     },
-    avatarMember: {
+    IconButtonEditMember: {
       background: theme.palette.background.default,
-      color: theme.palette.common.white
+      color: theme.palette.common.white,
+      padding: theme.spacing(1)
+    },
+    IconButtonRemoveMember: {
+      background: theme.palette.common.white,
+      color: theme.palette.background.default,
+      padding: theme.spacing(1)
     },
     subheader: {
       background: theme.palette.background.default
     },
     paper: {
-      background: theme.palette.primary.main
+      background: theme.palette.primary.main,
+      width: "100%",
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1)
     },
     textEdit: {
       color: theme.palette.secondary.light
@@ -43,7 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
     textMember: {
       color: theme.palette.secondary.dark
     },
-    container: {
+
+    listItem: {
       padding: theme.spacing(0.5)
     }
   })
@@ -55,40 +71,48 @@ export interface IPMembersEditList {
 
 export interface State {}
 
-function MembersEditList(props: IPMembersEditList) {
+function MembersEditListWithGrid(props: IPMembersEditList) {
   const classes = useStyles()
   const { members } = props
   return (
     <List className={classes.root} subheader={<li />}>
       <ListItem>
         <ListItemAvatar>
-          <Avatar className={classes.avatarEdit}>
+          <IconButton className={classes.IconButtonAddMember}>
             <PersonAddIcon />
-          </Avatar>
+          </IconButton>
         </ListItemAvatar>
         <ListItemText primary="Add cell member" className={classes.textEdit} />
       </ListItem>
       {members ? (
         members.map((member: IPMembersEditList["members"][0]) => {
           return (
-            <Container className={classes.container} key={member.name}>
+            <ListItem className={classes.listItem}>
               <Paper className={classes.paper}>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar className={classes.avatarMember}>
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid item>
+                    <IconButton className={classes.IconButtonRemoveMember}>
+                      <RemoveIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton className={classes.IconButtonEditMember}>
                       <PersonIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={member.name}
-                    className={classes.textMember}
-                  />
-                  <Typography className={classes.textMember}>
-                    {member.dob}
-                  </Typography>
-                </ListItem>
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography className={classes.textMember}>
+                      {member.name}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.textMember}>
+                      {member.dob}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Paper>
-            </Container>
+            </ListItem>
           )
         })
       ) : (
@@ -98,4 +122,4 @@ function MembersEditList(props: IPMembersEditList) {
   )
 }
 
-export { MembersEditList }
+export { MembersEditListWithGrid }

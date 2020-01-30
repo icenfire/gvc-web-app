@@ -16,7 +16,7 @@ function DateOfBirthDatePicker({ dob, onChange }: any) {
       label="Date of birth"
       views={["year", "month", "date"]}
       value={dob}
-      onChange={() => 1}
+      onChange={onChange}
       fullWidth
       InputProps={{
         endAdornment: (
@@ -30,12 +30,13 @@ function DateOfBirthDatePicker({ dob, onChange }: any) {
     // <KeyboardDatePicker
     //   clearable
     //   value={dob}
-    //   placeholder="31/12/2019"
-    //   disableFuture={true}
+    //   placeholder="dd/mm/yyyy"
+    //   label="Date of birth"
+    //   disableFuture
     //   // onChange={date => handleDateChange(date)}
     //   onChange={date => onChange(date)}
-    //   minDate={new Date()}
     //   format="dd/MM/yyyy"
+    //   fullWidth
     // />
   )
 }

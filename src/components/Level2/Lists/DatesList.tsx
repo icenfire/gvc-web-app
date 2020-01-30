@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: theme.palette.background.default
     },
     paper: {
-      background: theme.palette.secondary.light
+      background: theme.palette.primary.main
     },
     text: {
       color: theme.palette.secondary.dark

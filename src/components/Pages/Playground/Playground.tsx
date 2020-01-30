@@ -1,3 +1,4 @@
+import Container from "@material-ui/core/Container"
 import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
@@ -11,10 +12,20 @@ import { getKoreanInitial } from "../../../utils/getKoreanInitial"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
 import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEditList"
+import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
 import NoticeCreator from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      borderColor: theme.palette.common.white,
+      borderWidth: 2,
+      borderStyle: "solid",
+      marginBottom: 50
+    }
+  })
+)
 
 function Playground(props: any) {
   const classes = useStyles()
@@ -36,26 +47,38 @@ function Playground(props: any) {
   return (
     <Fragment>
       <Typography>Notices in scrollable Grid List</Typography>
-      <NoticesGridList notices={props.notices} />
-      <Typography>Notices in Swipeable List View</Typography>
-      <NoticesSwipeable notices={props.notices} />
-      <Typography>Notice creator</Typography>
-      <NoticeCreator />
+      <Container className={classes.container}>
+        <NoticesGridList notices={props.notices} />
+      </Container>
 
-      <IconButton>
-        <RemoveCircleIcon fontSize="large" />
-      </IconButton>
+      <Typography>Notices in Swipeable List View</Typography>
+      <Container className={classes.container}>
+        <NoticesSwipeable notices={props.notices} />
+      </Container>
+
+      <Typography>Notice creator</Typography>
+      <Container className={classes.container}>
+        <NoticeCreator />
+      </Container>
 
       <Typography>Dates</Typography>
-      <DatesList dates={dates} />
-      <br />
+      <Container className={classes.container}>
+        <DatesList dates={dates} />
+      </Container>
+
       <Typography>Members Edit Page</Typography>
-      <MembersEditList members={members} />
+      <Container className={classes.container}>
+        <MembersEditList members={members} />
+      </Container>
+      <Typography>Members Edit Page With Grid</Typography>
+      <Container className={classes.container}>
+        <MembersEditListWithGrid members={members} />
+      </Container>
 
       <Typography>Korean to Korean initial</Typography>
-      <Typography>박주영 -> {getKoreanInitial("박주영")}</Typography>
-
-      <Typography>Korean to Korean initial</Typography>
+      <Container className={classes.container}>
+        <Typography>박주영 -> {getKoreanInitial("박주영")}</Typography>
+      </Container>
     </Fragment>
   )
 }
