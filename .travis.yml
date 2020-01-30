@@ -5,7 +5,7 @@ cache: yarn
 
 install:
   - yarn install
-  - yarn add -g firebase-tools
+  - yarn global add firebase-tools
 
 script:
   - yarn run build
