@@ -5,13 +5,16 @@ cache: yarn
 
 install:
   - yarn install
+  - yarn add -g firebase-tools
 
 script:
   - yarn run build
 
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  on:
-    branch: master
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GITHUB_TOKEN
+#   on:
+#     branch: master
