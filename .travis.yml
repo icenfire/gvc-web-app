@@ -3,9 +3,6 @@ node_js:
   - "stable"
 cache: npm
 
-install:
-  - npm ci
-
 script:
   - npm run build
 
