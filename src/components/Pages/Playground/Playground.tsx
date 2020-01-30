@@ -13,9 +13,9 @@ import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
 import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEditList"
 import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
 import NoticeCreator from "../../Level2/NoticeCreator"
+import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 
-// import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -53,7 +53,7 @@ function Playground(props: any) {
 
       <Typography>Notices in Swipeable List View</Typography>
       <Container className={classes.container}>
-        {/* <NoticesSwipeable notices={props.notices} /> */}
+        <NoticesSwipeable notices={props.notices} />
       </Container>
 
       <Typography>Notice creator</Typography>
