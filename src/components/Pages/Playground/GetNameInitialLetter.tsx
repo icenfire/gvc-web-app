@@ -25,7 +25,12 @@ function GetNameInitialLetter(props: Props) {
 
   return (
     <Fragment>
-      <TextField label="Type a name" value={values.text} onChange={onChange} />
+      <TextField
+        label="Type a name"
+        value={values.text}
+        onChange={onChange}
+        fullWidth
+      />
       <Typography>-> {getNameInitialLetter(values.text)}</Typography>
     </Fragment>
   )

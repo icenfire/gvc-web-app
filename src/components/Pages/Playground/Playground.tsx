@@ -14,6 +14,7 @@ import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEd
 import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
 import NoticeCreator from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
+import { PrayerPaper } from "./../../Level1/Papers/PrayerPaper"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,8 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: theme.palette.common.white,
       borderWidth: 2,
       borderStyle: "solid",
-      marginBottom: 50
-    }
+      marginBottom: 50,
+      padding: theme.spacing(1),
+    },
   })
 )
 
@@ -34,14 +36,14 @@ function Playground(props: any) {
     ["January 2020", ["01.01.20", "02.01.20"]],
     ["February 2020", ["01.02.20", "02.02.20"]],
     ["March 2020", ["01.03.20", "02.03.20"]],
-    ["April 2020", ["01.04.20", "02.04.20"]]
+    ["April 2020", ["01.04.20", "02.04.20"]],
   ]
 
   const members: IPMembersEditList["members"] = [
     { name: "강민정", dob: "10.09.1990" },
     { name: "권주은", dob: "25.12.1995" },
     { name: "송인영", dob: "10.09.1990" },
-    { name: "임소민", dob: "25.12.1995" }
+    { name: "임소민", dob: "25.12.1995" },
   ]
 
   return (
@@ -79,12 +81,17 @@ function Playground(props: any) {
       <Container className={classes.container}>
         <GetNameInitialLetter />
       </Container>
+
+      <Typography>Prayer Paper</Typography>
+      <Container className={classes.container}>
+        <PrayerPaper />
+      </Container>
     </Fragment>
   )
 }
 
 const mapStateToProps = (state: any) => ({
-  notices: state.firestore.ordered.notices
+  notices: state.firestore.ordered.notices,
 })
 
 export default compose<React.ComponentType>(

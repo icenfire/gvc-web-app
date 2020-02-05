@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     footer: {
       width: "100%",
+      paddingTop: theme.spacing(6),
       marginTop: "auto"
+      // position: "fixed",
+      // bottom: 0
     },
     signInUpButton: {
       textTransform: "none",

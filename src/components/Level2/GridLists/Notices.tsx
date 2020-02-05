@@ -11,14 +11,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
       flexWrap: "wrap",
-      justifyContent: "space-around"
+      justifyContent: "space-around",
     },
     gridList: {
       flexWrap: "nowrap",
       // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
       transform: "translateZ(0)",
-      alignItems: "stretch"
-    }
+      alignItems: "stretch",
+    },
+    gridListTile: {},
   })
 )
 
@@ -30,7 +31,7 @@ function Notices(props: IPNotices) {
   const classes = useStyles()
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
+      <GridList className={classes.gridList} cols={1.1}>
         {props.notices &&
           [...props.notices]
             // Sort the notices chronologically
@@ -38,7 +39,11 @@ function Notices(props: IPNotices) {
               return t1.createdAt > t2.createdAt ? 1 : -1
             })
             .map(notice => (
-              <GridListTile key={notice.id}>
+              <GridListTile
+                key={notice.id}
+                className={classes.gridListTile}
+                rows={0.8} // Height of the tile in number of grid cells.
+              >
                 <Notice {...notice} />
               </GridListTile>
             ))}
