@@ -11,24 +11,23 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
-      overflow: "hidden"
+      overflow: "hidden",
     },
     swipeableViews: {
-      padding: "0 20px"
+      padding: "0 20px",
     },
     slideContainer: {
-      padding: "0 0px"
+      padding: "0 0px",
     },
     slide: {
       padding: 10,
-      minHeight: 100
-      // maxWidth: "100%"
-    }
+      height: "100%",
+    },
   })
 )
 
 const slideStyle: object = {
-  padding: "0 0px"
+  padding: "0 0px",
 }
 
 export interface IPNotices {
