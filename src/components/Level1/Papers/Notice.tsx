@@ -6,6 +6,7 @@ import React, { Fragment } from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
+      background: theme.palette.common.white,
       padding: theme.spacing(2),
       display: "flex",
       overflow: "auto",

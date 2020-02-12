@@ -54,11 +54,3 @@ export const NoticeCreator: React.FC = () => {
     </Fragment>
   )
 }
-
-// const mapDispatchToProps = (dispatch: any) => {
-//   return {
-//     createNotice: (notice: any) => dispatch(createNotice(notice))
-//   }
-// }
-
-// export default connect(null, mapDispatchToProps)(NoticeCreator)
