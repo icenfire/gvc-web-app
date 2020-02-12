@@ -24,7 +24,7 @@ const theme = createMuiTheme({
       main: "#C3BFBB", // List items
       light: "#D6CDBC", // Signin button
       dark: "#C6B28E", // Text, star,
-      contrastText: "#7F8082"
+      contrastText: "#7F8082",
 
       // main: "#C6B28E" // Given
       // dark: "#616161" // Given
@@ -33,7 +33,7 @@ const theme = createMuiTheme({
       main: "#7F8082", // Don't have account & Circle fill & Main background
       dark: "#4D4D4D", // Appbar
       light: "#FFFFFF", // White
-      contrastText: "#C3BFBB"
+      contrastText: "#C3BFBB",
 
       // #616161 // Root background
       // main: "#4D4D4D" // Given
@@ -41,13 +41,15 @@ const theme = createMuiTheme({
     },
     background: {
       default: "#616161",
-      paper: "#FFFFFF"
-    }
+      // paper: "#FFFFFF",
+    },
     // text: {
-    //   primary: "#7F8082",
-    //   secondary: "#C6B28E"
-    // }
-  }
+    //   // primary: "#7F8082",
+    //   // secondary: "#C6B28E",
+    //   primary: "#FFF",
+    //   secondary: "#000",
+    // },
+  },
 })
 
 const store = createStore(
@@ -60,14 +62,14 @@ const store = createStore(
 
 const rrfConfig = {
   userProfile: "users",
-  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+  useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
 }
 
 const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  createFirestoreInstance // <- needed if using firestore
+  createFirestoreInstance, // <- needed if using firestore
 }
 
 ReactDOM.render(

@@ -2,6 +2,7 @@ import Container from "@material-ui/core/Container"
 import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import PersonIcon from "@material-ui/icons/Person"
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
 import React, { Fragment } from "react"
 import { connect } from "react-redux"
@@ -14,6 +15,7 @@ import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEd
 import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
 import NoticeCreator from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
+import { ProfileEditDialog } from "./../../Level1/Dialogs/ProfileEditDialog"
 import { PrayerPaper } from "./../../Level1/Papers/PrayerPaper"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 
@@ -24,6 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
       borderWidth: 2,
       borderStyle: "solid",
       marginBottom: 50,
+      padding: theme.spacing(1),
+    },
+    IconButtonEditMember: {
+      background: theme.palette.background.default,
+      color: theme.palette.common.white,
       padding: theme.spacing(1),
     },
   })
@@ -85,6 +92,15 @@ function Playground(props: any) {
       <Typography>Prayer Paper</Typography>
       <Container className={classes.container}>
         <PrayerPaper />
+      </Container>
+
+      <Typography>Profile Edit Dialog</Typography>
+      <Container className={classes.container}>
+        <ProfileEditDialog>
+          <IconButton className={classes.IconButtonEditMember}>
+            <PersonIcon />
+          </IconButton>
+        </ProfileEditDialog>
       </Container>
     </Fragment>
   )

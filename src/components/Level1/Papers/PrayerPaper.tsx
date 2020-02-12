@@ -8,25 +8,28 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import React, { Fragment } from "react"
 
+import { ProfileEditDialog } from "./../Dialogs/ProfileEditDialog"
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
+      background: theme.palette.common.white,
       // display: "flex",
       // overflow: "auto",
       // flexDirection: "column",
-      height: 200
+      height: 200,
     },
     IconButtonEditMember: {
       background: theme.palette.background.default,
       color: theme.palette.common.white,
-      padding: theme.spacing(1)
+      padding: theme.spacing(1),
     },
     input: {
-      color: theme.palette.secondary.main
+      color: theme.palette.secondary.main,
     },
     grid: {
-      padding: theme.spacing(2)
-    }
+      padding: theme.spacing(2),
+    },
   })
 )
 
@@ -42,9 +45,11 @@ function PrayerPaper(props: IPPrayerPaper) {
     <Paper className={classes.paper}>
       <Grid container spacing={1} className={classes.grid}>
         <Grid item>
-          <IconButton className={classes.IconButtonEditMember}>
-            <PersonIcon />
-          </IconButton>
+          <ProfileEditDialog>
+            <IconButton className={classes.IconButtonEditMember}>
+              <PersonIcon />
+            </IconButton>
+          </ProfileEditDialog>
         </Grid>
         <Grid item xs>
           <Grid container alignItems="center" spacing={1}>

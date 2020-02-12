@@ -23,24 +23,24 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grid: {
       paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(6)
+      paddingRight: theme.spacing(6),
     },
     footer: {
       width: "100%",
       paddingTop: theme.spacing(6),
-      marginTop: "auto"
+      marginTop: "auto",
       // position: "fixed",
       // bottom: 0
     },
     signInUpButton: {
       textTransform: "none",
-      background: theme.palette.primary.light
+      background: theme.palette.primary.light,
     },
     logo: {
-      width: theme.spacing(20)
+      width: theme.spacing(20),
       // marginLeft: "auto",
       // marginRight: "auto"
-    }
+    },
   })
 )
 
@@ -66,7 +66,7 @@ export default function SignInUpPage(props: Props) {
     dob: null,
     rememberMe: false,
     readTAndC: false,
-    signInPage: true
+    signInPage: true,
   })
 
   const handleChange = (name: keyof State) => {
@@ -87,7 +87,7 @@ export default function SignInUpPage(props: Props) {
   ): void =>
     setValues({
       ...values,
-      [values.signInPage ? "rememberMe" : "readTAndC"]: event.target.checked
+      [values.signInPage ? "rememberMe" : "readTAndC"]: event.target.checked,
     })
 
   const signInUpOnClick = () => {
@@ -104,7 +104,7 @@ export default function SignInUpPage(props: Props) {
                 db.collection("members").add({
                   userID: user.uid,
                   name: values.name,
-                  dob: values.dob
+                  dob: values.dob,
                 })
               }
             })
