@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Textfield from "@material-ui/core/TextField"
 import React, { Fragment } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { createNotice } from "./../../store/actions/noticeActions"
 import { IPNotice } from "./../Level1/Papers/Notice"
@@ -14,11 +14,11 @@ interface NoticeUpload {
   content: string
 }
 
-function NoticeCreator(props: any) {
+export const NoticeCreator: React.FC = () => {
   const classes = useStyles()
   const [values, setValues] = React.useState<NoticeUpload>({
     title: "",
-    content: ""
+    content: "",
   })
 
   const onChange = (name: keyof IPNotice) => (
@@ -28,8 +28,9 @@ function NoticeCreator(props: any) {
     setValues({ ...values, [name]: event.target.value })
   }
 
+  const dispatch = useDispatch()
   const onSubmit = () => {
-    props.createNotice(values)
+    dispatch(createNotice(values))
   }
 
   return (
@@ -54,10 +55,10 @@ function NoticeCreator(props: any) {
   )
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    createNotice: (notice: any) => dispatch(createNotice(notice))
-  }
-}
+// const mapDispatchToProps = (dispatch: any) => {
+//   return {
+//     createNotice: (notice: any) => dispatch(createNotice(notice))
+//   }
+// }
 
-export default connect(null, mapDispatchToProps)(NoticeCreator)
+// export default connect(null, mapDispatchToProps)(NoticeCreator)

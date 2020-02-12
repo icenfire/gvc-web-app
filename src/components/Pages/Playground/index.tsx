@@ -5,18 +5,17 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
 import React, { Fragment } from "react"
-import { connect } from "react-redux"
-import { firestoreConnect } from "react-redux-firebase"
-import { compose } from "redux"
+import { useSelector } from "react-redux"
+import { useFirestoreConnect } from "react-redux-firebase"
 
+import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
+import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
 import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEditList"
 import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
-import NoticeCreator from "../../Level2/NoticeCreator"
+import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
-import { ProfileEditDialog } from "./../../Level1/Dialogs/ProfileEditDialog"
-import { PrayerPaper } from "./../../Level1/Papers/PrayerPaper"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,8 +35,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-function Playground(props: any) {
+export const Playground: React.FC = () => {
   const classes = useStyles()
+
+  useFirestoreConnect("notices")
+  const notices = useSelector(
+    (state: { firestore: any }) => state.firestore.ordered.notices
+  )
 
   const dates: IPDatesList["dates"] = [
     ["January 2020", ["01.01.20", "02.01.20"]],
@@ -57,12 +61,12 @@ function Playground(props: any) {
     <Fragment>
       <Typography>Notices in scrollable Grid List</Typography>
       <Container className={classes.container}>
-        <NoticesGridList notices={props.notices} />
+        <NoticesGridList notices={notices} />
       </Container>
 
       <Typography>Notices in Swipeable List View</Typography>
       <Container className={classes.container}>
-        <NoticesSwipeable notices={props.notices} />
+        <NoticesSwipeable notices={notices} />
       </Container>
 
       <Typography>Notice creator</Typography>
@@ -105,12 +109,3 @@ function Playground(props: any) {
     </Fragment>
   )
 }
-
-const mapStateToProps = (state: any) => ({
-  notices: state.firestore.ordered.notices,
-})
-
-export default compose<React.ComponentType>(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "notices" }])
-)(Playground)
