@@ -9,14 +9,14 @@ import { IPNotice } from "./../Level1/Papers/Notice"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-interface NoticeUpload {
+interface State {
   title: string
   content: string
 }
 
 export const NoticeCreator: React.FC = () => {
   const classes = useStyles()
-  const [values, setValues] = React.useState<NoticeUpload>({
+  const [values, setValues] = React.useState<State>({
     title: "",
     content: "",
   })
