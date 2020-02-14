@@ -12,8 +12,10 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import RemoveIcon from "@material-ui/icons/Remove"
 import React, { Fragment } from "react"
 
-import { MemberPaper } from "./../../Level1/Papers/MemberPaper"
+import { Props as IPMemberPaper } from "../../Level1/Papers/MemberPaper"
+import { MemberPaper } from "../../Level1/Papers/MemberPaper"
 
+// import { IMember } from "./../../../interfaces"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -60,15 +62,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPMembersEditList {
-  members: { name: string; dob: string }[]
+export interface Props {
+  members: (IPMemberPaper["member"] & {
+    cell: string
+    id: string
+    positions: string[]
+  })[]
+  editMode: boolean
 }
 
-export interface State {}
-
-function MembersEditListWithGrid(props: IPMembersEditList) {
+export function MembersList({ members, editMode }: Props) {
   const classes = useStyles()
-  const { members } = props
   return (
     <List className={classes.root} subheader={<li />}>
       <ListItem>
@@ -80,18 +84,24 @@ function MembersEditListWithGrid(props: IPMembersEditList) {
         <ListItemText primary="Add cell member" className={classes.textEdit} />
       </ListItem>
       {members ? (
-        members.map((member: IPMembersEditList["members"][0], index) => {
-          return (
-            <ListItem className={classes.listItem} key={index}>
-              <MemberPaper name={member.name} dob={member.dob} editMode />
-            </ListItem>
-          )
-        })
+        members
+          .sort((m1: Props["members"][0], m2: Props["members"][0]) => {
+            return m1.name > m2.name ? 1 : -1
+          })
+          .map((member: Props["members"][0]) => {
+            const { id, name, dob, positions } = member
+            return (
+              <ListItem className={classes.listItem} key={id}>
+                <MemberPaper
+                  member={{ name, dob: dob.toDate() }}
+                  editMode={editMode}
+                />
+              </ListItem>
+            )
+          })
       ) : (
         <p>Loading...</p>
       )}
     </List>
   )
 }
-
-export { MembersEditListWithGrid }

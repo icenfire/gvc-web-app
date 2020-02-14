@@ -1,6 +1,6 @@
 import { Container, CssBaseline, Typography } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import * as React from "react"
+import React from "react"
 import { BrowserRouter, Link, Route } from "react-router-dom"
 
 import PrivateRoute from "../auth/PrivateRoute"

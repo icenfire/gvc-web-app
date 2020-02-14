@@ -1,4 +1,4 @@
-const getNameInitialLetter = function(text: string) {
+export const getNameInitialLetter = function(text: string) {
   const english = /^[A-Za-z ]*$/
   const korean = /[\u3131-\uD79D]/giu
   const initials = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ"
@@ -17,5 +17,3 @@ const getNameInitialLetter = function(text: string) {
     }
   }
 }
-
-export { getNameInitialLetter }

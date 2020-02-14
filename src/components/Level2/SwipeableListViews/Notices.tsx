@@ -1,8 +1,9 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 import React, { Fragment } from "react"
 import SwipeableViews from "react-swipeable-views"
 
-import { IPNotice } from "../../Level1/Papers/Notice"
+import { Props as INoticeWithMeta } from "../../Level1/Papers/Notice"
 import Notice from "../../Level1/Papers/Notice"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,7 +32,7 @@ const slideStyle: object = {
 }
 
 export interface IPNotices {
-  notices: IPNotice[]
+  notices: INoticeWithMeta[]
 }
 
 function Notices(props: IPNotices) {
@@ -42,17 +43,20 @@ function Notices(props: IPNotices) {
         className={classes.swipeableViews}
         slideStyle={slideStyle}
       >
-        {props.notices &&
+        {props.notices ? (
           [...props.notices]
             // Sort the notices chronologically
-            .sort((t1: IPNotice, t2: IPNotice) => {
+            .sort((t1: INoticeWithMeta, t2: INoticeWithMeta) => {
               return t1.createdAt > t2.createdAt ? 1 : -1
             })
             .map(notice => (
               <div key={notice.id} className={classes.slide}>
                 <Notice {...notice} />
               </div>
-            ))}
+            ))
+        ) : (
+          <Typography>Loading...</Typography>
+        )}
       </SwipeableViews>
     </div>
   )

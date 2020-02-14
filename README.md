@@ -49,3 +49,5 @@ react-swipeable-views currently has known bug with the latest version so we use 
 
 Seems like IconButton component should but doesn't expect a 'component' prop which causes Typescript error found in ProfileEditDialog.
 There has already been a similar issue with material-ui [here](https://github.com/mui-org/material-ui/issues/19068)
+
+Firestore automatically converts Date type into Timestamp type which causes some confusion. Timestamp must first be converted to Date type to use the usual Date methods.

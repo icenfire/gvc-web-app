@@ -7,6 +7,8 @@ import PersonIcon from "@material-ui/icons/Person"
 import RemoveIcon from "@material-ui/icons/Remove"
 import React, { Fragment } from "react"
 
+// import { IMember } from "./../../../interfaces"
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     IconButtonEditMember: {
@@ -34,36 +36,46 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface Props {
-  name: string
-  dob: string
+  member: { name: string; dob: any } // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
   editMode: boolean
 }
 
-export const MemberPaper: React.FC<Props> = ({ name, dob, editMode }) => {
+export const MemberPaper: React.FC<Props> = props => {
+  const {
+    member: { name, dob },
+    editMode,
+  } = props
   const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>
-      <Grid container alignItems="center" spacing={1}>
-        {editMode && (
+      {props ? (
+        <Grid container alignItems="center" spacing={1}>
+          {editMode && (
+            <Grid item>
+              <IconButton className={classes.IconButtonRemoveMember}>
+                <RemoveIcon />
+              </IconButton>
+            </Grid>
+          )}
           <Grid item>
-            <IconButton className={classes.IconButtonRemoveMember}>
-              <RemoveIcon />
+            <IconButton className={classes.IconButtonEditMember}>
+              <PersonIcon />
             </IconButton>
           </Grid>
-        )}
-        <Grid item>
-          <IconButton className={classes.IconButtonEditMember}>
-            <PersonIcon />
-          </IconButton>
+          <Grid item xs>
+            <Typography className={classes.textMember}>{name}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography className={classes.textMember}>
+              {/* {1234} */}
+              {dob.toLocaleDateString()}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <Typography className={classes.textMember}>{name}</Typography>
-        </Grid>
-        <Grid item>
-          <Typography className={classes.textMember}>{dob}</Typography>
-        </Grid>
-      </Grid>
+      ) : (
+        <Typography>Loading...</Typography>
+      )}
     </Paper>
   )
 }

@@ -12,11 +12,12 @@ import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
 import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
-import { IPMembersEditList, MembersEditList } from "../../Level2/Lists/MembersEditList"
-import { MembersEditListWithGrid } from "../../Level2/Lists/MembersEditListWithGrid"
+import { MembersEditList } from "../../Level2/Lists/MembersEditList"
+import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
 import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
+import { MembersFilter } from "./MembersFilter"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,10 +39,18 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Playground: React.FC = () => {
   const classes = useStyles()
 
+  // Get notices from Firestore
   useFirestoreConnect("notices")
   const notices = useSelector(
     (state: { firestore: any }) => state.firestore.ordered.notices
   )
+
+  // Get members from Firestore
+  useFirestoreConnect("members")
+  const members = useSelector(
+    (state: { firestore: any }) => state.firestore.ordered.members
+  )
+  // members2 && console.log(members2)
 
   const dates: IPDatesList["dates"] = [
     ["January 2020", ["01.01.20", "02.01.20"]],
@@ -50,12 +59,12 @@ export const Playground: React.FC = () => {
     ["April 2020", ["01.04.20", "02.04.20"]],
   ]
 
-  const members: IPMembersEditList["members"] = [
-    { name: "강민정", dob: "10.09.1990" },
-    { name: "권주은", dob: "25.12.1995" },
-    { name: "송인영", dob: "10.09.1990" },
-    { name: "임소민", dob: "25.12.1995" },
-  ]
+  // const members: IPMembersEditList["members"] = [
+  //   { name: "강민정", dob: new Date("1990/09/10") },
+  //   { name: "권주은", dob: new Date("1995/12/25") },
+  //   { name: "송인영", dob: new Date("1990/09/10") },
+  //   { name: "임소민", dob: new Date("1995/12/25") },
+  // ]
 
   return (
     <Fragment>
@@ -80,12 +89,13 @@ export const Playground: React.FC = () => {
       </Container>
 
       <Typography>Members Edit Page</Typography>
-      <Container className={classes.container}>
+      {/* <Container className={classes.container}>
         <MembersEditList members={members} />
-      </Container>
+      </Container> */}
       <Typography>Members Edit Page With Grid</Typography>
       <Container className={classes.container}>
-        <MembersEditListWithGrid members={members} />
+        {/* <MembersList members={members} /> */}
+        <MembersFilter members={members} />
       </Container>
 
       <Typography>Korean to Korean initial</Typography>

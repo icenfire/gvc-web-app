@@ -1,9 +1,10 @@
 import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 import React, { Fragment } from "react"
 
-import { IPNotice } from "../../Level1/Papers/Notice"
+import { Props as INoticeWithMeta } from "../../Level1/Papers/Notice"
 import Notice from "../../Level1/Papers/Notice"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPNotices {
-  notices: IPNotice[]
+  notices: INoticeWithMeta[]
 }
 
 function Notices(props: IPNotices) {
@@ -32,10 +33,10 @@ function Notices(props: IPNotices) {
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1.1}>
-        {props.notices &&
+        {props.notices ? (
           [...props.notices]
             // Sort the notices chronologically
-            .sort((t1: IPNotice, t2: IPNotice) => {
+            .sort((t1: INoticeWithMeta, t2: INoticeWithMeta) => {
               return t1.createdAt > t2.createdAt ? 1 : -1
             })
             .map(notice => (
@@ -46,7 +47,10 @@ function Notices(props: IPNotices) {
               >
                 <Notice {...notice} />
               </GridListTile>
-            ))}
+            ))
+        ) : (
+          <Typography>Loading...</Typography>
+        )}
       </GridList>
     </div>
   )

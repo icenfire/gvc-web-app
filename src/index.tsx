@@ -14,6 +14,10 @@ import thunk from "redux-thunk"
 import { rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
 import firebase from "./firebase"
+import { globalObjects } from "./utils/globalObjects"
+
+// Define global objects for testing
+globalObjects()
 
 declare let module: any
 
