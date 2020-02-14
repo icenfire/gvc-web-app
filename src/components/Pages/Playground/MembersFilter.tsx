@@ -84,7 +84,7 @@ export function MembersFilter({ members }: Props) {
             value="editMode"
           />
         }
-        label="Edit mode?"
+        label="Edit?"
       />
       <FormControl className={classes.formControl}>
         <InputLabel id="members-filter-label">Filter</InputLabel>
