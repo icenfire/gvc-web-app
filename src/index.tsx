@@ -44,7 +44,8 @@ const theme = createMuiTheme({
       // light: "#D6CKBC" // Given
     },
     background: {
-      default: "#616161",
+      default: "#7F8082",
+      // default: "#616161", Sign in page background
       // paper: "#FFFFFF",
     },
     // text: {

@@ -21,16 +21,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const SwipeableTemporaryDrawer: React.FC = () => {
-  const classes = useStyles()
-  const [state, setState] = React.useState({
-    open: false,
-  })
+interface Props {
+  drawerOpen: boolean
+  toggleDrawer: (open: boolean) => (event: React.MouseEvent) => void
+}
 
-  type DrawerSide = "top" | "open" | "bottom" | "right"
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
-    setState({ open })
-  }
+export const SwipeableTemporaryDrawer: React.FC<Props> = ({
+  drawerOpen,
+  toggleDrawer,
+}) => {
+  const classes = useStyles()
 
   const sideList = () => (
     <div
@@ -94,9 +94,9 @@ export const SwipeableTemporaryDrawer: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Open</Button>
+      {/* <Button onClick={toggleDrawer(true)}>Open</Button> */}
       <SwipeableDrawer
-        open={state.open}
+        open={drawerOpen}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
       >
