@@ -16,6 +16,7 @@ import { MembersEditList } from "../../Level2/Lists/MembersEditList"
 import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
 import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
+import { SwipeableTemporaryDrawer } from "./../../Level1/Drawers/SwipeableTemporaryDrawer"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 import { MembersFilter } from "./MembersFilter"
 
@@ -68,6 +69,11 @@ export const Playground: React.FC = () => {
 
   return (
     <Fragment>
+      <Typography>Swipeable Drawer</Typography>
+      <Container className={classes.container}>
+        <SwipeableTemporaryDrawer />
+      </Container>
+
       <Typography>Notices in scrollable Grid List</Typography>
       <Container className={classes.container}>
         <NoticesGridList notices={notices} />

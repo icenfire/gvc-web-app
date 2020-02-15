@@ -19,23 +19,26 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       overflow: "auto",
-      maxHeight: 200
+      maxHeight: 200,
     },
     avatar: {
-      backgroundColor: red[500]
+      backgroundColor: red[500],
     },
     subheader: {
-      background: theme.palette.background.default
+      background: theme.palette.background.default,
+    },
+    ul: {
+      padding: 0,
     },
     paper: {
-      background: theme.palette.primary.main
+      background: theme.palette.primary.main,
     },
     text: {
-      color: theme.palette.secondary.dark
+      color: theme.palette.secondary.dark,
     },
     container: {
-      padding: theme.spacing(0.5)
-    }
+      padding: theme.spacing(0.5),
+    },
   })
 )
 
@@ -56,7 +59,7 @@ function DatesList(props: IPDatesList) {
         dates.map((monthDates: IPDatesList["dates"][0]) => {
           return (
             <li key={monthDates[0]}>
-              <ul>
+              <ul className={classes.ul}>
                 <ListSubheader className={classes.subheader}>
                   <Typography align="center">{monthDates[0]}</Typography>
                 </ListSubheader>
