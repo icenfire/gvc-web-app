@@ -1,17 +1,13 @@
-import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemText from "@material-ui/core/ListItemText"
-import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import PersonIcon from "@material-ui/icons/Person"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
-import RemoveIcon from "@material-ui/icons/Remove"
 import React, { Fragment } from "react"
 
+import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
 import { Props as IPMemberPaper } from "../../Level1/Papers/MemberPaper"
 import { MemberPaper } from "../../Level1/Papers/MemberPaper"
 
@@ -74,34 +70,49 @@ export interface Props {
 export function MembersList({ members, editMode }: Props) {
   const classes = useStyles()
   return (
-    <List className={classes.root} subheader={<li />}>
-      <ListItem>
-        <ListItemAvatar>
-          <IconButton className={classes.IconButtonAddMember}>
-            <PersonAddIcon />
-          </IconButton>
-        </ListItemAvatar>
-        <ListItemText primary="Add cell member" className={classes.textEdit} />
-      </ListItem>
-      {members ? (
-        members
-          .sort((m1: Props["members"][0], m2: Props["members"][0]) => {
-            return m1.name > m2.name ? 1 : -1
-          })
-          .map((member: Props["members"][0]) => {
-            const { id, name, dob, positions } = member
-            return (
-              <ListItem className={classes.listItem} key={id}>
-                <MemberPaper
-                  member={{ name, dob: dob.toDate() }}
-                  editMode={editMode}
-                />
-              </ListItem>
-            )
-          })
-      ) : (
-        <p>Loading...</p>
+    <Fragment>
+      {editMode && (
+        <AddCellMemberPaper
+          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            console.log("Clicked!")
+          }}
+        />
       )}
-    </List>
+
+      <List className={classes.root} subheader={<li />}>
+        {/* {editMode && (
+          <ListItem>
+            <ListItemAvatar>
+              <IconButton className={classes.IconButtonAddMember}>
+                <PersonAddIcon />
+              </IconButton>
+            </ListItemAvatar>
+            <ListItemText
+              primary="Add cell member"
+              className={classes.textEdit}
+            />
+          </ListItem>
+        )} */}
+        {members ? (
+          members
+            .sort((m1: Props["members"][0], m2: Props["members"][0]) => {
+              return m1.name > m2.name ? 1 : -1
+            })
+            .map((member: Props["members"][0]) => {
+              const { id, name, dob, positions } = member
+              return (
+                <ListItem className={classes.listItem} key={id}>
+                  <MemberPaper
+                    member={{ name, dob: dob.toDate() }}
+                    editMode={editMode}
+                  />
+                </ListItem>
+              )
+            })
+        ) : (
+          <p>Loading...</p>
+        )}
+      </List>
+    </Fragment>
   )
 }
