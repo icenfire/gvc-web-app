@@ -1,14 +1,17 @@
+import AppBar from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import React, { Fragment } from "react"
+import React, { Fragment, useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 import Authentication from "../../auth/Authentication"
 import { auth, db } from "../../firebase"
 import Logo from "../../images/Logo.svg"
+import { updateStyle } from "../../store/actions/styleActions"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
 import { DateOfBirthDatePicker } from "../Level1/DatePickers/DateOfBirthDatePicker"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
@@ -18,28 +21,38 @@ import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 import EmailTextField from "../Level1/TextFields/EmailTextField"
 import NameTextField from "../Level1/TextFields/NameTextField"
 import PasswordTextField from "../Level1/TextFields/PasswordTextField"
+import { ContainerMain } from "./../Level1/Containers/ContainerMain"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      background: "#616161",
+
+      minHeight: "100%",
+      padding: 0,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
     grid: {
+      flex: 1,
       paddingLeft: theme.spacing(6),
       paddingRight: theme.spacing(6),
+      paddingBottom: theme.spacing(5),
     },
-    footer: {
-      width: "100%",
-      paddingTop: theme.spacing(6),
-      marginTop: "auto",
-      // position: "fixed",
-      // bottom: 0
-    },
+
     signInUpButton: {
       textTransform: "none",
       background: theme.palette.primary.light,
     },
     logo: {
-      width: theme.spacing(20),
-      // marginLeft: "auto",
-      // marginRight: "auto"
+      width: theme.spacing(10),
+      flex: 1,
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(5),
+    },
+    footer: {
+      bottom: 0,
     },
   })
 )
@@ -58,6 +71,11 @@ export interface State {
 }
 
 export default function SignInUpPage(props: Props) {
+  // const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(updateStyle({ styleType: "background", value: "#616161" }))
+  //   console.log("Dispatched!")
+  // })
   const classes = useStyles()
   const [values, setValues] = React.useState<State>({
     email: "",
@@ -120,71 +138,75 @@ export default function SignInUpPage(props: Props) {
   }
 
   return (
-    <>
-      <Grid container spacing={2} alignItems="center" className={classes.grid}>
-        <Grid item xs={12}>
-          <Container className={classes.logo}>
-            <img src={Logo} />
-          </Container>
-        </Grid>
-        <Grid item xs={12}>
-          <EmailTextField onChange={handleChange("email")} />
-        </Grid>
-        <Grid item xs={12}>
-          <PasswordTextField onChange={handleChange("pw")} />
-        </Grid>
-
-        {!values.signInPage && (
-          <>
+    <div className={classes.root}>
+      <img src={Logo} className={classes.logo} />
+      <div className={classes.grid}>
+        <ContainerMain>
+          <Grid container spacing={2} alignItems="center" justify="center">
             <Grid item xs={12}>
-              <NameTextField onChange={handleChange("name")} />
+              <EmailTextField onChange={handleChange("email")} />
             </Grid>
             <Grid item xs={12}>
-              {/* <DateOfBirthTextField onChange={handleChange("dob")} /> */}
-              <DateOfBirthDatePicker
-                dob={values.dob}
-                onChange={handleChange("dob")}
+              <PasswordTextField onChange={handleChange("pw")} />
+            </Grid>
+
+            {!values.signInPage && (
+              <>
+                <Grid item xs={12}>
+                  <NameTextField onChange={handleChange("name")} />
+                </Grid>
+                <Grid item xs={12}>
+                  {/* <DateOfBirthTextField onChange={handleChange("dob")} /> */}
+                  <DateOfBirthDatePicker
+                    dob={values.dob}
+                    onChange={handleChange("dob")}
+                  />
+                </Grid>
+              </>
+            )}
+
+            <Grid item xs>
+              {/* <RememberMeCheckbox /> */}
+              <MyCheckBox
+                signInPage={values.signInPage}
+                check={values.signInPage ? values.rememberMe : values.readTAndC}
+                handleChange={checkHandleChange}
               />
             </Grid>
-          </>
-        )}
-
-        <Grid item xs>
-          {/* <RememberMeCheckbox /> */}
-          <MyCheckBox
-            signInPage={values.signInPage}
-            check={values.signInPage ? values.rememberMe : values.readTAndC}
-            handleChange={checkHandleChange}
-          />
-        </Grid>
-        <Grid item>
-          {values.signInPage ? (
-            <MyLink to="/ForgotPassword" color="inherit" variant="caption">
-              Forgot Password?
-            </MyLink>
-          ) : (
-            <TermsAndConditionsDialog />
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            className={classes.signInUpButton}
-            variant="contained"
-            fullWidth
-            onClick={signInUpOnClick}
-          >
-            <Typography color="textPrimary">
-              {values.signInPage ? "Sign in" : "Sign up"}
-            </Typography>
-          </Button>
-        </Grid>
-      </Grid>
-      <footer className={classes.footer}>
+            <Grid item>
+              {values.signInPage ? (
+                <MyLink to="/ForgotPassword" color="inherit" variant="caption">
+                  Forgot Password?
+                </MyLink>
+              ) : (
+                <TermsAndConditionsDialog />
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                className={classes.signInUpButton}
+                variant="contained"
+                fullWidth
+                onClick={signInUpOnClick}
+              >
+                <Typography color="textPrimary">
+                  {values.signInPage ? "Sign in" : "Sign up"}
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </ContainerMain>
+      </div>
+      {/* <ChangeSignInUp
+        signInPage={values.signInPage}
+        onClick={changePageOnClick}
+            /> */}
+      <AppBar position="sticky" className={classes.footer}>
         <ChangeSignInUp
           signInPage={values.signInPage}
           onClick={changePageOnClick}
         />
-      </footer>
-    </>
+      </AppBar>
+    </div>
   )
 }

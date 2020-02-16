@@ -1,6 +1,7 @@
 import Container from "@material-ui/core/Container"
 import IconButton from "@material-ui/core/IconButton"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
@@ -17,6 +18,7 @@ import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersL
 import { NoticeCreator } from "../../Level2/NoticeCreator"
 import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
 import { AppBarMain } from "./../../Level1/AppBars/AppBarMain"
+import { ContainerMain } from "./../../Level1/Containers/ContainerMain"
 import { GetNameInitialLetter } from "./GetNameInitialLetter"
 import { MembersFilter } from "./MembersFilter"
 
@@ -68,8 +70,9 @@ export const Playground: React.FC = () => {
   // ]
 
   return (
-    <Fragment>
+    <ContainerMain>
       <AppBarMain />
+      {/* <Toolbar /> */}
 
       <Typography>Notices in scrollable Grid List</Typography>
       <Container className={classes.container}>
@@ -119,6 +122,6 @@ export const Playground: React.FC = () => {
           </IconButton>
         </ProfileEditDialog>
       </Container>
-    </Fragment>
+    </ContainerMain>
   )
 }

@@ -93,15 +93,12 @@ export const SwipeableTemporaryDrawer: React.FC<Props> = ({
   )
 
   return (
-    <div>
-      {/* <Button onClick={toggleDrawer(true)}>Open</Button> */}
-      <SwipeableDrawer
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-      >
-        {sideList()}
-      </SwipeableDrawer>
-    </div>
+    <SwipeableDrawer
+      open={drawerOpen}
+      onClose={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
+    >
+      {sideList()}
+    </SwipeableDrawer>
   )
 }

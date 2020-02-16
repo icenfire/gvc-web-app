@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
 
-import { State as INotice } from "./../../components/Level2/NoticeCreator"
+import { State as INotice } from "../../components/Level2/NoticeCreator"
 
 export const createNotice = (notice: INotice) => {
   return (dispatch: Dispatch, getState: any, { getFirestore }: any) => {

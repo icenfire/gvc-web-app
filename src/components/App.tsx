@@ -1,6 +1,7 @@
 import { Container, CssBaseline, Typography } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React from "react"
+import React, { Fragment } from "react"
+import { useSelector } from "react-redux"
 import { BrowserRouter, Link, Route } from "react-router-dom"
 
 import PrivateRoute from "../auth/PrivateRoute"
@@ -13,39 +14,49 @@ import SignInUpPageStatic from "./Pages/SignInUpPageStatic"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: 0,
-      minHeight: "100vh",
-      // height: "500px"
+      // display: "flex",
+      // flexDirection: "column",
+      // alignItems: "center",
+      // padding: 0,
+      // // minHeight: "100vh",
+      // height: "100vh",
     },
+    root: (styles: any) => ({
+      background: styles.background
+        ? styles.background
+        : theme.palette.background.default,
+      height: "100%",
+      padding: 0,
+      margin: 0,
+    }),
   })
 )
 
 export default function App() {
-  const classes = useStyles()
+  const styles = useSelector((state: { styles: any }) => state.styles)
+  const classes = useStyles(styles)
+
   return (
-    <BrowserRouter>
-      <Container maxWidth="xs" className={classes.container}>
-        <CssBaseline />
-        <ul>
-          <li>
-            <Link to="/public">Public Page</Link>
-          </li>
-          <li>
-            <Link to="/protected">Protected Page</Link>
-          </li>
-          <li>
-            <Link to="/playground">Playground</Link>
-          </li>
-        </ul>
-        <Route path="/public" component={LeaderDatePage} />
-        <Route path="/signinup" component={SignInUpPageStatic} />
-        <Route path="/playground" component={Playground} />
-        {/* <Route path="/signinup" component={SignInUpPage} /> */}
-        <PrivateRoute path="/protected" component={LeaderFormPage} />
-      </Container>
-    </BrowserRouter>
+    <div className={classes.root}>
+      <BrowserRouter>
+        {/* <Container maxWidth="xs" className={classes.container}> */}
+        <Fragment>
+          <CssBaseline />
+          <ul>
+            <li>
+              <Link to="/public">Public Page</Link>
+            </li>
+            <li>
+              <Link to="/protected">Protected Page</Link>
+            </li>
+          </ul>
+          <Route path="/public" component={Playground} />
+          <Route path="/signinup" component={SignInUpPageStatic} />
+          {/* <Route path="/signinup" component={SignInUpPage} /> */}
+          <PrivateRoute path="/protected" component={LeaderFormPage} />
+        </Fragment>
+        {/* </Container> */}
+      </BrowserRouter>
+    </div>
   )
 }
