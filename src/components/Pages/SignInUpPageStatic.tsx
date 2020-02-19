@@ -197,10 +197,6 @@ export default function SignInUpPage(props: Props) {
           </Grid>
         </ContainerMain>
       </div>
-      {/* <ChangeSignInUp
-        signInPage={values.signInPage}
-        onClick={changePageOnClick}
-            /> */}
       <AppBar position="sticky" className={classes.footer}>
         <ChangeSignInUp
           signInPage={values.signInPage}
