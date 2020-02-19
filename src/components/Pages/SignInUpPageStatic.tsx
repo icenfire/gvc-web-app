@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment, useState } from "react"
 import { useDispatch } from "react-redux"
 
 import Authentication from "../../auth/Authentication"
@@ -77,7 +77,7 @@ export default function SignInUpPage(props: Props) {
   //   console.log("Dispatched!")
   // })
   const classes = useStyles()
-  const [values, setValues] = React.useState<State>({
+  const [values, setValues] = useState<State>({
     email: "",
     pw: "",
     name: "",

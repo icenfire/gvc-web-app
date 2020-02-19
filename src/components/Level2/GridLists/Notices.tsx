@@ -34,20 +34,15 @@ function Notices(props: IPNotices) {
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1.1}>
         {props.notices ? (
-          [...props.notices]
-            // Sort the notices chronologically
-            .sort((t1: INoticeWithMeta, t2: INoticeWithMeta) => {
-              return t1.createdAt > t2.createdAt ? 1 : -1
-            })
-            .map(notice => (
-              <GridListTile
-                key={notice.id}
-                className={classes.gridListTile}
-                rows={0.8} // Height of the tile in number of grid cells.
-              >
-                <Notice {...notice} />
-              </GridListTile>
-            ))
+          props.notices.map(notice => (
+            <GridListTile
+              key={notice.id}
+              className={classes.gridListTile}
+              rows={0.8} // Height of the tile in number of grid cells.
+            >
+              <Notice {...notice} />
+            </GridListTile>
+          ))
         ) : (
           <Typography>Loading...</Typography>
         )}

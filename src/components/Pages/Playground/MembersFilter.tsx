@@ -57,9 +57,7 @@ export function MembersFilter({ members }: Props) {
     setCell(event.target.value as State["cell"])
   }
 
-  const filterFunction = (
-    members: IPMembersList["members"]
-  ): IPMembersList["members"] =>
+  const filteredMembers =
     members &&
     members.filter((member: IPMembersList["members"][0]) => {
       switch (filter) {
@@ -102,7 +100,7 @@ export function MembersFilter({ members }: Props) {
       </FormControl>
       {filter == "cell" && (
         <FormControl className={classes.formControl}>
-          <InputLabel id="cell-select-label">Filter</InputLabel>
+          <InputLabel id="cell-select-label">Cell</InputLabel>
           <Select
             labelId="cell-select-label"
             id="cell-select"
@@ -113,10 +111,10 @@ export function MembersFilter({ members }: Props) {
             <MenuItem value={"2"}>Cell2</MenuItem>
             <MenuItem value={"3"}>Cell3</MenuItem>
           </Select>
-          <FormHelperText>Choose a cell</FormHelperText>
+          <FormHelperText>Choose a date</FormHelperText>
         </FormControl>
       )}
-      <MembersList members={filterFunction(members)} editMode={editMode} />
+      <MembersList members={filteredMembers} editMode={editMode} />
     </Fragment>
   )
 }

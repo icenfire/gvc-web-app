@@ -33,11 +33,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPPrayerPaper {}
+export interface IPPrayerPaper {
+  name: string
+  prayer: string
+  dob: Date
+}
 
 export interface ISPrayerPaper {}
 
-function PrayerPaper(props: IPPrayerPaper) {
+function PrayerPaper({ name, prayer, dob }: IPPrayerPaper) {
   const classes = useStyles()
   const [values, setValues] = React.useState<ISPrayerPaper>({})
 
@@ -55,11 +59,13 @@ function PrayerPaper(props: IPPrayerPaper) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="secondary" variant="h5">
-                <b>강민정</b>
+                <b>{name}</b>
               </Typography>
             </Grid>
             <Grid item>
-              <Typography color="secondary">01/01/2020</Typography>
+              <Typography color="secondary">
+                {dob.toLocaleDateString()}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -69,6 +75,7 @@ function PrayerPaper(props: IPPrayerPaper) {
                 // label="Multiline"
                 multiline
                 rowsMax="4"
+                value={prayer}
                 defaultValue="리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록."
                 inputProps={{ className: classes.input }}
               />

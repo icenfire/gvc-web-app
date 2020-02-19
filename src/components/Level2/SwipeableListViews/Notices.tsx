@@ -44,16 +44,16 @@ function Notices(props: IPNotices) {
         slideStyle={slideStyle}
       >
         {props.notices ? (
-          [...props.notices]
-            // Sort the notices chronologically
-            .sort((t1: INoticeWithMeta, t2: INoticeWithMeta) => {
-              return t1.createdAt > t2.createdAt ? 1 : -1
-            })
-            .map(notice => (
-              <div key={notice.id} className={classes.slide}>
-                <Notice {...notice} />
-              </div>
-            ))
+          // [...props.notices]
+          //   // Sort the notices chronologically
+          //   .sort((t1: INoticeWithMeta, t2: INoticeWithMeta) => {
+          //     return t1.createdAt > t2.createdAt ? 1 : -1
+          //   })
+          props.notices.map(notice => (
+            <div key={notice.id} className={classes.slide}>
+              <Notice {...notice} />
+            </div>
+          ))
         ) : (
           <Typography>Loading...</Typography>
         )}
