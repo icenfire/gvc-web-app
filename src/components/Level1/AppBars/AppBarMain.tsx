@@ -37,7 +37,7 @@ export const AppBarMain: React.FC = () => {
   return (
     <Fragment>
       <AppBar className={classes.appBar} position="fixed">
-        <Toolbar disableGutters={!open}>
+        <Toolbar disableGutters={!state.drawerOpen}>
           <IconButton aria-label="Open drawer" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>

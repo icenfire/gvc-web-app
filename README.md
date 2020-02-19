@@ -45,7 +45,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Notes
 
-react-swipeable-views currently has known bug with the latest version so we use version 0.13.3 which currently works
+Fixed from 0.13.9 <--react-swipeable-views currently has known bug with the latest version so we use version 0.13.3 which currently works
+
+@date-io/date-fns 2.x seems to be broken and so we use 1.3.13 instead
 
 Seems like IconButton component should but doesn't expect a 'component' prop which causes Typescript error found in ProfileEditDialog.
 There has already been a similar issue with material-ui [here](https://github.com/mui-org/material-ui/issues/19068)
