@@ -1,9 +1,9 @@
 import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import React, { Fragment } from "react"
+import React, { FC, Fragment } from "react"
 
-import { State as INotice } from "./../../Level2/NoticeCreator"
+import { INoticeWithMeta } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,21 +18,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props extends INotice {
-  id: string
-  createdAt: Date
-}
-
-function Notice(props: Props) {
+export const Notice: FC<INoticeWithMeta> = notice => {
   const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>
       <Typography color="primary" variant="subtitle2">
-        {props.title}
+        {notice.title}
       </Typography>
 
-      {props.content.split("\n").map((text, key) => {
+      {notice.content.split("\n").map((text, key) => {
         return (
           <Typography key={key} color="secondary" variant="body2">
             {text}
@@ -42,5 +37,3 @@ function Notice(props: Props) {
     </Paper>
   )
 }
-
-export default Notice

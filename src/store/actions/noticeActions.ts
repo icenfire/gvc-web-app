@@ -1,9 +1,15 @@
 import { Dispatch } from "redux"
 
-import { State as INotice } from "../../components/Level2/NoticeCreator"
+import { AppActions } from "../../types/actions"
+import { INotice } from "./../../types"
+import { AppState } from "./../reducers/rootReducer"
 
 export const createNotice = (notice: INotice) => {
-  return (dispatch: Dispatch, getState: any, { getFirestore }: any) => {
+  return (
+    dispatch: Dispatch<AppActions>,
+    getState: () => AppState,
+    { getFirestore, getFirebase }: any
+  ) => {
     const firestore = getFirestore()
     firestore
       .collection("notices")
@@ -11,7 +17,7 @@ export const createNotice = (notice: INotice) => {
       .then(() => {
         dispatch({ type: "CREATE_NOTICE", payload: notice })
       })
-      .catch((err: any) => {
+      .catch((err: Error) => {
         dispatch({ type: "CREATE_NOTICE_ERROR", payload: err })
       })
   }

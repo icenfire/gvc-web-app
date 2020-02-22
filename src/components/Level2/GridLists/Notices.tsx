@@ -2,10 +2,10 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import React, { Fragment } from "react"
+import React, { FC, Fragment } from "react"
 
-import { Props as INoticeWithMeta } from "../../Level1/Papers/Notice"
-import Notice from "../../Level1/Papers/Notice"
+import { INoticeWithMeta } from "../../../types"
+import { Notice } from "../../Level1/Papers/Notice"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,13 +28,13 @@ export interface IPNotices {
   notices: INoticeWithMeta[]
 }
 
-function Notices(props: IPNotices) {
+export const Notices: FC<IPNotices> = ({ notices }) => {
   const classes = useStyles()
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1.1}>
-        {props.notices ? (
-          props.notices.map(notice => (
+        {notices ? (
+          notices.map(notice => (
             <GridListTile
               key={notice.id}
               className={classes.gridListTile}
@@ -50,5 +50,3 @@ function Notices(props: IPNotices) {
     </div>
   )
 }
-
-export { Notices }

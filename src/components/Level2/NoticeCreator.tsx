@@ -5,23 +5,18 @@ import React, { Fragment } from "react"
 import { useDispatch } from "react-redux"
 
 import { createNotice } from "./../../store/actions/noticeActions"
-import { Props as IPNotice } from "./../Level1/Papers/Notice"
+import { INotice } from "./../../types"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface State {
-  title: string
-  content: string
-}
-
 export const NoticeCreator: React.FC = () => {
   const classes = useStyles()
-  const [values, setValues] = React.useState<State>({
+  const [values, setValues] = React.useState<INotice>({
     title: "",
     content: "",
   })
 
-  const onChange = (name: keyof State) => (
+  const onChange = (name: keyof INotice) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setValues({ ...values, [name]: event.target.value })

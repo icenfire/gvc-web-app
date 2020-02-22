@@ -9,6 +9,7 @@ import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 
+import { INoticeWithMeta } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"

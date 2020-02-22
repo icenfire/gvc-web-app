@@ -1,7 +1,6 @@
-export const noticeReducer = (
-  state = null,
-  action: { type: string; payload: any }
-) => {
+import { NoticeActionTypes } from "./../../types/actions"
+
+export const noticeReducer = (state = null, action: NoticeActionTypes) => {
   switch (action.type) {
     case "CREATE_NOTICE":
       console.log("Created Notice", action.payload)

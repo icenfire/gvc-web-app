@@ -2,6 +2,7 @@ import DateFnsUtils from "@date-io/date-fns"
 import { createMuiTheme } from "@material-ui/core"
 import { MuiThemeProvider } from "@material-ui/core/styles"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
+import firebase from "firebase"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
@@ -9,11 +10,10 @@ import { getFirebase, ReactReduxFirebaseProvider } from "react-redux-firebase"
 import { BrowserRouter } from "react-router-dom"
 import { applyMiddleware, compose, createStore } from "redux"
 import { createFirestoreInstance, getFirestore, reduxFirestore } from "redux-firestore"
-import thunk from "redux-thunk"
+import thunk, { ThunkMiddleware } from "redux-thunk"
 
 import { rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
-import firebase from "./firebase"
 import { globalObjects } from "./utils/globalObjects"
 
 // Define global objects for testing
@@ -60,7 +60,9 @@ const theme = createMuiTheme({
 const store = createStore(
   rootReducer,
   compose(
-    applyMiddleware(thunk.withExtraArgument({ getFirestore })),
+    applyMiddleware(
+      thunk.withExtraArgument({ getFirestore, getFirebase }) as ThunkMiddleware
+    ),
     reduxFirestore(firebase)
   )
 )
