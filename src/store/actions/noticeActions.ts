@@ -17,8 +17,8 @@ export const createNotice = (notice: INotice) => {
       .then(() => {
         dispatch({ type: "CREATE_NOTICE", payload: notice })
       })
-      .catch((err: Error) => {
-        dispatch({ type: "CREATE_NOTICE_ERROR", payload: err })
+      .catch((error: Error) => {
+        dispatch({ type: "CREATE_NOTICE_ERROR", payload: error })
       })
   }
 }
