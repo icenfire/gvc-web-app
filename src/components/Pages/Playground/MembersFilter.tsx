@@ -9,7 +9,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 
 import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
-import { Props as IPMemberPaper } from "./../../Level1/Papers/MemberPaper"
+
+// import { Props as IPMemberPaper } from "./../../Level1/Papers/MemberPaper"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,9 +67,9 @@ export function MembersFilter({ members }: Props) {
         case "leaders":
           return member.positions.includes("leader")
         case "cell":
-          return member.cell == cell
-        // default:
-        //   return member
+          return member.cell === cell
+        default:
+          return member
       }
     })
 
@@ -98,7 +99,7 @@ export function MembersFilter({ members }: Props) {
         </Select>
         <FormHelperText>Choose a filter</FormHelperText>
       </FormControl>
-      {filter == "cell" && (
+      {filter === "cell" && (
         <FormControl className={classes.formControl}>
           <InputLabel id="cell-select-label">Cell</InputLabel>
           <Select

@@ -14,13 +14,13 @@ export const globalObjects = () => {
           .doc("c" + cell + "m" + member)
           .set({
             name:
-              "Cell" + cell + (member == 0 ? "-Leader" : "-Member" + member),
+              "Cell" + cell + (member === 0 ? "-Leader" : "-Member" + member),
             cell: "" + cell,
             dob: new Date(
               startDate.getTime() +
                 Math.random() * (endDate.getTime() - startDate.getTime())
             ), // A random date between 1980/01/01 and 2010/12/31
-            positions: member == 0 ? ["leader"] : [],
+            positions: member === 0 ? ["leader"] : [],
           })
           .then(() => console.log("Complete!"))
       }
@@ -29,9 +29,6 @@ export const globalObjects = () => {
 
   // @ts-ignore
   window.createPrayers = () => {
-    const startDate = new Date("1980/01/01")
-    const endDate = new Date("2010/12/31")
-
     for (let cell = 1; cell <= 5; cell++) {
       for (let member = 0; member <= 3; member++) {
         for (let day = 0; day <= 2; day++) {
@@ -43,7 +40,7 @@ export const globalObjects = () => {
               date,
               prayer: `Prayer of ${"Cell" +
                 cell +
-                (member == 0
+                (member === 0
                   ? "-Leader"
                   : "-Member" + member)} created at ${moment(date).format(
                 "Do MMM YYYY"

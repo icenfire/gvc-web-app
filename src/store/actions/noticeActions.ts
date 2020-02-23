@@ -1,24 +1,21 @@
-import { Dispatch } from "redux"
-
-import { AppActions } from "../../types/actions"
+import { ThunkActionCustom } from "../../types/actions"
 import { INotice } from "./../../types"
-import { AppState } from "./../reducers/rootReducer"
 
-export const createNotice = (notice: INotice) => {
-  return (
-    dispatch: Dispatch<AppActions>,
-    getState: () => AppState,
-    { getFirestore, getFirebase }: any
-  ) => {
-    const firestore = getFirestore()
-    firestore
-      .collection("notices")
-      .add({ ...notice, createdAt: new Date() })
-      .then(() => {
-        dispatch({ type: "CREATE_NOTICE", payload: notice })
-      })
-      .catch((error: Error) => {
-        dispatch({ type: "CREATE_NOTICE_ERROR", payload: error })
-      })
-  }
+export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore()
+  const firebase = getFirebase()
+
+  firestore
+    .collection("notices")
+    .add({ ...notice, createdAt: new Date() })
+    .then(() => {
+      dispatch({ type: "CREATE_NOTICE", payload: notice })
+    })
+    .catch((error: Error) => {
+      dispatch({ type: "CREATE_NOTICE_ERROR", payload: error })
+    })
 }

@@ -1,28 +1,29 @@
 import AppBar from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
-import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 
 import Authentication from "../../auth/Authentication"
 import { auth, db } from "../../firebase"
 import Logo from "../../images/Logo.svg"
-import { updateStyle } from "../../store/actions/styleActions"
+import { signIn, signUp } from "../../store/actions/authActions"
+import { ISignUp } from "../../types"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
 import { DateOfBirthDatePicker } from "../Level1/DatePickers/DateOfBirthDatePicker"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
 import MyCheckBox from "../Level1/SelectionControls/MyCheckbox"
-import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 import EmailTextField from "../Level1/TextFields/EmailTextField"
 import NameTextField from "../Level1/TextFields/NameTextField"
 import PasswordTextField from "../Level1/TextFields/PasswordTextField"
 import { ContainerMain } from "./../Level1/Containers/ContainerMain"
 
+// import Container from "@material-ui/core/Container"
+// import { updateStyle } from "../../store/actions/styleActions"
+// import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -59,23 +60,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface Props {}
 
-export interface State {
-  email: string
-  pw: string
-  name: string
-  // dob: string
-  dob: MaterialUiPickersDate
+export interface State extends ISignUp {
   rememberMe: boolean
   readTAndC: boolean
   signInPage: boolean
 }
 
 export default function SignInUpPage(props: Props) {
-  // const dispatch = useDispatch()
-  // useEffect(() => {
-  //   dispatch(updateStyle({ styleType: "background", value: "#616161" }))
-  //   console.log("Dispatched!")
-  // })
   const classes = useStyles()
   const [values, setValues] = useState<State>({
     email: "",
@@ -87,10 +78,11 @@ export default function SignInUpPage(props: Props) {
     signInPage: true,
   })
 
+  const dispatch = useDispatch()
+
   const handleChange = (name: keyof State) => {
-    if (name == "dob") {
-      return (date: MaterialUiPickersDate) =>
-        setValues({ ...values, [name]: date })
+    if (name === "dob") {
+      return (date: State["dob"]) => setValues({ ...values, [name]: date })
     } else {
       return (event: React.ChangeEvent<HTMLInputElement>) =>
         setValues({ ...values, [name]: event.target.value })
@@ -111,35 +103,55 @@ export default function SignInUpPage(props: Props) {
   const signInUpOnClick = () => {
     if (values.signInPage) {
       console.log("Remember me: " + values.rememberMe)
-      Authentication.signInWithEmailAndPassword(values.email, values.pw)
+      dispatch(signIn({ email: values.email, pw: values.pw }))
     } else {
       if (values.readTAndC) {
-        auth()
-          .createUserWithEmailAndPassword(values.email, values.pw)
-          .then(() => {
-            auth().onAuthStateChanged(user => {
-              if (user) {
-                db.collection("members").add({
-                  userID: user.uid,
-                  name: values.name,
-                  dob: values.dob,
-                })
-              }
-            })
+        dispatch(
+          signUp({
+            email: values.email,
+            pw: values.pw,
+            name: values.name,
+            dob: values.dob,
           })
-          .then(() => {
-            console.log("Success!: readTAndC=" + values.readTAndC)
-          })
-          .catch(error => console.error("Error signing up: ", error))
+        )
       } else {
         console.log("Error: readTAndC=" + values.readTAndC)
       }
     }
   }
 
+  // const signInUpOnClick = () => {
+  //   if (values.signInPage) {
+  //     console.log("Remember me: " + values.rememberMe)
+  //     Authentication.signInWithEmailAndPassword(values.email, values.pw)
+  //   } else {
+  //     if (values.readTAndC) {
+  //       auth()
+  //         .createUserWithEmailAndPassword(values.email, values.pw)
+  //         .then(() => {
+  //           auth().onAuthStateChanged(user => {
+  //             if (user) {
+  //               db.collection("members").add({
+  //                 userID: user.uid,
+  //                 name: values.name,
+  //                 dob: values.dob,
+  //               })
+  //             }
+  //           })
+  //         })
+  //         .then(() => {
+  //           console.log("Success!: readTAndC=" + values.readTAndC)
+  //         })
+  //         .catch(error => console.error("Error signing up: ", error))
+  //     } else {
+  //       console.log("Error: readTAndC=" + values.readTAndC)
+  //     }
+  //   }
+  // }
+
   return (
     <div className={classes.root}>
-      <img src={Logo} className={classes.logo} />
+      <img src={Logo} className={classes.logo} alt="GVC Logo" />
       <div className={classes.grid}>
         <ContainerMain>
           <Grid container spacing={2} alignItems="center" justify="center">
