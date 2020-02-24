@@ -4,14 +4,14 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers"
 import firebase from "firebase"
 import React from "react"
 import ReactDOM from "react-dom"
-import { Provider } from "react-redux"
-import { getFirebase, ReactReduxFirebaseProvider } from "react-redux-firebase"
+import { Provider, useSelector } from "react-redux"
+import { getFirebase, isLoaded, ReactReduxFirebaseProvider } from "react-redux-firebase"
 import { BrowserRouter } from "react-router-dom"
 import { applyMiddleware, compose, createStore } from "redux"
 import { createFirestoreInstance, getFirestore, reduxFirestore } from "redux-firestore"
 import thunk, { ThunkMiddleware } from "redux-thunk"
 
-import { rootReducer } from "../src/store/reducers/rootReducer"
+import { AppState, rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
 import { theme } from "./theme"
 import { globalObjects } from "./utils/globalObjects"
@@ -35,7 +35,7 @@ const store = createStore(
 )
 
 const rrfConfig = {
-  userProfile: "users",
+  userProfile: "members",
   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
 }
 
@@ -46,13 +46,20 @@ const rrfProps = {
   createFirestoreInstance, // <- needed if using firestore
 }
 
+const AuthIsLoaded = ({ children }: { children: JSX.Element }) => {
+  const auth = useSelector<AppState>(state => state.firebase.auth)
+  return isLoaded(auth) ? children : <div>splash screen...</div>
+}
+
 ReactDOM.render(
   <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <App />
+            <AuthIsLoaded>
+              <App />
+            </AuthIsLoaded>
           </MuiPickersUtilsProvider>
         </ReactReduxFirebaseProvider>
       </Provider>

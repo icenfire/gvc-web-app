@@ -7,8 +7,9 @@ import PersonIcon from "@material-ui/icons/Person"
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
 import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
+import { ExtendedFirestoreInstance, useFirestoreConnect } from "react-redux-firebase"
 
+import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
@@ -69,7 +70,7 @@ export const Playground: FC = () => {
   // Get prayers from Firestore
   useFirestoreConnect("prayers")
 
-  const stateFS = useSelector((state: { firestore: any }) => state.firestore)
+  const stateFS = useSelector<AppState, any>(state => state.firestore)
 
   const noticesArr = stateFS.ordered.notices
   const membersDic = stateFS.data.members

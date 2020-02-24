@@ -69,7 +69,7 @@ export function PrayersList({ membersDic, prayers }: Props) {
                 : -1
             })
             .map((prayerObj: Props["prayers"][0]) => {
-              const { prayer, id, date, memberId } = prayerObj
+              const { prayer, id, date, memberId: memberId } = prayerObj
               return (
                 <ListItem className={classes.listItem} key={id}>
                   <PrayerPaper

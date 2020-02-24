@@ -46,9 +46,9 @@ export function PrayersFilter({ prayers, membersDic }: IPPrayersList) {
     prayers &&
     prayers.filter((prayer: IPPrayersList["prayers"][0]) => {
       if (
-        (cell != "all" && membersDic[prayer.memberId].cell != cell) ||
-        (date != "all" &&
-          prayer.date.toDate().toDateString() != new Date(date).toDateString())
+        (cell !== "all" && membersDic[prayer.memberId].cell !== cell) ||
+        (date !== "all" &&
+          prayer.date.toDate().toDateString() !== new Date(date).toDateString())
       ) {
         return false
       } else {

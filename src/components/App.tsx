@@ -21,14 +21,20 @@ const useStyles = makeStyles((theme: Theme) =>
       // // minHeight: "100vh",
       // height: "100vh",
     },
-    root: (styles: any) => ({
-      background: styles.background
-        ? styles.background
-        : theme.palette.background.default,
+    // root: (styles: any) => ({
+    //   background: styles.background
+    //     ? styles.background
+    //     : theme.palette.background.default,
+    //   height: "100%",
+    //   padding: 0,
+    //   margin: 0,
+    // }),
+    root: {
+      background: theme.palette.background.default,
       height: "100%",
       padding: 0,
       margin: 0,
-    }),
+    },
   })
 )
 
