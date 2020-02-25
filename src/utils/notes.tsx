@@ -24,3 +24,19 @@
 //   "sizes": "16x16",
 //   "type": "image/x-icon"
 // }
+
+// {
+//   "short_name": "GVC",
+//   "name": "London God's Vision Church",
+//   "icons": [
+//     {
+//       "src": "64x64.ico",
+//       "sizes": "64x64 32x32 24x24 16x16",
+//       "type": "image/x-icon"
+//     }
+//   ],
+//   "start_url": ".",
+//   "display": "standalone",
+//   "theme_color": "#C3BFBB",
+//   "background_color": "#7F8082"
+// }
