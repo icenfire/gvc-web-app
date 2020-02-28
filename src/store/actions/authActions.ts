@@ -7,6 +7,7 @@ export const signUp = ({
   pw,
   name,
   dob,
+  agreeTAndC,
 }: ISignUp): ThunkActionCustom<void> => (
   dispatch,
   getState,
@@ -31,6 +32,7 @@ export const signUp = ({
           dob,
           cell: "",
           positions: [],
+          agreeTAndC,
         })
         .then(() => {
           dispatch({ type: "MEMBER_PROFILE_CREATED" })
@@ -47,11 +49,17 @@ export const signUp = ({
 }
 
 // Sign In Member
-export const signIn = ({ email, pw }: ISignIn): ThunkActionCustom<void> => (
+export const signIn = ({
+  email,
+  pw,
+  rememberMe,
+}: ISignIn): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  // TODO Implement remember me
+  console.log("Remember me: ", rememberMe)
   const firebase = getFirebase()
   firebase
     .auth()

@@ -10,12 +10,17 @@ export interface INoticeWithMeta extends INotice {
 }
 
 // Auth
-export interface ISignIn {
+export interface ICredentials {
   email: string
   pw: string
 }
 
-export interface ISignUp extends ISignIn {
+export interface ISignIn extends ICredentials {
+  rememberMe: boolean
+}
+
+export interface ISignUp extends ICredentials {
   name: string
   dob: Date | null
+  agreeTAndC: boolean
 }

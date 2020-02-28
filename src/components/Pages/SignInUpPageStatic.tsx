@@ -1,24 +1,29 @@
 import AppBar from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
+import Checkbox from "@material-ui/core/Checkbox"
+import FormControl from "@material-ui/core/FormControl"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormHelperText from "@material-ui/core/FormHelperText"
 import Grid from "@material-ui/core/Grid"
+import InputAdornment from "@material-ui/core/InputAdornment"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
-import React, { useState } from "react"
+import CalendarToday from "@material-ui/icons/CalendarToday"
+import Email from "@material-ui/icons/Email"
+import Lock from "@material-ui/icons/Lock"
+import Person from "@material-ui/icons/Person"
+import { DatePicker } from "@material-ui/pickers"
+import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
+import React, { FC } from "react"
 import { useDispatch } from "react-redux"
+import * as yup from "yup"
 
-import Authentication from "../../auth/Authentication"
-import { auth, db } from "../../firebase"
 import Logo from "../../images/Logo.svg"
 import { signIn, signUp } from "../../store/actions/authActions"
-import { ISignUp } from "../../types"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
-import { DateOfBirthDatePicker } from "../Level1/DatePickers/DateOfBirthDatePicker"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
-import MyCheckBox from "../Level1/SelectionControls/MyCheckbox"
-import EmailTextField from "../Level1/TextFields/EmailTextField"
-import NameTextField from "../Level1/TextFields/NameTextField"
-import PasswordTextField from "../Level1/TextFields/PasswordTextField"
 import { ContainerMain } from "./../Level1/Containers/ContainerMain"
 
 // import Container from "@material-ui/core/Container"
@@ -58,163 +63,282 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {}
-
-export interface State extends ISignUp {
+interface IValues {
+  email: string
+  pw: string
+  name: string
+  dob: Date | null
   rememberMe: boolean
-  readTAndC: boolean
+  agreeTAndC: boolean
   signInPage: boolean
 }
 
+const MyTextField: FC<FieldAttributes<{}> &
+  TextFieldProps & { icon: JSX.Element }> = ({
+  label,
+  type,
+  placeholder,
+  icon,
+  ...props
+}) => {
+  const [field, meta] = useField<{}>(props)
+  const errorText = meta.error && meta.touched ? meta.error : ""
+  return (
+    <TextField
+      {...field}
+      label={label}
+      placeholder={placeholder}
+      type={type}
+      helperText={errorText}
+      error={!!errorText}
+      fullWidth
+      InputProps={{
+        // className: classes.input,
+        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
+      }}
+    />
+  )
+}
+
+const MyDatePicker: FC<FieldAttributes<{}> & { label: string } & {
+  icon: JSX.Element
+}> = ({ label, placeholder, icon, ...props }) => {
+  const [field, meta] = useField<{}>(props)
+  const { setFieldValue } = useFormikContext()
+  const errorText = meta.error && meta.touched ? meta.error : ""
+
+  return (
+    <DatePicker
+      {...field}
+      label={label}
+      placeholder={placeholder}
+      helperText={errorText}
+      error={!!errorText}
+      disableFuture
+      openTo="year"
+      format="dd/MM/yyyy"
+      views={["year", "month", "date"]}
+      fullWidth
+      onChange={val => {
+        setFieldValue(field.name, val)
+      }}
+      InputProps={{
+        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
+      }}
+    />
+  )
+}
+
+const MyCheckBox: FC<FieldAttributes<{}> & { label: string }> = ({
+  label,
+  placeholder,
+  ...props
+}) => {
+  const [field, meta] = useField<{}>(props)
+  const errorText = meta.error && meta.touched ? meta.error : ""
+  return (
+    <FormControl required error={!!errorText} component="fieldset">
+      <FormControlLabel
+        control={<Checkbox {...field} color="primary" />}
+        label={
+          <Typography color="primary" variant="caption">
+            {label}
+          </Typography>
+        }
+      />
+      <FormHelperText>{errorText}</FormHelperText>
+    </FormControl>
+  )
+}
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Invalid email")
+    .required("Field empty"),
+  pw: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is a required field"),
+  rememberMe: yup.boolean().when("signInPage", {
+    is: true,
+    then: yup.boolean().required(),
+  }),
+  name: yup.string().when("signInPage", {
+    is: false,
+    then: yup.string().required(),
+  }),
+  dob: yup
+    .date()
+    .nullable()
+    .when("signInPage", {
+      is: false,
+      then: yup
+        .date()
+        .nullable()
+        .required(),
+    }),
+  agreeTAndC: yup.boolean().when("signInPage", {
+    is: false,
+    then: yup
+      .boolean()
+      .required()
+      .test({
+        name: "readTAndC",
+        message: "You must read and agree with the Terms & Conditions.",
+        test: (agreeTAndC: boolean) => agreeTAndC,
+      }),
+  }),
+})
+
+export interface Props {}
+
 export default function SignInUpPage(props: Props) {
+  // const [signInPage, setSignInPage] = useState(true)
   const classes = useStyles()
-  const [values, setValues] = useState<State>({
+  const dispatch = useDispatch()
+
+  const initialValues: IValues = {
     email: "",
     pw: "",
     name: "",
     dob: null,
     rememberMe: false,
-    readTAndC: false,
+    agreeTAndC: false,
     signInPage: true,
-  })
-
-  const dispatch = useDispatch()
-
-  const handleChange = (name: keyof State) => {
-    if (name === "dob") {
-      return (date: State["dob"]) => setValues({ ...values, [name]: date })
-    } else {
-      return (event: React.ChangeEvent<HTMLInputElement>) =>
-        setValues({ ...values, [name]: event.target.value })
-    }
   }
 
-  const changePageOnClick = () =>
-    setValues({ ...values, signInPage: !values.signInPage })
-
-  const checkHandleChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void =>
-    setValues({
-      ...values,
-      [values.signInPage ? "rememberMe" : "readTAndC"]: event.target.checked,
-    })
-
-  const signInUpOnClick = () => {
-    if (values.signInPage) {
+  const onSubmit = (
+    values: IValues,
+    { setSubmitting }: FormikHelpers<IValues>
+  ) => {
+    // TODO: May need to use setSubmitting asynchronously
+    setSubmitting(true)
+    const { email, pw, name, dob, rememberMe, agreeTAndC, signInPage } = values
+    if (signInPage) {
       console.log("Remember me: " + values.rememberMe)
-      dispatch(signIn({ email: values.email, pw: values.pw }))
+      dispatch(signIn({ email, pw, rememberMe }))
     } else {
-      if (values.readTAndC) {
-        dispatch(
-          signUp({
-            email: values.email,
-            pw: values.pw,
-            name: values.name,
-            dob: values.dob,
-          })
-        )
-      } else {
-        console.log("Error: readTAndC=" + values.readTAndC)
-      }
+      dispatch(
+        signUp({
+          email,
+          pw,
+          name,
+          dob,
+          agreeTAndC,
+        })
+      )
     }
+    // TODO: May need to use setSubmitting asynchronously
+    setSubmitting(true)
   }
-
-  // const signInUpOnClick = () => {
-  //   if (values.signInPage) {
-  //     console.log("Remember me: " + values.rememberMe)
-  //     Authentication.signInWithEmailAndPassword(values.email, values.pw)
-  //   } else {
-  //     if (values.readTAndC) {
-  //       auth()
-  //         .createUserWithEmailAndPassword(values.email, values.pw)
-  //         .then(() => {
-  //           auth().onAuthStateChanged(user => {
-  //             if (user) {
-  //               db.collection("members").add({
-  //                 userID: user.uid,
-  //                 name: values.name,
-  //                 dob: values.dob,
-  //               })
-  //             }
-  //           })
-  //         })
-  //         .then(() => {
-  //           console.log("Success!: readTAndC=" + values.readTAndC)
-  //         })
-  //         .catch(error => console.error("Error signing up: ", error))
-  //     } else {
-  //       console.log("Error: readTAndC=" + values.readTAndC)
-  //     }
-  //   }
-  // }
 
   return (
-    <div className={classes.root}>
-      <img src={Logo} className={classes.logo} alt="GVC Logo" />
-      <div className={classes.grid}>
-        <ContainerMain>
-          <Grid container spacing={2} alignItems="center" justify="center">
-            <Grid item xs={12}>
-              <EmailTextField onChange={handleChange("email")} />
-            </Grid>
-            <Grid item xs={12}>
-              <PasswordTextField onChange={handleChange("pw")} />
-            </Grid>
-
-            {!values.signInPage && (
-              <>
+    // <div className={classes.root}>
+    <Formik<IValues>
+      validateOnChange
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ values, errors, isSubmitting, setFieldValue }) => (
+        <Form className={classes.root}>
+          <img src={Logo} className={classes.logo} alt="GVC Logo" />
+          <div className={classes.grid}>
+            <ContainerMain>
+              <Grid container spacing={2} alignItems="center" justify="center">
                 <Grid item xs={12}>
-                  <NameTextField onChange={handleChange("name")} />
-                </Grid>
-                <Grid item xs={12}>
-                  {/* <DateOfBirthTextField onChange={handleChange("dob")} /> */}
-                  <DateOfBirthDatePicker
-                    dob={values.dob}
-                    onChange={handleChange("dob")}
+                  <MyTextField
+                    label="Email Address"
+                    placeholder="johnsmith@gmail.com"
+                    name="email"
+                    icon={<Email />}
                   />
                 </Grid>
-              </>
-            )}
+                <Grid item xs={12}>
+                  <MyTextField
+                    label="Password"
+                    placeholder="Password"
+                    name="pw"
+                    type="password"
+                    autoComplete="current-password"
+                    icon={<Lock />}
+                  />
+                </Grid>
 
-            <Grid item xs>
-              {/* <RememberMeCheckbox /> */}
-              <MyCheckBox
-                signInPage={values.signInPage}
-                check={values.signInPage ? values.rememberMe : values.readTAndC}
-                handleChange={checkHandleChange}
-              />
-            </Grid>
-            <Grid item>
-              {values.signInPage ? (
-                <MyLink to="/ForgotPassword" color="inherit" variant="caption">
-                  Forgot Password?
-                </MyLink>
-              ) : (
-                <TermsAndConditionsDialog />
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                className={classes.signInUpButton}
-                variant="contained"
-                fullWidth
-                onClick={signInUpOnClick}
-              >
-                <Typography color="textPrimary">
-                  {values.signInPage ? "Sign in" : "Sign up"}
-                </Typography>
-              </Button>
-            </Grid>
-          </Grid>
-        </ContainerMain>
-      </div>
-      <AppBar position="sticky" className={classes.footer}>
-        <ChangeSignInUp
-          signInPage={values.signInPage}
-          onClick={changePageOnClick}
-        />
-      </AppBar>
-    </div>
+                {!values.signInPage && (
+                  <>
+                    <Grid item xs={12}>
+                      <MyTextField
+                        label="Name"
+                        placeholder="김철수/John Smith"
+                        name="name"
+                        icon={<Person />}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <MyDatePicker
+                        label="Date of Birth"
+                        placeholder="01/01/2000"
+                        name="dob"
+                        icon={<CalendarToday />}
+                      />
+                    </Grid>
+                  </>
+                )}
+                <Grid item xs>
+                  {values.signInPage ? (
+                    <MyCheckBox
+                      name="rememberMe"
+                      label="Remember me"
+                      type="checkbox"
+                    />
+                  ) : (
+                    <MyCheckBox
+                      name="agreeTAndC"
+                      label="I consent to"
+                      type="checkbox"
+                    />
+                  )}
+                </Grid>
+                <Grid item>
+                  {values.signInPage ? (
+                    <MyLink
+                      to="/ForgotPassword"
+                      color="inherit"
+                      variant="caption"
+                    >
+                      Forgot Password?
+                    </MyLink>
+                  ) : (
+                    <TermsAndConditionsDialog />
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    className={classes.signInUpButton}
+                    variant="contained"
+                    fullWidth
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    <Typography color="textPrimary">
+                      {values.signInPage ? "Sign in" : "Sign up"}
+                    </Typography>
+                  </Button>
+                </Grid>
+              </Grid>
+            </ContainerMain>
+          </div>
+          <AppBar position="sticky" className={classes.footer}>
+            <ChangeSignInUp
+              signInPage={values.signInPage}
+              onClick={() => setFieldValue("signInPage", !values.signInPage)}
+            />
+          </AppBar>
+        </Form>
+      )}
+    </Formik>
+    // </div>
   )
 }
