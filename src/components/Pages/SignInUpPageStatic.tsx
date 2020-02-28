@@ -155,18 +155,18 @@ const validationSchema = yup.object({
   email: yup
     .string()
     .email("Invalid email")
-    .required("Field empty"),
+    .required("Email is required"),
   pw: yup
     .string()
     .min(6, "Password must be at least 6 characters")
-    .required("Password is a required field"),
-  rememberMe: yup.boolean().when("signInPage", {
-    is: true,
-    then: yup.boolean().required(),
-  }),
+    .required("Password is required"),
+  // rememberMe: yup.boolean().when("signInPage", {
+  //   is: true,
+  //   then: yup.boolean().required(),
+  // }),
   name: yup.string().when("signInPage", {
     is: false,
-    then: yup.string().required(),
+    then: yup.string().required("Name is required"),
   }),
   dob: yup
     .date()
@@ -176,7 +176,7 @@ const validationSchema = yup.object({
       then: yup
         .date()
         .nullable()
-        .required(),
+        .required("Date of Birth is required"),
     }),
   agreeTAndC: yup.boolean().when("signInPage", {
     is: false,
@@ -185,7 +185,7 @@ const validationSchema = yup.object({
       .required()
       .test({
         name: "readTAndC",
-        message: "You must read and agree with the Terms & Conditions.",
+        message: "You must agree with the Terms & Conditions",
         test: (agreeTAndC: boolean) => agreeTAndC,
       }),
   }),
@@ -212,12 +212,10 @@ export default function SignInUpPage(props: Props) {
     values: IValues,
     { setSubmitting }: FormikHelpers<IValues>
   ) => {
-    // TODO: May need to use setSubmitting asynchronously
-    setSubmitting(true)
     const { email, pw, name, dob, rememberMe, agreeTAndC, signInPage } = values
     if (signInPage) {
       console.log("Remember me: " + values.rememberMe)
-      dispatch(signIn({ email, pw, rememberMe }))
+      dispatch(signIn({ email, pw, rememberMe, setSubmitting }))
     } else {
       dispatch(
         signUp({
@@ -226,15 +224,13 @@ export default function SignInUpPage(props: Props) {
           name,
           dob,
           agreeTAndC,
+          setSubmitting,
         })
       )
     }
-    // TODO: May need to use setSubmitting asynchronously
-    setSubmitting(true)
   }
 
   return (
-    // <div className={classes.root}>
     <Formik<IValues>
       validateOnChange
       initialValues={initialValues}
@@ -339,6 +335,5 @@ export default function SignInUpPage(props: Props) {
         </Form>
       )}
     </Formik>
-    // </div>
   )
 }

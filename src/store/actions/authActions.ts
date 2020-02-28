@@ -1,6 +1,10 @@
 import { ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
 
+interface ISetSubmitting {
+  setSubmitting: (isSubmitting: boolean) => void
+}
+
 // Sign Up Member
 export const signUp = ({
   email,
@@ -8,11 +12,13 @@ export const signUp = ({
   name,
   dob,
   agreeTAndC,
-}: ISignUp): ThunkActionCustom<void> => (
+  setSubmitting,
+}: ISignUp & ISetSubmitting): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  setSubmitting(true)
   const firestore = getFirestore()
   const firebase = getFirebase()
 
@@ -40,11 +46,13 @@ export const signUp = ({
         .catch((error: Error) => {
           dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
           console.log(error)
+          setSubmitting(false)
         })
     })
     .catch((error: Error) => {
       dispatch({ type: "SIGN_UP_ERROR", payload: error })
       console.log(error)
+      setSubmitting(false)
     })
 }
 
@@ -53,11 +61,13 @@ export const signIn = ({
   email,
   pw,
   rememberMe,
-}: ISignIn): ThunkActionCustom<void> => (
+  setSubmitting,
+}: ISignIn & ISetSubmitting): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  setSubmitting(true)
   // TODO Implement remember me
   console.log("Remember me: ", rememberMe)
   const firebase = getFirebase()
@@ -67,10 +77,12 @@ export const signIn = ({
     .then(() => {
       dispatch({ type: "SIGN_IN" })
       console.log("Sign in succesful!")
+      setSubmitting(false)
     })
     .catch((error: Error) => {
       dispatch({ type: "SIGN_IN_ERROR", payload: error })
       console.log(error)
+      setSubmitting(false)
     })
 }
 
