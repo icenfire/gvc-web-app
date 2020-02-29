@@ -10,6 +10,11 @@ export interface INoticeWithMeta extends INotice {
 }
 
 // Auth
+export interface IFBError {
+  code: string
+  message: string
+}
+
 export interface ICredentials {
   email: string
   pw: string

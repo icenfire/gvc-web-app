@@ -1,5 +1,5 @@
 import { auth } from "../../firebase"
-import { ISignIn, ISignUp } from "../../types"
+import { IFBError, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
 
 interface ISetSubmitting {
@@ -44,13 +44,13 @@ export const signUp = ({
         .then(() => {
           dispatch({ type: "MEMBER_PROFILE_CREATED" })
         })
-        .catch((error: Error) => {
+        .catch((error: IFBError) => {
           dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
           console.log(error)
           setSubmitting(false)
         })
     })
-    .catch((error: Error) => {
+    .catch((error: IFBError) => {
       dispatch({ type: "SIGN_UP_ERROR", payload: error })
       console.log(error)
       setSubmitting(false)
@@ -86,13 +86,13 @@ export const signIn = ({
           console.log("Sign in succesful!")
           setSubmitting(false)
         })
-        .catch((error: Error) => {
+        .catch((error: IFBError) => {
           dispatch({ type: "SIGN_IN_ERROR", payload: error })
           console.log(error)
           setSubmitting(false)
         })
     })
-    .catch((error: Error) => {
+    .catch((error: IFBError) => {
       dispatch({ type: "REMEMBER_ME_ERROR", payload: error })
       console.log(error)
       setSubmitting(false)
@@ -113,7 +113,7 @@ export const signOut = (): ThunkActionCustom<void> => (
     .then(() => {
       dispatch({ type: "SIGN_OUT" })
     })
-    .catch((error: Error) => {
+    .catch((error: IFBError) => {
       dispatch({ type: "SIGN_OUT_ERROR", payload: error })
       console.log(error)
     })

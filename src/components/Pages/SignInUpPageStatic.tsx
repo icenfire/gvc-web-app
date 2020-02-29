@@ -16,11 +16,12 @@ import Person from "@material-ui/icons/Person"
 import { DatePicker } from "@material-ui/pickers"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import * as yup from "yup"
 
 import Logo from "../../images/Logo.svg"
 import { signIn, signUp } from "../../store/actions/authActions"
+import { AppState } from "../../store/reducers/rootReducer"
 import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
 import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
@@ -197,7 +198,7 @@ export default function SignInUpPage(props: Props) {
   // const [signInPage, setSignInPage] = useState(true)
   const classes = useStyles()
   const dispatch = useDispatch()
-
+  const fbError = useSelector<AppState, AppState["auth"]>(state => state.auth)
   const initialValues: IValues = {
     email: "",
     pw: "",
@@ -311,17 +312,33 @@ export default function SignInUpPage(props: Props) {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
-                    className={classes.signInUpButton}
-                    variant="contained"
+                  <FormControl
+                    required
+                    error={
+                      values.signInPage
+                        ? !!fbError.signInError
+                        : !!fbError.signUpError
+                    }
+                    component="fieldset"
                     fullWidth
-                    disabled={isSubmitting}
-                    type="submit"
                   >
-                    <Typography color="textPrimary">
-                      {values.signInPage ? "Sign in" : "Sign up"}
-                    </Typography>
-                  </Button>
+                    <Button
+                      className={classes.signInUpButton}
+                      variant="contained"
+                      fullWidth
+                      disabled={isSubmitting}
+                      type="submit"
+                    >
+                      <Typography color="textPrimary">
+                        {values.signInPage ? "Sign in" : "Sign up"}
+                      </Typography>
+                    </Button>
+                    <FormHelperText>
+                      {values.signInPage
+                        ? fbError.signInError?.message
+                        : fbError.signUpError?.message}
+                    </FormHelperText>
+                  </FormControl>
                 </Grid>
               </Grid>
             </ContainerMain>

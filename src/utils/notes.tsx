@@ -40,3 +40,8 @@
 //   "theme_color": "#C3BFBB",
 //   "background_color": "#7F8082"
 // }
+
+// Arrow function type definition
+let sum = (a: number, b: number): number => {
+  return a + b
+}

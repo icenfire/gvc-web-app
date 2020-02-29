@@ -1,8 +1,7 @@
-import firebase from "firebase/app"
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
 
-import { INotice } from "."
+import { IFBError, INotice } from "."
 import { AppState } from "../store/reducers/rootReducer"
 
 // Setup
@@ -19,18 +18,18 @@ export type ThunkActionCustom<ReturnType> = ThunkAction<
 
 // Notice actions
 export const CREATE_NOTICE = "CREATE_NOTICE"
-export interface CreateNoticeAction {
+export interface CreateNotice {
   type: typeof CREATE_NOTICE
   payload: INotice
 }
 
 export const CREATE_NOTICE_ERROR = "CREATE_NOTICE_ERROR"
-export interface CreateNoticeErrorAction {
+export interface CreateNoticeError {
   type: typeof CREATE_NOTICE_ERROR
-  payload: any
+  payload: Error
 }
 
-export type NoticeActionTypes = CreateNoticeAction | CreateNoticeErrorAction
+export type NoticeActionTypes = CreateNotice | CreateNoticeError
 
 // Auth actions
 export const SIGN_UP = "SIGN_UP"
@@ -41,7 +40,7 @@ export interface SignUp {
 export const SIGN_UP_ERROR = "SIGN_UP_ERROR"
 export interface SignUpError {
   type: typeof SIGN_UP_ERROR
-  payload: Error
+  payload: IFBError
 }
 
 export const MEMBER_PROFILE_CREATED = "MEMBER_PROFILE_CREATED"
@@ -52,7 +51,7 @@ export interface MemberProfileCreated {
 export const MEMBER_PROFILE_CREATED_ERROR = "MEMBER_PROFILE_CREATED_ERROR"
 export interface MemberProfileCreatedError {
   type: typeof MEMBER_PROFILE_CREATED_ERROR
-  payload: Error
+  payload: IFBError
 }
 
 export const SIGN_IN = "SIGN_IN"
@@ -63,7 +62,7 @@ export interface SignIn {
 export const SIGN_IN_ERROR = "SIGN_IN_ERROR"
 export interface SignInError {
   type: typeof SIGN_IN_ERROR
-  payload: Error
+  payload: IFBError
 }
 
 export const REMEMBER_ME = "REMEMBER_ME"
@@ -75,7 +74,7 @@ export interface RememberMe {
 export const REMEMBER_ME_ERROR = "REMEMBER_ME_ERROR"
 export interface RememberMeError {
   type: typeof REMEMBER_ME_ERROR
-  payload: Error
+  payload: IFBError
 }
 
 export const SIGN_OUT = "SIGN_OUT"
@@ -86,7 +85,7 @@ export interface SignOut {
 export const SIGN_OUT_ERROR = "SIGN_OUT_ERROR"
 export interface SignOutError {
   type: typeof SIGN_OUT_ERROR
-  payload: Error
+  payload: IFBError
 }
 
 export type AuthActionTypes =
