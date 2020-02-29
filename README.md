@@ -1,6 +1,7 @@
 ## TODO LIST
 
-- [ ] Make the yup object, type safe with IValues
+- [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
+- [x] Make the yup input object, type safe with IValues
 - [x] Implement Signin/up error message
 - [x] Implement Remember me
 - [x] Use Formik for forms ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))

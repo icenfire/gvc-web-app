@@ -135,7 +135,7 @@ const MyCheckBox: FC<FieldAttributes<{}> & { label: string }> = ({
   placeholder,
   ...props
 }) => {
-  const [field, meta] = useField<{}>(props)
+  const [field, meta] = useField<{}>({ ...props, type: "checkbox" })
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (
     <FormControl required error={!!errorText} component="fieldset">
@@ -152,7 +152,7 @@ const MyCheckBox: FC<FieldAttributes<{}> & { label: string }> = ({
   )
 }
 
-const validationSchema = yup.object({
+const validationSchema = yup.object<Partial<IValues>>({
   email: yup
     .string()
     .email("Invalid email")
@@ -195,7 +195,6 @@ const validationSchema = yup.object({
 export interface Props {}
 
 export default function SignInUpPage(props: Props) {
-  // const [signInPage, setSignInPage] = useState(true)
   const classes = useStyles()
   const dispatch = useDispatch()
   const fbError = useSelector<AppState, AppState["auth"]>(state => state.auth)
@@ -285,17 +284,9 @@ export default function SignInUpPage(props: Props) {
                 )}
                 <Grid item xs>
                   {values.signInPage ? (
-                    <MyCheckBox
-                      name="rememberMe"
-                      label="Remember me"
-                      type="checkbox"
-                    />
+                    <MyCheckBox name="rememberMe" label="Remember me" />
                   ) : (
-                    <MyCheckBox
-                      name="agreeTAndC"
-                      label="I consent to"
-                      type="checkbox"
-                    />
+                    <MyCheckBox name="agreeTAndC" label="I consent to" />
                   )}
                 </Grid>
                 <Grid item>
