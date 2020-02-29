@@ -1,20 +1,21 @@
+// @ts-nocheck
+import Button from "@material-ui/core/Button"
 import Collapse from "@material-ui/core/Collapse"
 import Grid from "@material-ui/core/Grid"
-import Button from "@material-ui/core/Button"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
 import React from "react"
 
 import Authentication from "../../auth/Authentication"
 import { auth, db } from "../../firebase"
-import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
-import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
+import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
+import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
 import RememberMeCheckbox from "../Level1/SelectionControls/RememberMeCheckbox"
 import DateOfBirthTextField from "../Level1/TextFields/DateOfBirthTextField"
 import EmailTextField from "../Level1/TextFields/EmailTextField"
 import NameTextField from "../Level1/TextFields/NameTextField"
 import PasswordTextField from "../Level1/TextFields/PasswordTextField"
-import Typography from "@material-ui/core/Typography"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,12 +23,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       paddingLeft: theme.spacing(6),
       paddingRight: theme.spacing(6),
-      margin: 0
+      margin: 0,
     },
     button: { textTransform: "capitalize" },
     collapse: {
-      width: "100%"
-    }
+      width: "100%",
+    },
   })
 )
 
@@ -50,7 +51,7 @@ function SignInUpPage(props: Props) {
     name: "",
     dob: "",
     rememberMe: false,
-    signInPage: true
+    signInPage: true,
   })
 
   const handleChange = (name: keyof State) => (
@@ -71,7 +72,7 @@ function SignInUpPage(props: Props) {
                 db.collection("members").add({
                   userID: user.uid,
                   name: values.name,
-                  dob: values.dob
+                  dob: values.dob,
                 })
               }
             })

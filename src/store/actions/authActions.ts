@@ -43,6 +43,7 @@ export const signUp = ({
         })
         .then(() => {
           dispatch({ type: "MEMBER_PROFILE_CREATED" })
+          setSubmitting(false)
         })
         .catch((error: IFBError) => {
           dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
@@ -95,6 +96,32 @@ export const signIn = ({
     .catch((error: IFBError) => {
       dispatch({ type: "REMEMBER_ME_ERROR", payload: error })
       console.log(error)
+      setSubmitting(false)
+    })
+}
+
+// Send reset password link
+export const resetPassword = ({
+  email,
+  setSubmitting,
+}: { email: string } & ISetSubmitting): ThunkActionCustom<void> => (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  setSubmitting(true)
+  const firebase = getFirebase()
+  firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      console.log("Password reset link sent!")
+      dispatch({ type: "RESET_PASSWORD" })
+      setSubmitting(false)
+    })
+    .catch((error: IFBError) => {
+      console.log("Password reset link sending error!")
+      dispatch({ type: "RESET_PASSWORD_ERROR", payload: error })
       setSubmitting(false)
     })
 }

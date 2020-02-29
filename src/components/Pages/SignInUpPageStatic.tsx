@@ -1,11 +1,13 @@
 import AppBar from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
 import Checkbox from "@material-ui/core/Checkbox"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import FormControl from "@material-ui/core/FormControl"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import FormHelperText from "@material-ui/core/FormHelperText"
 import Grid from "@material-ui/core/Grid"
 import InputAdornment from "@material-ui/core/InputAdornment"
+import Link from "@material-ui/core/Link"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
@@ -20,10 +22,11 @@ import { useDispatch, useSelector } from "react-redux"
 import * as yup from "yup"
 
 import Logo from "../../images/Logo.svg"
-import { signIn, signUp } from "../../store/actions/authActions"
+import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
 import { AppState } from "../../store/reducers/rootReducer"
-import ChangeSignInUp from "../Level1/Buttons/ChangeSignInUp"
-import TermsAndConditionsDialog from "../Level1/Dialogs/TermsAndConditionsDialog"
+import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
+import { ResetPasswordDialog } from "../Level1/Dialogs/ResetPasswordDialog"
+import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
 import { ContainerMain } from "./../Level1/Containers/ContainerMain"
 
@@ -61,6 +64,19 @@ const useStyles = makeStyles((theme: Theme) =>
     footer: {
       bottom: 0,
     },
+    buttonWrapper: {
+      position: "relative",
+      padding: 0,
+    },
+    progress: {
+      color: theme.palette.secondary.light,
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginTop: -24,
+      marginLeft: -24,
+      zIndex: 1,
+    },
   })
 )
 
@@ -71,7 +87,7 @@ interface IValues {
   dob: Date | null
   rememberMe: boolean
   agreeTAndC: boolean
-  signInPage: boolean
+  page: "signIn" | "signUp" | "resetPassword"
 }
 
 const MyTextField: FC<FieldAttributes<{}> &
@@ -157,30 +173,34 @@ const validationSchema = yup.object<Partial<IValues>>({
     .string()
     .email("Invalid email")
     .required("Email is required"),
-  pw: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+  pw: yup.string().when("page", {
+    is: page => page === "signIn" || page === "signUp",
+    then: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  }),
+
   // rememberMe: yup.boolean().when("signInPage", {
   //   is: true,
   //   then: yup.boolean().required(),
   // }),
-  name: yup.string().when("signInPage", {
-    is: false,
+  name: yup.string().when("page", {
+    is: "signUp",
     then: yup.string().required("Name is required"),
   }),
   dob: yup
     .date()
     .nullable()
-    .when("signInPage", {
-      is: false,
+    .when("page", {
+      is: "signUp",
       then: yup
         .date()
         .nullable()
         .required("Date of Birth is required"),
     }),
-  agreeTAndC: yup.boolean().when("signInPage", {
-    is: false,
+  agreeTAndC: yup.boolean().when("page", {
+    is: "signUp",
     then: yup
       .boolean()
       .required()
@@ -197,7 +217,9 @@ export interface Props {}
 export default function SignInUpPage(props: Props) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const fbError = useSelector<AppState, AppState["auth"]>(state => state.auth)
+  const fbFeedback = useSelector<AppState, AppState["auth"]>(
+    state => state.auth
+  )
   const initialValues: IValues = {
     email: "",
     pw: "",
@@ -205,28 +227,39 @@ export default function SignInUpPage(props: Props) {
     dob: null,
     rememberMe: false,
     agreeTAndC: false,
-    signInPage: true,
+    page: "signIn",
   }
 
   const onSubmit = (
     values: IValues,
     { setSubmitting }: FormikHelpers<IValues>
   ) => {
-    const { email, pw, name, dob, rememberMe, agreeTAndC, signInPage } = values
-    if (signInPage) {
-      console.log("Remember me: " + values.rememberMe)
-      dispatch(signIn({ email, pw, rememberMe, setSubmitting }))
-    } else {
-      dispatch(
-        signUp({
-          email,
-          pw,
-          name,
-          dob,
-          agreeTAndC,
-          setSubmitting,
-        })
-      )
+    const { email, pw, name, dob, rememberMe, agreeTAndC, page } = values
+
+    switch (page) {
+      case "signIn":
+        console.log("Remember me: " + values.rememberMe)
+        dispatch(signIn({ email, pw, rememberMe, setSubmitting }))
+        break
+
+      case "signUp":
+        dispatch(
+          signUp({
+            email,
+            pw,
+            name,
+            dob,
+            agreeTAndC,
+            setSubmitting,
+          })
+        )
+        break
+
+      case "resetPassword":
+        // TODO: password reset link
+        console.log("Send password reset link")
+        dispatch(resetPassword({ email, setSubmitting }))
+        break
     }
   }
 
@@ -252,17 +285,19 @@ export default function SignInUpPage(props: Props) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <MyTextField
-                    label="Password"
-                    placeholder="Password"
-                    name="pw"
-                    type="password"
-                    autoComplete="current-password"
-                    icon={<Lock />}
-                  />
+                  {values.page !== "resetPassword" && (
+                    <MyTextField
+                      label="Password"
+                      placeholder="Password"
+                      name="pw"
+                      type="password"
+                      autoComplete="current-password"
+                      icon={<Lock />}
+                    />
+                  )}
                 </Grid>
 
-                {!values.signInPage && (
+                {values.page === "signUp" && (
                   <>
                     <Grid item xs={12}>
                       <MyTextField
@@ -283,61 +318,98 @@ export default function SignInUpPage(props: Props) {
                   </>
                 )}
                 <Grid item xs>
-                  {values.signInPage ? (
+                  {values.page === "signIn" && (
                     <MyCheckBox name="rememberMe" label="Remember me" />
-                  ) : (
+                  )}
+                  {values.page === "signUp" && (
                     <MyCheckBox name="agreeTAndC" label="I consent to" />
                   )}
                 </Grid>
                 <Grid item>
-                  {values.signInPage ? (
-                    <MyLink
-                      to="/ForgotPassword"
-                      color="inherit"
+                  {values.page === "signIn" && (
+                    <Link
+                      onClick={() => setFieldValue("page", "resetPassword")}
+                      display="block"
+                      align="center"
                       variant="caption"
+                      color="inherit"
                     >
                       Forgot Password?
-                    </MyLink>
-                  ) : (
-                    <TermsAndConditionsDialog />
+                    </Link>
                   )}
+                  {values.page === "signUp" && <TermsAndConditionsDialog />}
                 </Grid>
                 <Grid item xs={12}>
                   <FormControl
                     required
                     error={
-                      values.signInPage
-                        ? !!fbError.signInError
-                        : !!fbError.signUpError
+                      values.page === "signIn"
+                        ? !!fbFeedback.signInError
+                        : values.page === "signUp"
+                        ? !!fbFeedback.signUpError
+                        : !!fbFeedback.resetPasswordError
                     }
                     component="fieldset"
                     fullWidth
                   >
-                    <Button
-                      className={classes.signInUpButton}
-                      variant="contained"
-                      fullWidth
-                      disabled={isSubmitting}
-                      type="submit"
-                    >
-                      <Typography color="textPrimary">
-                        {values.signInPage ? "Sign in" : "Sign up"}
-                      </Typography>
-                    </Button>
+                    <div className={classes.buttonWrapper}>
+                      <Button
+                        className={classes.signInUpButton}
+                        variant="contained"
+                        fullWidth
+                        disabled={isSubmitting}
+                        type="submit"
+                      >
+                        <Typography color="textPrimary">
+                          {values.page === "signIn" && "Sign in"}
+                          {values.page === "signUp" && "Sign up"}
+                          {values.page === "resetPassword" &&
+                            "Email me reset password link"}
+                        </Typography>
+                      </Button>
+                      {isSubmitting && (
+                        <CircularProgress
+                          size={48}
+                          className={classes.progress}
+                        />
+                      )}
+                    </div>
                     <FormHelperText>
-                      {values.signInPage
-                        ? fbError.signInError?.message
-                        : fbError.signUpError?.message}
+                      {values.page === "signIn" &&
+                        fbFeedback.signInError?.message}
+                      {values.page === "signUp" &&
+                        fbFeedback.signUpError?.message}
+                      {values.page === "resetPassword" &&
+                      fbFeedback.resetPasswordError
+                        ? fbFeedback.resetPasswordError?.message
+                        : fbFeedback.resetPasswordSuccess}
                     </FormHelperText>
                   </FormControl>
                 </Grid>
+                {values.page === "resetPassword" && (
+                  <Grid item xs>
+                    <Link
+                      onClick={() => setFieldValue("page", "signIn")}
+                      display="block"
+                      align="center"
+                      variant="caption"
+                      color="inherit"
+                    >
+                      Return to sign in page?
+                    </Link>
+                  </Grid>
+                )}
               </Grid>
             </ContainerMain>
           </div>
           <AppBar position="sticky" className={classes.footer}>
             <ChangeSignInUp
-              signInPage={values.signInPage}
-              onClick={() => setFieldValue("signInPage", !values.signInPage)}
+              page={values.page}
+              onClick={() => {
+                values.page !== "signUp"
+                  ? setFieldValue("page", "signUp")
+                  : setFieldValue("page", "signIn")
+              }}
             />
           </AppBar>
         </Form>

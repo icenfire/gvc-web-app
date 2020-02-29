@@ -91,7 +91,7 @@ function ProfileEditDialog(props: IPProfileEditDialog) {
                 InputProps={{ className: classes.text }}
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={3}>
               <DatePicker
                 color="primary"
                 disableFuture

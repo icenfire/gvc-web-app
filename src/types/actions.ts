@@ -77,6 +77,17 @@ export interface RememberMeError {
   payload: IFBError
 }
 
+export const RESET_PASSWORD = "RESET_PASSWORD"
+export interface ResetPassword {
+  type: typeof RESET_PASSWORD
+}
+
+export const RESET_PASSWORD_ERROR = "RESET_PASSWORD_ERROR"
+export interface ResetPasswordError {
+  type: typeof RESET_PASSWORD_ERROR
+  payload: IFBError
+}
+
 export const SIGN_OUT = "SIGN_OUT"
 export interface SignOut {
   type: typeof SIGN_OUT
@@ -97,6 +108,8 @@ export type AuthActionTypes =
   | SignInError
   | RememberMe
   | RememberMeError
+  | ResetPassword
+  | ResetPasswordError
   | SignOut
   | SignOutError
 
