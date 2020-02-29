@@ -1,6 +1,8 @@
 ## TODO LIST
 
+- [ ] Implement Signin/up error message
 - [ ] Make the yup object, type safe with IValues
+- [x] Implement Remember me
 - [x] Use Formik for forms ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))
 - [x] Implement custom components to be used with Formik ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))
 - [x] Implement validation using Yup ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))

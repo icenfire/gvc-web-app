@@ -27,6 +27,17 @@ export const authReducer = (state = initState, action: AuthActionTypes) => {
       console.log("Sign in error!")
       console.error(action.payload)
       return state
+    case "REMEMBER_ME":
+      console.log(
+        action.payload
+          ? "Login made persistent successful!"
+          : "Login made non-persistent successful!"
+      )
+      return state
+    case "REMEMBER_ME_ERROR":
+      console.log("Persistence login error!")
+      console.error(action.payload)
+      return state
     case "SIGN_OUT":
       console.log("Sign out successful!")
       return state

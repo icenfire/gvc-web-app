@@ -1,3 +1,4 @@
+import { auth } from "../../firebase"
 import { ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
 
@@ -68,19 +69,31 @@ export const signIn = ({
   { getFirestore, getFirebase }
 ) => {
   setSubmitting(true)
-  // TODO Implement remember me
   console.log("Remember me: ", rememberMe)
   const firebase = getFirebase()
   firebase
     .auth()
-    .signInWithEmailAndPassword(email, pw)
+    .setPersistence(
+      rememberMe ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION // There are some type definition missing on ExtendedFirebaseInstance and so used original auth function from firebase
+    )
     .then(() => {
-      dispatch({ type: "SIGN_IN" })
-      console.log("Sign in succesful!")
-      setSubmitting(false)
+      dispatch({ type: "REMEMBER_ME", payload: rememberMe })
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, pw)
+        .then(() => {
+          dispatch({ type: "SIGN_IN" })
+          console.log("Sign in succesful!")
+          setSubmitting(false)
+        })
+        .catch((error: Error) => {
+          dispatch({ type: "SIGN_IN_ERROR", payload: error })
+          console.log(error)
+          setSubmitting(false)
+        })
     })
     .catch((error: Error) => {
-      dispatch({ type: "SIGN_IN_ERROR", payload: error })
+      dispatch({ type: "REMEMBER_ME_ERROR", payload: error })
       console.log(error)
       setSubmitting(false)
     })

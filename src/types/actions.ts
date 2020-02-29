@@ -1,3 +1,4 @@
+import firebase from "firebase/app"
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
 
@@ -10,6 +11,7 @@ export type ThunkActionCustom<ReturnType> = ThunkAction<
   AppState,
   {
     getFirebase: typeof getFirebase
+    // getFirebase: (() => typeof firebase) & typeof getFirebase
     getFirestore: () => ExtendedFirestoreInstance
   },
   AppActions
@@ -64,6 +66,18 @@ export interface SignInError {
   payload: Error
 }
 
+export const REMEMBER_ME = "REMEMBER_ME"
+export interface RememberMe {
+  type: typeof REMEMBER_ME
+  payload: boolean
+}
+
+export const REMEMBER_ME_ERROR = "REMEMBER_ME_ERROR"
+export interface RememberMeError {
+  type: typeof REMEMBER_ME_ERROR
+  payload: Error
+}
+
 export const SIGN_OUT = "SIGN_OUT"
 export interface SignOut {
   type: typeof SIGN_OUT
@@ -82,6 +96,8 @@ export type AuthActionTypes =
   | MemberProfileCreatedError
   | SignIn
   | SignInError
+  | RememberMe
+  | RememberMeError
   | SignOut
   | SignOutError
 
