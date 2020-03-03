@@ -17,14 +17,16 @@ import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
 import { DatePicker } from "@material-ui/pickers"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
-import React, { FC } from "react"
+import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useHistory, useLocation } from "react-router-dom"
 import * as yup from "yup"
 
 import Logo from "../../images/Logo.svg"
 import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
 import { AppState } from "../../store/reducers/rootReducer"
 import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
+import { AlertDialog } from "../Level1/Dialogs/AlertDialog"
 import { ResetPasswordDialog } from "../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
@@ -82,12 +84,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IValues {
   email: string
-  pw: string
+  password: string
   name: string
   dob: Date | null
   rememberMe: boolean
   agreeTAndC: boolean
   page: "signIn" | "signUp" | "resetPassword"
+  alertResetPassword: boolean
+  alertSignUp: boolean
 }
 
 const MyTextField: FC<FieldAttributes<{}> &
@@ -173,7 +177,7 @@ const validationSchema = yup.object<Partial<IValues>>({
     .string()
     .email("Invalid email")
     .required("Email is required"),
-  pw: yup.string().when("page", {
+  password: yup.string().when("page", {
     is: page => page === "signIn" || page === "signUp",
     then: yup
       .string()
@@ -220,37 +224,61 @@ export default function SignInUpPage(props: Props) {
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
     state => state.auth
   )
+  const location = useLocation<{ from: string }>()
+  const history = useHistory()
+
   const initialValues: IValues = {
     email: "",
-    pw: "",
+    password: "",
     name: "",
     dob: null,
     rememberMe: false,
     agreeTAndC: false,
     page: "signIn",
+    alertResetPassword: false,
+    alertSignUp: false,
   }
 
   const onSubmit = (
     values: IValues,
-    { setSubmitting }: FormikHelpers<IValues>
+    { setSubmitting, setFieldValue }: FormikHelpers<IValues>
   ) => {
-    const { email, pw, name, dob, rememberMe, agreeTAndC, page } = values
+    const { email, password, name, dob, rememberMe, agreeTAndC, page } = values
+
+    const openAlertResetPassword = () =>
+      setFieldValue("alertResetPassword", true)
+    const openAlertSignUp = () => setFieldValue("alertSignUp", true)
+
+    const redirectOnSignIn = () => {
+      const { from } = location.state || { from: "/" }
+      history.push(from)
+      console.log(history)
+    }
 
     switch (page) {
       case "signIn":
         console.log("Remember me: " + values.rememberMe)
-        dispatch(signIn({ email, pw, rememberMe, setSubmitting }))
+        dispatch(
+          signIn({
+            email,
+            password,
+            rememberMe,
+            setSubmitting,
+            redirectOnSignIn,
+          })
+        )
         break
 
       case "signUp":
         dispatch(
           signUp({
             email,
-            pw,
+            password,
             name,
             dob,
             agreeTAndC,
             setSubmitting,
+            openAlert: openAlertSignUp,
           })
         )
         break
@@ -258,162 +286,193 @@ export default function SignInUpPage(props: Props) {
       case "resetPassword":
         // TODO: password reset link
         console.log("Send password reset link")
-        dispatch(resetPassword({ email, setSubmitting }))
+        dispatch(
+          resetPassword({
+            email,
+            setSubmitting,
+            openAlert: openAlertResetPassword,
+          })
+        )
         break
     }
   }
 
   return (
-    <Formik<IValues>
-      validateOnChange
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ values, errors, isSubmitting, setFieldValue }) => (
-        <Form className={classes.root}>
-          <img src={Logo} className={classes.logo} alt="GVC Logo" />
-          <div className={classes.grid}>
-            <ContainerMain>
-              <Grid container spacing={2} alignItems="center" justify="center">
-                <Grid item xs={12}>
-                  <MyTextField
-                    label="Email Address"
-                    placeholder="johnsmith@gmail.com"
-                    name="email"
-                    icon={<Email />}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  {values.page !== "resetPassword" && (
+    <Fragment>
+      <Formik<IValues>
+        validateOnChange
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ values, errors, isSubmitting, setFieldValue }) => (
+          <Form className={classes.root}>
+            <img src={Logo} className={classes.logo} alt="GVC Logo" />
+            <div className={classes.grid}>
+              <ContainerMain>
+                <Grid
+                  container
+                  spacing={2}
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Grid item xs={12}>
                     <MyTextField
-                      label="Password"
-                      placeholder="Password"
-                      name="pw"
-                      type="password"
-                      autoComplete="current-password"
-                      icon={<Lock />}
+                      label="Email Address"
+                      placeholder="johnsmith@gmail.com"
+                      name="email"
+                      icon={<Email />}
                     />
-                  )}
-                </Grid>
-
-                {values.page === "signUp" && (
-                  <>
-                    <Grid item xs={12}>
-                      <MyTextField
-                        label="Name"
-                        placeholder="김철수/John Smith"
-                        name="name"
-                        icon={<Person />}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <MyDatePicker
-                        label="Date of Birth"
-                        placeholder="01/01/2000"
-                        name="dob"
-                        icon={<CalendarToday />}
-                      />
-                    </Grid>
-                  </>
-                )}
-                <Grid item xs>
-                  {values.page === "signIn" && (
-                    <MyCheckBox name="rememberMe" label="Remember me" />
-                  )}
-                  {values.page === "signUp" && (
-                    <MyCheckBox name="agreeTAndC" label="I consent to" />
-                  )}
-                </Grid>
-                <Grid item>
-                  {values.page === "signIn" && (
-                    <Link
-                      onClick={() => setFieldValue("page", "resetPassword")}
-                      display="block"
-                      align="center"
-                      variant="caption"
-                      color="inherit"
-                    >
-                      Forgot Password?
-                    </Link>
-                  )}
-                  {values.page === "signUp" && <TermsAndConditionsDialog />}
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl
-                    required
-                    error={
-                      values.page === "signIn"
-                        ? !!fbFeedback.signInError
-                        : values.page === "signUp"
-                        ? !!fbFeedback.signUpError
-                        : !!fbFeedback.resetPasswordError
-                    }
-                    component="fieldset"
-                    fullWidth
-                  >
-                    <div className={classes.buttonWrapper}>
-                      <Button
-                        className={classes.signInUpButton}
-                        variant="contained"
-                        fullWidth
-                        disabled={isSubmitting}
-                        type="submit"
-                      >
-                        <Typography color="textPrimary">
-                          {values.page === "signIn" && "Sign in"}
-                          {values.page === "signUp" && "Sign up"}
-                          {values.page === "resetPassword" &&
-                            "Email me reset password link"}
-                        </Typography>
-                      </Button>
-                      {isSubmitting && (
-                        <CircularProgress
-                          size={48}
-                          className={classes.progress}
-                        />
-                      )}
-                    </div>
-                    <FormHelperText>
-                      {values.page === "signIn" &&
-                        fbFeedback.signInError?.message}
-                      {values.page === "signUp" &&
-                        fbFeedback.signUpError?.message}
-                      {values.page === "resetPassword" &&
-                      fbFeedback.resetPasswordError
-                        ? fbFeedback.resetPasswordError?.message
-                        : fbFeedback.resetPasswordSuccess}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                {values.page === "resetPassword" && (
-                  <Grid item xs>
-                    <Link
-                      onClick={() => setFieldValue("page", "signIn")}
-                      display="block"
-                      align="center"
-                      variant="caption"
-                      color="inherit"
-                    >
-                      Return to sign in page?
-                    </Link>
                   </Grid>
-                )}
-              </Grid>
-            </ContainerMain>
-          </div>
-          <AppBar position="sticky" className={classes.footer}>
-            <ChangeSignInUp
-              page={values.page}
-              onClick={() => {
-                values.page !== "signUp"
-                  ? setFieldValue("page", "signUp")
-                  : setFieldValue("page", "signIn")
+                  <Grid item xs={12}>
+                    {values.page !== "resetPassword" && (
+                      <MyTextField
+                        label="Password"
+                        placeholder="Password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        icon={<Lock />}
+                      />
+                    )}
+                  </Grid>
+
+                  {values.page === "signUp" && (
+                    <>
+                      <Grid item xs={12}>
+                        <MyTextField
+                          label="Name"
+                          placeholder="김철수/John Smith"
+                          name="name"
+                          icon={<Person />}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <MyDatePicker
+                          label="Date of Birth"
+                          placeholder="01/01/2000"
+                          name="dob"
+                          icon={<CalendarToday />}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  <Grid item xs>
+                    {values.page === "signIn" && (
+                      <MyCheckBox name="rememberMe" label="Remember me" />
+                    )}
+                    {values.page === "signUp" && (
+                      <MyCheckBox name="agreeTAndC" label="I consent to" />
+                    )}
+                  </Grid>
+                  <Grid item>
+                    {values.page === "signIn" && (
+                      <Link
+                        onClick={() => setFieldValue("page", "resetPassword")}
+                        display="block"
+                        align="center"
+                        variant="caption"
+                        color="inherit"
+                      >
+                        Forgot Password?
+                      </Link>
+                    )}
+                    {values.page === "signUp" && <TermsAndConditionsDialog />}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl
+                      required
+                      error={
+                        values.page === "signIn"
+                          ? !!fbFeedback.signInError
+                          : values.page === "signUp"
+                          ? !!fbFeedback.signUpError
+                          : !!fbFeedback.resetPasswordError
+                      }
+                      component="fieldset"
+                      fullWidth
+                    >
+                      <div className={classes.buttonWrapper}>
+                        <Button
+                          className={classes.signInUpButton}
+                          variant="contained"
+                          fullWidth
+                          disabled={isSubmitting}
+                          type="submit"
+                        >
+                          <Typography color="textPrimary">
+                            {values.page === "signIn" && "Sign in"}
+                            {values.page === "signUp" && "Sign up"}
+                            {values.page === "resetPassword" &&
+                              "Email me reset password link"}
+                          </Typography>
+                        </Button>
+                        {isSubmitting && (
+                          <CircularProgress
+                            size={48}
+                            className={classes.progress}
+                          />
+                        )}
+                      </div>
+                      <FormHelperText>
+                        {values.page === "signIn" &&
+                          fbFeedback.signInError?.message}
+                        {values.page === "signUp" &&
+                          fbFeedback.signUpError?.message}
+                        {values.page === "resetPassword" &&
+                          (fbFeedback.resetPasswordError
+                            ? fbFeedback.resetPasswordError?.message
+                            : fbFeedback.resetPasswordSuccess)}
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  {values.page === "resetPassword" && (
+                    <Grid item xs>
+                      <Link
+                        onClick={() => setFieldValue("page", "signIn")}
+                        display="block"
+                        align="center"
+                        variant="caption"
+                        color="inherit"
+                      >
+                        Return to sign in page?
+                      </Link>
+                    </Grid>
+                  )}
+                </Grid>
+              </ContainerMain>
+            </div>
+            <AlertDialog
+              title="Password reset link sent!"
+              content="Password reset link has been sent to your email. Please check your email to reset your password, and then come back to sign in."
+              open={values.alertResetPassword}
+              handleClose={() => {
+                setFieldValue("alertResetPassword", false)
+                setFieldValue("page", "signIn")
               }}
             />
-          </AppBar>
-        </Form>
-      )}
-    </Formik>
+            <AlertDialog
+              title="Sign up successful!"
+              content="Plase now sign in"
+              open={values.alertSignUp}
+              handleClose={() => {
+                setFieldValue("alertSignUp", false)
+                setFieldValue("page", "signIn")
+              }}
+            />
+            <AppBar position="sticky" className={classes.footer}>
+              <ChangeSignInUp
+                page={values.page}
+                onClick={() => {
+                  values.page !== "signUp"
+                    ? setFieldValue("page", "signUp")
+                    : setFieldValue("page", "signIn")
+                }}
+              />
+            </AppBar>
+          </Form>
+        )}
+      </Formik>
+    </Fragment>
   )
 }

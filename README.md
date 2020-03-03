@@ -1,6 +1,9 @@
 ## TODO LIST
 
 - [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
+- [x] Implement rerouting for signin/up &larr; (See Issue 1.)
+- [x] Implement progress animation
+- [x] Implement reset password
 - [x] Make the yup input object, type safe with IValues
 - [x] Implement Signin/up error message
 - [x] Implement Remember me
@@ -8,6 +11,16 @@
 - [x] Implement custom components to be used with Formik ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))
 - [x] Implement validation using Yup ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))
 - [x] Join Auth and Firestore profile ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))
+
+## Issues
+
+- 1. Rerouting after signin currently has a problem. After success, in the promise, the redux state for auth is not yet updated and therefore made a temporary fix by waiting 1 millisecond. See the 'signIn' function in 'authActions.ts'
+
+## Questions
+
+- [ ] How should we structure our database? In particular, if we only have members details have one source of truth on "members" collection, then users like 목사님 may end up doing 300+ reads every session. This could be dealt with: caching/having multiple source of truth synchronised by firefunctions/summary document
+- [ ] There is a lag between firebase auth update and redux-firebase state
+- [ ] How should we sign people up?
 
 ## Notes
 

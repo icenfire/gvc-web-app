@@ -1,20 +1,17 @@
 import { auth } from "../../firebase"
-import { IFBError, ISignIn, ISignUp } from "../../types"
+import { IFBError, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
-
-interface ISetSubmitting {
-  setSubmitting: (isSubmitting: boolean) => void
-}
 
 // Sign Up Member
 export const signUp = ({
   email,
-  pw,
+  password,
   name,
   dob,
   agreeTAndC,
   setSubmitting,
-}: ISignUp & ISetSubmitting): ThunkActionCustom<void> => (
+  openAlert: openAlertSignUp,
+}: ISignUp): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
@@ -24,33 +21,40 @@ export const signUp = ({
   const firebase = getFirebase()
 
   firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, pw)
-    .then(value => {
-      dispatch({ type: "SIGN_UP" })
-      console.log("Sign up succesful!")
+    .createUser(
+      { email, password },
+      { email, username: email, name, dob, cell: "", positions: [], agreeTAndC }
+    )
 
-      // Create Member Profile
-      firestore
-        .collection("members")
-        .doc(value.user?.uid)
-        .set({
-          name,
-          dob,
-          cell: "",
-          positions: [],
-          agreeTAndC,
-        })
-        .then(() => {
-          dispatch({ type: "MEMBER_PROFILE_CREATED" })
-          setSubmitting(false)
-        })
-        .catch((error: IFBError) => {
-          dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
-          console.log(error)
-          setSubmitting(false)
-        })
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(value => {
+    //     dispatch({ type: "SIGN_UP" })
+    //     console.log("Sign up succesful!")
+
+    //     // Create Member Profile
+    //     firestore
+    //       .collection("members")
+    //       .doc(value.user?.uid)
+    //       .set({
+    //         name,
+    //         dob,
+    //         cell: "",
+    //         positions: [],
+    //         agreeTAndC,
+    //       })
+    .then(() => {
+      dispatch({ type: "MEMBER_PROFILE_CREATED" })
+      openAlertSignUp()
+      setSubmitting(false)
     })
+    // .catch((error: IFBError) => {
+    //   dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
+    //   console.log(error)
+    //   setSubmitting(false)
+    // })
+    // })
     .catch((error: IFBError) => {
       dispatch({ type: "SIGN_UP_ERROR", payload: error })
       console.log(error)
@@ -61,17 +65,22 @@ export const signUp = ({
 // Sign In Member
 export const signIn = ({
   email,
-  pw,
+  password,
   rememberMe,
   setSubmitting,
-}: ISignIn & ISetSubmitting): ThunkActionCustom<void> => (
+  redirectOnSignIn,
+}: ISignIn): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
 ) => {
+  console.log("Before")
+  console.log(!!getState().firebase.auth.uid)
   setSubmitting(true)
   console.log("Remember me: ", rememberMe)
+
   const firebase = getFirebase()
+
   firebase
     .auth()
     .setPersistence(
@@ -80,17 +89,22 @@ export const signIn = ({
     .then(() => {
       dispatch({ type: "REMEMBER_ME", payload: rememberMe })
       firebase
-        .auth()
-        .signInWithEmailAndPassword(email, pw)
-        .then(() => {
+        .login({ email, password })
+        .then(userCredentials => {
           dispatch({ type: "SIGN_IN" })
           console.log("Sign in succesful!")
-          setSubmitting(false)
+
+          // TODO: A temporary fix
+          setTimeout(() => {
+            redirectOnSignIn()
+            setSubmitting(false)
+          }, 1)
         })
         .catch((error: IFBError) => {
           dispatch({ type: "SIGN_IN_ERROR", payload: error })
           console.log(error)
           setSubmitting(false)
+          console.log("autherror", getState().firebase.authError)
         })
     })
     .catch((error: IFBError) => {
@@ -104,7 +118,8 @@ export const signIn = ({
 export const resetPassword = ({
   email,
   setSubmitting,
-}: { email: string } & ISetSubmitting): ThunkActionCustom<void> => (
+  openAlert: openAlertResetPassword,
+}: IResetPassword): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
@@ -112,11 +127,11 @@ export const resetPassword = ({
   setSubmitting(true)
   const firebase = getFirebase()
   firebase
-    .auth()
-    .sendPasswordResetEmail(email)
+    .resetPassword(email)
     .then(() => {
       console.log("Password reset link sent!")
       dispatch({ type: "RESET_PASSWORD" })
+      openAlertResetPassword()
       setSubmitting(false)
     })
     .catch((error: IFBError) => {
@@ -135,8 +150,7 @@ export const signOut = (): ThunkActionCustom<void> => (
   const firebase = getFirebase()
 
   firebase
-    .auth()
-    .signOut()
+    .logout()
     .then(() => {
       dispatch({ type: "SIGN_OUT" })
     })
