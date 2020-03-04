@@ -2,7 +2,7 @@ import { CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
-import { BrowserRouter, Link, Route } from "react-router-dom"
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       background: theme.palette.background.default,
-      height: "100%",
+      // height: "100%",
       padding: 0,
       margin: 0,
     },
@@ -31,22 +31,34 @@ export default function App() {
     <div className={classes.root}>
       <BrowserRouter>
         <CssBaseline />
-        <ul>
-          <li>
-            <Link to="/public">Public Page</Link>
-          </li>
-          <li>
-            <Link to="/protected">Protected Page</Link>
-          </li>
-        </ul>
-        <Route path="/public" component={Playground} />
-        <Route path="/signinup" component={SignInUpPageStatic} />
-        <PrivateRoute
-          path="/protected"
-          component={LeaderFormPage}
-          redirectIfAuthenticatedIs={false}
-          redirectPath="/signinup"
-        />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={() => (
+              <ul>
+                <li>
+                  <Link to="/public">Public Page</Link>
+                </li>
+                <li>
+                  <Link to="/private">Private Page</Link>
+                </li>
+              </ul>
+            )}
+          />
+          <Route path="/public" component={Playground} />
+          <Route path="/signinup" component={SignInUpPageStatic} />
+          <PrivateRoute
+            path="/private"
+            component={LeaderFormPage}
+            redirectPath="/signinup"
+          />
+          <PrivateRoute
+            path="/myaccount"
+            component={() => <div>My Account Page</div>}
+            redirectPath="/signinup"
+          />
+        </Switch>
       </BrowserRouter>
     </div>
   )

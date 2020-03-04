@@ -92,59 +92,61 @@ export const Playground: FC = () => {
   // ]
 
   return (
-    <ContainerMain>
+    <Fragment>
       <AppBarMain />
-      {/* <Toolbar /> */}
-      <Typography>Notices in scrollable Grid List</Typography>
-      <Container className={classes.container}>
-        <NoticesGridList notices={noticesArr} />
-      </Container>
+      <ContainerMain>
+        {/* <Toolbar /> */}
+        <Typography>Notices in scrollable Grid List</Typography>
+        <Container className={classes.container}>
+          <NoticesGridList notices={noticesArr} />
+        </Container>
 
-      <Typography>Notices in Swipeable List View</Typography>
-      <Container className={classes.container}>
-        <NoticesSwipeable notices={noticesArr} />
-      </Container>
+        <Typography>Notices in Swipeable List View</Typography>
+        <Container className={classes.container}>
+          <NoticesSwipeable notices={noticesArr} />
+        </Container>
 
-      <Typography>Notice creator</Typography>
-      <Container className={classes.container}>
-        <NoticeCreator />
-      </Container>
+        <Typography>Notice creator</Typography>
+        <Container className={classes.container}>
+          <NoticeCreator />
+        </Container>
 
-      <Typography>Dates</Typography>
-      <Container className={classes.container}>
-        <DatesList dates={dates} />
-      </Container>
+        <Typography>Dates</Typography>
+        <Container className={classes.container}>
+          <DatesList dates={dates} />
+        </Container>
 
-      {/* <Typography>Members Edit Page</Typography>
+        {/* <Typography>Members Edit Page</Typography>
       <Container className={classes.container}>
         <MembersEditList members={members} />
       </Container> */}
-      <Typography>Members Edit Page With Grid</Typography>
-      <Container className={classes.container}>
-        {/* <MembersList members={members} /> */}
-        <MembersFilter members={membersArr} />
-      </Container>
+        <Typography>Members Edit Page With Grid</Typography>
+        <Container className={classes.container}>
+          {/* <MembersList members={members} /> */}
+          <MembersFilter members={membersArr} />
+        </Container>
 
-      <Typography>Korean to Korean initial</Typography>
-      <Container className={classes.container}>
-        <GetNameInitialLetter />
-      </Container>
+        <Typography>Korean to Korean initial</Typography>
+        <Container className={classes.container}>
+          <GetNameInitialLetter />
+        </Container>
 
-      <Typography>Prayers</Typography>
-      <Container className={classes.container}>
-        {/* <PrayerPaper /> */}
-        {/* <PrayersList membersDic={membersDic} prayers={prayersArr} /> */}
-        <PrayersFilter membersDic={membersDic} prayers={prayersArr} />
-      </Container>
+        <Typography>Prayers</Typography>
+        <Container className={classes.container}>
+          {/* <PrayerPaper /> */}
+          {/* <PrayersList membersDic={membersDic} prayers={prayersArr} /> */}
+          <PrayersFilter membersDic={membersDic} prayers={prayersArr} />
+        </Container>
 
-      <Typography>Profile Edit Dialog</Typography>
-      <Container className={classes.container}>
-        <ProfileEditDialog>
-          <IconButton className={classes.IconButtonEditMember}>
-            <PersonIcon />
-          </IconButton>
-        </ProfileEditDialog>
-      </Container>
-    </ContainerMain>
+        <Typography>Profile Edit Dialog</Typography>
+        <Container className={classes.container}>
+          <ProfileEditDialog>
+            <IconButton className={classes.IconButtonEditMember}>
+              <PersonIcon />
+            </IconButton>
+          </ProfileEditDialog>
+        </Container>
+      </ContainerMain>
+    </Fragment>
   )
 }

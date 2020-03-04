@@ -453,7 +453,7 @@ export default function SignInUpPage(props: Props) {
             />
             <AlertDialog
               title="Sign up successful!"
-              content="Plase now sign in"
+              content="Please now sign in"
               open={values.alertSignUp}
               handleClose={() => {
                 setFieldValue("alertSignUp", false)

@@ -3,14 +3,16 @@ import { useSelector } from "react-redux"
 import { Redirect, Route, RouteProps, useLocation } from "react-router"
 
 import { AppState } from "../store/reducers/rootReducer"
+import { Paths } from "./../types"
 
 export interface IPPrivateRoute extends RouteProps {
-  redirectIfAuthenticatedIs: boolean
+  path: Paths
   redirectPath: string
+  redirectIfNotAuthenticated?: boolean
 }
 
 export const PrivateRoute: FC<IPPrivateRoute> = ({
-  redirectIfAuthenticatedIs,
+  redirectIfNotAuthenticated: redirectIfAuthenticatedIs,
   redirectPath,
   ...rest
 }) => {
@@ -20,6 +22,8 @@ export const PrivateRoute: FC<IPPrivateRoute> = ({
 
   const requestedPath = useLocation()
   console.log("redirectiffalse", redirectIfAuthenticatedIs === isAuthenticated)
+
+  if (redirectIfAuthenticatedIs === undefined) redirectIfAuthenticatedIs = false
 
   return redirectIfAuthenticatedIs === isAuthenticated ? (
     <Route

@@ -63,7 +63,18 @@ export function PrayersList({ membersDic, prayers }: Props) {
       <List className={classes.root} subheader={<li />}>
         {prayers ? (
           prayers
+            .filter(p => !!membersDic[p.memberId])
             .sort((p1: Props["prayers"][0], p2: Props["prayers"][0]) => {
+              // console.log(
+              //   "prayers",
+              //   prayers,
+              //   "membersDic",
+              //   membersDic,
+              //   "p1",
+              //   p1,
+              //   "p2",
+              //   p2
+              // )
               return membersDic[p1.memberId].name > membersDic[p2.memberId].name
                 ? 1
                 : -1

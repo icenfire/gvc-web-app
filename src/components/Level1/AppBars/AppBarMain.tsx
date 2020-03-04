@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       background: theme.palette.secondary.dark,
       color: theme.palette.secondary.light,
+      position: "sticky",
     },
     title: {
       flexGrow: 1,

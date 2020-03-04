@@ -41,3 +41,13 @@ export interface IFBError {
   code: string
   message: string
 }
+
+// ---Pages---
+export type Paths =
+  | "/"
+  | "/myaccount"
+  | "/prayers"
+  | "/members"
+  | "/calendar"
+  | "/public"
+  | "/private"
