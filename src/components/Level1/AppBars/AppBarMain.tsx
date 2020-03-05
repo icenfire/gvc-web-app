@@ -4,8 +4,8 @@ import InputBase from "@material-ui/core/InputBase"
 import { createStyles, fade, makeStyles, Theme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
+import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 import SearchIcon from "@material-ui/icons/Search"
 import React, { Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -69,15 +69,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const AppBarMain: React.FC = () => {
+export interface IPAppBarMain {
+  onClickEdit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
+export const AppBarMain: React.FC<IPAppBarMain> = ({ onClickEdit }) => {
   const classes = useStyles()
 
   const [state, setState] = React.useState({
     drawerOpen: false,
   })
 
-  const search = useSelector<AppState, string>(state => state.appBar.search)
   const dispatch = useDispatch()
+  const search = useSelector<AppState, string>(state => state.appBar.search)
 
   const setSearch = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -114,8 +118,8 @@ export const AppBarMain: React.FC = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <IconButton aria-label="More">
-            <MoreVertIcon />
+          <IconButton aria-label="Edit" onClick={onClickEdit}>
+            <EditIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

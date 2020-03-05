@@ -93,7 +93,7 @@ export const Playground: FC = () => {
 
   return (
     <Fragment>
-      <AppBarMain />
+      <AppBarMain onClickEdit={(event: any) => {}} />
       <ContainerMain>
         {/* <Toolbar /> */}
         <Typography>Notices in scrollable Grid List</Typography>

@@ -24,6 +24,9 @@ export const MembersPage: FC<IPMembersPage> = props => {
   })
 
   const search = useSelector<AppState, string>(state => state.appBar.search)
+  const setEdit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setValues({ ...values, editMode: !values.editMode })
+  }
 
   // Get notices from Firestore
   useFirestoreConnect([
@@ -37,10 +40,14 @@ export const MembersPage: FC<IPMembersPage> = props => {
 
   return (
     <Fragment>
-      <AppBarMain />
+      <AppBarMain onClickEdit={setEdit} />
       <ContainerMain>
         <Notices notices={noticesArr} />
-        <MembersList members={membersArr} editMode={false} filter={search} />
+        <MembersList
+          members={membersArr}
+          editMode={values.editMode}
+          filter={search}
+        />
       </ContainerMain>
     </Fragment>
   )
