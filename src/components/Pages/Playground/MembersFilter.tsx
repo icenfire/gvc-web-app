@@ -7,7 +7,9 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
+import { useSelector } from "react-redux"
 
+import { AppState } from "../../../store/reducers/rootReducer"
 import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
 
 // import { Props as IPMemberPaper } from "./../../Level1/Papers/MemberPaper"
@@ -39,6 +41,7 @@ export function MembersFilter({ members }: Props) {
   const [editMode, setEditMode] = React.useState<State["editMode"]>(false)
   const [filter, setFilter] = React.useState<State["filter"]>("all")
   const [cell, setCell] = React.useState<State["cell"]>("")
+  const search = useSelector<AppState, string>(state => state.appBar.search)
 
   // const inputLabel = React.useRef<HTMLLabelElement>(null)
   // const [labelWidth, setLabelWidth] = React.useState(0)
@@ -115,7 +118,7 @@ export function MembersFilter({ members }: Props) {
           <FormHelperText>Choose a date</FormHelperText>
         </FormControl>
       )}
-      <MembersList members={filteredMembers} editMode={editMode} />
+      <MembersList members={filteredMembers} editMode={editMode} filter={search}/>
     </Fragment>
   )
 }

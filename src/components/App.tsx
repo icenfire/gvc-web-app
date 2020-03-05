@@ -6,12 +6,13 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
-import LeaderDatePage from "./Pages/LeaderDatePage"
 import { LeaderFormPage } from "./Pages/LeaderFormPage"
+import { MembersPage } from "./Pages/MembersPage"
 import { Playground } from "./Pages/Playground"
 import SignInUpPage from "./Pages/SignInUpPage"
 import SignInUpPageStatic from "./Pages/SignInUpPageStatic"
 
+// import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -50,12 +51,27 @@ export default function App() {
           <Route path="/signinup" component={SignInUpPageStatic} />
           <PrivateRoute
             path="/private"
-            component={LeaderFormPage}
+            component={MembersPage}
             redirectPath="/signinup"
           />
           <PrivateRoute
             path="/myaccount"
             component={() => <div>My Account Page</div>}
+            redirectPath="/signinup"
+          />
+          <PrivateRoute
+            path="/members"
+            component={MembersPage}
+            redirectPath="/signinup"
+          />
+          <PrivateRoute
+            path="/prayers"
+            component={() => <div>Prayers Page</div>}
+            redirectPath="/signinup"
+          />
+          <PrivateRoute
+            path="/calendar"
+            component={() => <div>Calendar Page</div>}
             redirectPath="/signinup"
           />
         </Switch>

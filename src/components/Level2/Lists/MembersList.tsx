@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       overflow: "auto",
-      maxHeight: 200,
+      // maxHeight: 200,
     },
     IconButtonAddMember: {
       background: theme.palette.common.white,
@@ -65,10 +65,12 @@ export interface Props {
     positions: string[]
   })[]
   editMode: boolean
+  filter: string
 }
 
-export function MembersList({ members, editMode }: Props) {
+export function MembersList({ members, editMode, filter }: Props) {
   const classes = useStyles()
+
   return (
     <Fragment>
       {editMode && (
@@ -94,10 +96,17 @@ export function MembersList({ members, editMode }: Props) {
           </ListItem>
         )} */}
         {members ? (
-          members
-            .sort((m1: Props["members"][0], m2: Props["members"][0]) => {
-              return m1.name > m2.name ? 1 : -1
-            })
+          [...members]
+            .filter((member: Props["members"][0]) =>
+              member.name
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            )
+            .sort(
+              (member1: Props["members"][0], member2: Props["members"][0]) => {
+                return member1.name > member2.name ? 1 : -1
+              }
+            )
             .map((member: Props["members"][0]) => {
               const { id, name, dob, positions } = member
               return (

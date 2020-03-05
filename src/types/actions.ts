@@ -113,5 +113,14 @@ export type AuthActionTypes =
   | SignOut
   | SignOutError
 
+// AppBar Actions
+export const SEARCH_ON_CHANGE = "SEARCH_ON_CHANGE"
+export interface SearchOnChange {
+  type: typeof SEARCH_ON_CHANGE
+  payload: string
+}
+
+export type AppBarActionTypes = SearchOnChange
+
 // All Action types
-export type AppActions = NoticeActionTypes | AuthActionTypes
+export type AppActions = NoticeActionTypes | AuthActionTypes | AppBarActionTypes

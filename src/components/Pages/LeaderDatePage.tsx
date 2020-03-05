@@ -1,13 +1,23 @@
-import * as React from "react"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import React, { FC, Fragment, useState } from "react"
 
-import AppBarLeaderDate from "../Level1/AppBars/AppBarLeaderDate"
+import { AppBarMain } from "../Level1/AppBars/AppBarMain"
+import { ContainerMain } from "../Level1/Containers/ContainerMain"
 
-export default class LoginPage extends React.PureComponent {
-  public render() {
-    return (
-      <React.Fragment>
-        <AppBarLeaderDate />
-      </React.Fragment>
-    )
-  }
+const useStyles = makeStyles((theme: Theme) => createStyles({}))
+
+export interface IPLeaderDatePage {}
+
+export interface ISLeaderDatePage {}
+
+export const LeaderDatePage: FC<IPLeaderDatePage> = props => {
+  const classes = useStyles()
+  const [values, setValues] = useState<ISLeaderDatePage>({})
+
+  return (
+    <Fragment>
+      {/* <AppBarMain /> */}
+      <ContainerMain></ContainerMain>
+    </Fragment>
+  )
 }

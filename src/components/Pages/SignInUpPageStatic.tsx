@@ -39,8 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       background: "#616161",
-
-      minHeight: "100%",
+      minHeight: "100vh",
       padding: 0,
       display: "flex",
       flexDirection: "column",

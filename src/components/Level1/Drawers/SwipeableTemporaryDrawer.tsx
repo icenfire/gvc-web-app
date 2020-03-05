@@ -51,7 +51,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       dividerBelow: true,
     },
     {
-      name: "Members' Profiles",
+      name: "Members",
       icon: PeopleIcon,
       page: "/members",
     },

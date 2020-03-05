@@ -1,7 +1,7 @@
 ## TODO LIST
 
-- [ ] Make dates page & members page at the side bar
 - [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
+- [x] Make Account, Members, Prayers, Calendar page at the side bar
 - [x] Implement rerouting for signin/up &larr; (See Issue 1.)
 - [x] Implement progress animation
 - [x] Implement reset password
