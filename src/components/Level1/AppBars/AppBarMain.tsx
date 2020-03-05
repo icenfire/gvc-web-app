@@ -70,10 +70,11 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPAppBarMain {
+  title: string
   onClickEdit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-export const AppBarMain: React.FC<IPAppBarMain> = ({ onClickEdit }) => {
+export const AppBarMain: React.FC<IPAppBarMain> = ({ title, onClickEdit }) => {
   const classes = useStyles()
 
   const [state, setState] = React.useState({
@@ -101,7 +102,7 @@ export const AppBarMain: React.FC<IPAppBarMain> = ({ onClickEdit }) => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} noWrap>
-            강민정셀
+            {title}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

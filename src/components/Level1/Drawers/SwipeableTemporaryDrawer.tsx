@@ -8,18 +8,27 @@ import { SvgIconProps } from "@material-ui/core/SvgIcon"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import PeopleIcon from "@material-ui/icons/People"
 import React, { FC, Fragment } from "react"
+import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 
+import { signOut } from "../../../store/actions/authActions"
 import { Paths } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    list: {
+    drawer: {
       width: 250,
       // width: "auto",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+    },
+    list: {
+      flex: 1,
     },
   })
 )
@@ -42,6 +51,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
 }) => {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const items: Items = [
     {
@@ -67,33 +77,42 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
     },
   ]
 
-  const sideList = () => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-    >
-      <List>
-        {items.map(item => (
-          <Fragment key={item.name}>
-            <ListItem button onClick={() => history.push(item.page)}>
-              <ListItemIcon>{<item.icon />}</ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItem>
-            {item.dividerBelow && <Divider />}
-          </Fragment>
-        ))}
-      </List>
-    </div>
-  )
-
   return (
     <SwipeableDrawer
       open={drawerOpen}
       onClose={toggleDrawer(false)}
       onOpen={toggleDrawer(true)}
     >
-      {sideList()}
+      <div
+        className={classes.drawer}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+      >
+        <List className={classes.list}>
+          {items.map(item => (
+            <Fragment key={item.name}>
+              <ListItem button onClick={() => history.push(item.page)}>
+                <ListItemIcon>{<item.icon />}</ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItem>
+              {item.dividerBelow && <Divider />}
+            </Fragment>
+          ))}
+        </List>
+        <List>
+          <ListItem
+            button
+            onClick={() => {
+              dispatch(signOut())
+            }}
+          >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Sign Out"} />
+          </ListItem>
+        </List>
+      </div>
     </SwipeableDrawer>
   )
 }

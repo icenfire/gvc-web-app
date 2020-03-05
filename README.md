@@ -1,6 +1,8 @@
 ## TODO LIST
 
 - [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
+- [x] Implemented sign out button and made appbar take title prop
+- [x] Implemented search function to filter the members list
 - [x] Make Account, Members, Prayers, Calendar page at the side bar
 - [x] Implement rerouting for signin/up &larr; (See Issue 1.)
 - [x] Implement progress animation
