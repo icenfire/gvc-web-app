@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // width: "100%",
       [theme.breakpoints.up("sm")]: {
         marginLeft: theme.spacing(1),
-        // width: "auto",
+        width: "auto",
       },
     },
     searchIcon: {
@@ -53,12 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
     inputInput: {
       padding: theme.spacing(1, 1, 1, 7),
       transition: theme.transitions.create("width"),
-      // width: "100%",
       width: 0,
+      "&:focus": {
+        width: "30vw",
+      },
       [theme.breakpoints.up("sm")]: {
+        width: "100%",
         // width: 120,
         "&:focus": {
           width: 200,
+          // width: "100%",
         },
       },
     },
