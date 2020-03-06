@@ -35,21 +35,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
-  member: { name: string; dob: any } // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
-  editMode: boolean
+export interface IMember {
+  id: string
+  name: string
+  dob: any // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
+  cell: string
+  positions: string[]
 }
 
-export const MemberPaper: React.FC<Props> = props => {
-  const {
-    member: { name, dob },
-    editMode,
-  } = props
+export interface IPMemberPaper {
+  member: IMember
+  editMode: boolean
+  onClick?: () => void
+}
+
+export const MemberPaper: React.FC<IPMemberPaper> = ({
+  member: { id, name, dob, cell, positions },
+  editMode,
+  onClick,
+}) => {
   const classes = useStyles()
 
   return (
-    <Paper className={classes.paper}>
-      {props ? (
+    <Paper className={classes.paper} onClick={onClick}>
+      {id ? (
         <Grid container alignItems="center" spacing={1}>
           {editMode && (
             <Grid item>
@@ -68,8 +77,7 @@ export const MemberPaper: React.FC<Props> = props => {
           </Grid>
           <Grid item>
             <Typography className={classes.textMember}>
-              {/* {1234} */}
-              {dob.toLocaleDateString()}
+              {dob.toDate().toLocaleDateString()}
             </Typography>
           </Grid>
         </Grid>

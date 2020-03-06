@@ -99,6 +99,17 @@ export interface SignOutError {
   payload: IFBError
 }
 
+export const EDIT_PROFILE = "EDIT_PROFILE"
+export interface EditProfile {
+  type: typeof EDIT_PROFILE
+}
+
+export const EDIT_PROFILE_ERROR = "EDIT_PROFILE_ERROR"
+export interface EditProfileError {
+  type: typeof EDIT_PROFILE_ERROR
+  payload: IFBError
+}
+
 export type AuthActionTypes =
   | SignUp
   | SignUpError
@@ -112,6 +123,8 @@ export type AuthActionTypes =
   | ResetPasswordError
   | SignOut
   | SignOutError
+  | EditProfile
+  | EditProfileError
 
 // AppBar Actions
 export const SEARCH_ON_CHANGE = "SEARCH_ON_CHANGE"

@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 
+import { IMember } from "../../Level1/Papers/MemberPaper"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 
 // import { Iprayer } from "./../../../interfaces"
@@ -41,12 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface Props {
   membersDic: {
-    [memberId: string]: {
-      cell: string
-      dob: any
-      name: string
-      positions: string[]
-    }
+    [memberId: string]: IMember
   }
   prayers: {
     prayer: string
@@ -80,14 +76,10 @@ export function PrayersList({ membersDic, prayers }: Props) {
                 : -1
             })
             .map((prayerObj: Props["prayers"][0]) => {
-              const { prayer, id, date, memberId: memberId } = prayerObj
+              const { prayer, id, date, memberId } = prayerObj
               return (
                 <ListItem className={classes.listItem} key={id}>
-                  <PrayerPaper
-                    prayer={prayer}
-                    name={membersDic[memberId].name}
-                    dob={membersDic[memberId].dob.toDate()}
-                  />
+                  <PrayerPaper prayer={prayer} member={membersDic[memberId]} />
                 </ListItem>
               )
             })

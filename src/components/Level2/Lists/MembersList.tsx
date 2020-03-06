@@ -7,8 +7,9 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import React, { Fragment } from "react"
 
+import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
-import { Props as IPMemberPaper } from "../../Level1/Papers/MemberPaper"
+import { IMember, IPMemberPaper } from "../../Level1/Papers/MemberPaper"
 import { MemberPaper } from "../../Level1/Papers/MemberPaper"
 
 // import { IMember } from "./../../../interfaces"
@@ -59,11 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface Props {
-  members: (IPMemberPaper["member"] & {
-    cell: string
-    id: string
-    positions: string[]
-  })[]
+  members: IMember[]
   editMode: boolean
   filter: string
 }
@@ -82,39 +79,22 @@ export function MembersList({ members, editMode, filter }: Props) {
       )}
 
       <List className={classes.root} subheader={<li />}>
-        {/* {editMode && (
-          <ListItem>
-            <ListItemAvatar>
-              <IconButton className={classes.IconButtonAddMember}>
-                <PersonAddIcon />
-              </IconButton>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Add cell member"
-              className={classes.textEdit}
-            />
-          </ListItem>
-        )} */}
         {members ? (
           [...members]
-            .filter((member: Props["members"][0]) =>
+            .filter((member: IMember) =>
               member.name
                 .toLocaleLowerCase()
                 .includes(filter.toLocaleLowerCase())
             )
-            .sort(
-              (member1: Props["members"][0], member2: Props["members"][0]) => {
-                return member1.name > member2.name ? 1 : -1
-              }
-            )
-            .map((member: Props["members"][0]) => {
-              const { id, name, dob, positions } = member
+            .sort((member1: IMember, member2: IMember) => {
+              return member1.name > member2.name ? 1 : -1
+            })
+            .map((member: IMember) => {
               return (
-                <ListItem className={classes.listItem} key={id}>
-                  <MemberPaper
-                    member={{ name, dob: dob.toDate() }}
-                    editMode={editMode}
-                  />
+                <ListItem className={classes.listItem} key={member.id}>
+                  <ProfileEditDialog member={member}>
+                    <MemberPaper member={member} editMode={editMode} />
+                  </ProfileEditDialog>
                 </ListItem>
               )
             })

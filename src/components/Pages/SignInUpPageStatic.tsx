@@ -1,21 +1,16 @@
 import AppBar from "@material-ui/core/AppBar"
 import Button from "@material-ui/core/Button"
-import Checkbox from "@material-ui/core/Checkbox"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import FormControl from "@material-ui/core/FormControl"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
 import FormHelperText from "@material-ui/core/FormHelperText"
 import Grid from "@material-ui/core/Grid"
-import InputAdornment from "@material-ui/core/InputAdornment"
 import Link from "@material-ui/core/Link"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import CalendarToday from "@material-ui/icons/CalendarToday"
 import Email from "@material-ui/icons/Email"
 import Lock from "@material-ui/icons/Lock"
 import Person from "@material-ui/icons/Person"
-import { DatePicker } from "@material-ui/pickers"
 import { Field, FieldAttributes, Form, Formik, FormikHelpers, useField, useFormikContext } from "formik"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -26,10 +21,13 @@ import Logo from "../../images/Logo.svg"
 import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
 import { AppState } from "../../store/reducers/rootReducer"
 import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
+import { FormikDatePicker } from "../Level1/DatePickers/FormikDatePicker"
 import { AlertDialog } from "../Level1/Dialogs/AlertDialog"
 import { ResetPasswordDialog } from "../Level1/Dialogs/ResetPasswordDialog"
 import { TermsAndConditionsDialog } from "../Level1/Dialogs/TermsAndConditionsDialog"
 import MyLink from "../Level1/Links/MyLink"
+import { FormikCheckBox } from "../Level1/SelectionControls/FormikCheckbox"
+import { FormikTextField } from "../Level1/TextFields/FormikTextField"
 import { ContainerMain } from "./../Level1/Containers/ContainerMain"
 
 // import Container from "@material-ui/core/Container"
@@ -93,84 +91,6 @@ interface IValues {
   alertSignUp: boolean
 }
 
-const MyTextField: FC<FieldAttributes<{}> &
-  TextFieldProps & { icon: JSX.Element }> = ({
-  label,
-  type,
-  placeholder,
-  icon,
-  ...props
-}) => {
-  const [field, meta] = useField<{}>(props)
-  const errorText = meta.error && meta.touched ? meta.error : ""
-  return (
-    <TextField
-      {...field}
-      label={label}
-      placeholder={placeholder}
-      type={type}
-      helperText={errorText}
-      error={!!errorText}
-      fullWidth
-      InputProps={{
-        // className: classes.input,
-        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-      }}
-    />
-  )
-}
-
-const MyDatePicker: FC<FieldAttributes<{}> & { label: string } & {
-  icon: JSX.Element
-}> = ({ label, placeholder, icon, ...props }) => {
-  const [field, meta] = useField<{}>(props)
-  const { setFieldValue } = useFormikContext()
-  const errorText = meta.error && meta.touched ? meta.error : ""
-
-  return (
-    <DatePicker
-      {...field}
-      label={label}
-      placeholder={placeholder}
-      helperText={errorText}
-      error={!!errorText}
-      disableFuture
-      openTo="year"
-      format="dd/MM/yyyy"
-      views={["year", "month", "date"]}
-      fullWidth
-      onChange={val => {
-        setFieldValue(field.name, val)
-      }}
-      InputProps={{
-        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-      }}
-    />
-  )
-}
-
-const MyCheckBox: FC<FieldAttributes<{}> & { label: string }> = ({
-  label,
-  placeholder,
-  ...props
-}) => {
-  const [field, meta] = useField<{}>({ ...props, type: "checkbox" })
-  const errorText = meta.error && meta.touched ? meta.error : ""
-  return (
-    <FormControl required error={!!errorText} component="fieldset">
-      <FormControlLabel
-        control={<Checkbox {...field} color="primary" />}
-        label={
-          <Typography color="primary" variant="caption">
-            {label}
-          </Typography>
-        }
-      />
-      <FormHelperText>{errorText}</FormHelperText>
-    </FormControl>
-  )
-}
-
 const validationSchema = yup.object<Partial<IValues>>({
   email: yup
     .string()
@@ -217,7 +137,7 @@ const validationSchema = yup.object<Partial<IValues>>({
 
 export interface Props {}
 
-export default function SignInUpPage(props: Props) {
+export const SignInUpPageStatic: FC = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const fbFeedback = useSelector<AppState, AppState["auth"]>(
@@ -316,7 +236,7 @@ export default function SignInUpPage(props: Props) {
                   justify="center"
                 >
                   <Grid item xs={12}>
-                    <MyTextField
+                    <FormikTextField
                       label="Email Address"
                       placeholder="johnsmith@gmail.com"
                       name="email"
@@ -325,7 +245,7 @@ export default function SignInUpPage(props: Props) {
                   </Grid>
                   <Grid item xs={12}>
                     {values.page !== "resetPassword" && (
-                      <MyTextField
+                      <FormikTextField
                         label="Password"
                         placeholder="Password"
                         name="password"
@@ -339,7 +259,7 @@ export default function SignInUpPage(props: Props) {
                   {values.page === "signUp" && (
                     <>
                       <Grid item xs={12}>
-                        <MyTextField
+                        <FormikTextField
                           label="Name"
                           placeholder="김철수/John Smith"
                           name="name"
@@ -347,7 +267,7 @@ export default function SignInUpPage(props: Props) {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <MyDatePicker
+                        <FormikDatePicker
                           label="Date of Birth"
                           placeholder="01/01/2000"
                           name="dob"
@@ -358,10 +278,10 @@ export default function SignInUpPage(props: Props) {
                   )}
                   <Grid item xs>
                     {values.page === "signIn" && (
-                      <MyCheckBox name="rememberMe" label="Remember me" />
+                      <FormikCheckBox name="rememberMe" label="Remember me" />
                     )}
                     {values.page === "signUp" && (
-                      <MyCheckBox name="agreeTAndC" label="I consent to" />
+                      <FormikCheckBox name="agreeTAndC" label="I consent to" />
                     )}
                   </Grid>
                   <Grid item>

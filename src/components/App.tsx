@@ -10,7 +10,7 @@ import { LeaderFormPage } from "./Pages/LeaderFormPage"
 import { MembersPage } from "./Pages/MembersPage"
 import { Playground } from "./Pages/Playground"
 import SignInUpPage from "./Pages/SignInUpPage"
-import SignInUpPageStatic from "./Pages/SignInUpPageStatic"
+import { SignInUpPageStatic } from "./Pages/SignInUpPageStatic"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>

@@ -8,7 +8,9 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import React, { Fragment } from "react"
 
+import { ProfileDialog } from "../Dialogs/ProfileDialog"
 import { ProfileEditDialog } from "./../Dialogs/ProfileEditDialog"
+import { IMember } from "./MemberPaper"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,14 +36,13 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPPrayerPaper {
-  name: string
+  member: IMember
   prayer: string
-  dob: Date
 }
 
 export interface ISPrayerPaper {}
 
-function PrayerPaper({ name, prayer, dob }: IPPrayerPaper) {
+function PrayerPaper({ member, prayer }: IPPrayerPaper) {
   const classes = useStyles()
   const [values, setValues] = React.useState<ISPrayerPaper>({})
 
@@ -49,22 +50,27 @@ function PrayerPaper({ name, prayer, dob }: IPPrayerPaper) {
     <Paper className={classes.paper}>
       <Grid container spacing={1} className={classes.grid}>
         <Grid item>
-          <ProfileEditDialog>
+          <ProfileEditDialog member={member}>
             <IconButton className={classes.IconButtonEditMember}>
               <PersonIcon />
             </IconButton>
           </ProfileEditDialog>
+          {/* <ProfileDialog>
+            <IconButton className={classes.IconButtonEditMember}>
+              <PersonIcon />
+            </IconButton>
+          </ProfileDialog> */}
         </Grid>
         <Grid item xs>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="secondary" variant="h5">
-                <b>{name}</b>
+                <b>{member.name}</b>
               </Typography>
             </Grid>
             <Grid item>
               <Typography color="secondary">
-                {dob.toLocaleDateString()}
+                {member.dob.toDate().toLocaleDateString()}
               </Typography>
             </Grid>
             <Grid item xs={12}>

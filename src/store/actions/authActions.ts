@@ -1,6 +1,7 @@
 import { auth } from "../../firebase"
 import { IFBError, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
+import { IMember } from "./../../components/Level1/Papers/MemberPaper"
 
 // Sign Up Member
 export const signUp = ({
@@ -157,5 +158,31 @@ export const signOut = (): ThunkActionCustom<void> => (
     .catch((error: IFBError) => {
       dispatch({ type: "SIGN_OUT_ERROR", payload: error })
       console.log(error)
+    })
+}
+
+// Edit Profile
+export const editProfile = (
+  member: IMember,
+  cleanUpAfterSave: () => void
+): ThunkActionCustom<void> => (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore()
+
+  firestore
+    .collection("members")
+    .doc(member.id)
+    .set(member)
+    .then(() => {
+      dispatch({ type: "EDIT_PROFILE" })
+      console.log("Profile Edited!")
+      cleanUpAfterSave()
+    })
+    .catch((error: IFBError) => {
+      dispatch({ type: "EDIT_PROFILE_ERROR", payload: error })
+      console.log("Profile Edit Error!", error)
     })
 }

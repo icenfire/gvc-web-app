@@ -1,6 +1,8 @@
 ## TODO LIST
 
 - [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
+- [ ] Finish styling the edit profile card
+- [x] Implement edit profile card
 - [x] Implemented sign out button and made appbar take title prop
 - [x] Implemented search function to filter the members list
 - [x] Make Account, Members, Prayers, Calendar page at the side bar

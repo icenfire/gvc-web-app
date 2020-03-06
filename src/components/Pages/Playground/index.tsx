@@ -137,15 +137,6 @@ export const Playground: FC = () => {
           {/* <PrayersList membersDic={membersDic} prayers={prayersArr} /> */}
           <PrayersFilter membersDic={membersDic} prayers={prayersArr} />
         </Container>
-
-        <Typography>Profile Edit Dialog</Typography>
-        <Container className={classes.container}>
-          <ProfileEditDialog>
-            <IconButton className={classes.IconButtonEditMember}>
-              <PersonIcon />
-            </IconButton>
-          </ProfileEditDialog>
-        </Container>
       </ContainerMain>
     </Fragment>
   )
