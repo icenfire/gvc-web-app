@@ -1,7 +1,7 @@
 ## TODO LIST
 
-- [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
-- [ ] Finish styling the edit profile card
+- [ ] Implement formik with edit profile card
+- [x] Finish styling the edit profile card
 - [x] Implement edit profile card
 - [x] Implemented sign out button and made appbar take title prop
 - [x] Implemented search function to filter the members list
@@ -9,6 +9,7 @@
 - [x] Implement rerouting for signin/up &larr; (See Issue 1.)
 - [x] Implement progress animation
 - [x] Implement reset password
+- [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
 - [x] Make the yup input object, type safe with IValues
 - [x] Implement Signin/up error message
 - [x] Implement Remember me

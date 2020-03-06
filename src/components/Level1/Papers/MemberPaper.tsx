@@ -73,10 +73,12 @@ export const MemberPaper: React.FC<IPMemberPaper> = ({
             </IconButton>
           </Grid>
           <Grid item xs>
-            <Typography className={classes.textMember}>{name}</Typography>
+            <Typography className={classes.textMember} align="left">
+              {name}
+            </Typography>
           </Grid>
           <Grid item>
-            <Typography className={classes.textMember}>
+            <Typography className={classes.textMember} align="right">
               {dob.toDate().toLocaleDateString()}
             </Typography>
           </Grid>

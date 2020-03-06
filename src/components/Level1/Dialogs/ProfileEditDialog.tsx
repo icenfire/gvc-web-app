@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button"
+import ButtonBase from "@material-ui/core/ButtonBase"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -24,52 +25,39 @@ import Image from "./../../../static/images/MinjungKang.jpg"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    buttonBaseChildren: {
+      width: "100%",
+      display: "flex",
+    },
+    buttonBaseUpload: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    dialog: {},
     imageContainer: {
       position: "relative",
-      maxHeight: "100",
-    },
-    dialog: {
-      // background: theme.palette.common.white,
     },
     edit: {
       position: "absolute",
       right: theme.spacing(1),
       top: theme.spacing(1),
     },
-    gridItem: {
-      display: "flex",
-      justifyContent: "center",
-    },
-    iconButton: {
-      margin: "auto auto",
-      // left: 0,
-      // top: 0,
-      // zIndex: 1,
-      // position: "absolute",
-      // background: theme.palette.background.default,
-      // color: theme.palette.common.white,
-      // padding: theme.spacing(1),
-      // flex: 1,
-    },
+
     text: {
       // color: theme.palette.common.black,
-    },
-    icon: {
-      // fontSize: 100,
     },
     input: {
       display: "none",
       flex: 1,
     },
-    imageOpaque: {
+    image: {
       width: "100%",
-      opacity: 0.2,
-    },
-    imageOriginal: {
-      width: "100%",
-      opacity: 1,
     },
     overlay: {
+      background: "rgba(0,0,0, 0.8)",
       position: "absolute",
       left: 0,
       top: 0,
@@ -77,14 +65,14 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       height: "100%",
       display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
-      alignContent: "center",
+      alignItems: "center",
     },
   })
 )
 
 export interface IPProfileEditDialog {
-  children: React.ReactElement<any>
   member: IMember
 }
 
@@ -127,7 +115,12 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
 
   return (
     <Fragment>
-      {React.cloneElement(props.children, { onClick: handleClickOpen })}
+      <ButtonBase
+        onClick={handleClickOpen}
+        className={classes.buttonBaseChildren}
+      >
+        {props.children}
+      </ButtonBase>
       <Dialog
         PaperProps={{ className: classes.dialog }}
         open={open}
@@ -150,7 +143,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
         </DialogTitle>
         <DialogContent>
           <Grid container justify="center" alignItems="center" spacing={1}>
-            <Grid item xs={12} className={classes.gridItem}>
+            <Grid item xs={12}>
               <Fragment>
                 {edit && (
                   <input
@@ -160,30 +153,36 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
                     type="file"
                   />
                 )}
-                <label htmlFor="icon-button-file">
-                  <div className={classes.imageContainer}>
-                    {false ? (
+                <label
+                  htmlFor="icon-button-file"
+                  className={classes.imageContainer}
+                >
+                  <ButtonBase
+                    className={classes.buttonBaseUpload}
+                    disabled={!edit}
+                    component="span"
+                  >
+                    {Image ? (
                       <img
                         src={Image}
                         alt={member.name}
-                        className={
-                          edit ? classes.imageOpaque : classes.imageOriginal
-                        }
+                        className={classes.image}
                       />
+                    ) : edit ? (
+                      <Fragment>
+                        <CloudUploadIcon />
+                        <Typography>Upload Image</Typography>
+                      </Fragment>
                     ) : (
-                      !edit && <PersonIcon className={classes.icon} />
+                      <PersonIcon />
                     )}
-                    {edit && (
+                    {edit && Image && (
                       <div className={classes.overlay}>
-                        <IconButton
-                          className={classes.iconButton}
-                          component="div"
-                        >
-                          <CloudUploadIcon className={classes.icon} />
-                        </IconButton>
+                        <CloudUploadIcon />
+                        <Typography>Upload Image</Typography>
                       </div>
                     )}
-                  </div>
+                  </ButtonBase>
                 </label>
               </Fragment>
             </Grid>
@@ -225,12 +224,24 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} className={classes.text}>
-            Cancel
-          </Button>
-          <Button onClick={handleSave(member)} className={classes.text}>
-            Save
-          </Button>
+          {edit ? (
+            <Grid container justify="space-around">
+              <Grid item>
+                <Button onClick={handleClose} className={classes.text}>
+                  CANCEL
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button onClick={handleSave(member)} className={classes.text}>
+                  SAVE
+                </Button>
+              </Grid>
+            </Grid>
+          ) : (
+            <Button onClick={handleClose} className={classes.text}>
+              RETURN
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Fragment>
