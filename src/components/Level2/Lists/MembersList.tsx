@@ -7,9 +7,10 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import React, { Fragment } from "react"
 
+import { IMember } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
-import { IMember, IPMemberPaper } from "../../Level1/Papers/MemberPaper"
+import { IPMemberPaper } from "../../Level1/Papers/MemberPaper"
 import { MemberPaper } from "../../Level1/Papers/MemberPaper"
 
 // import { IMember } from "./../../../interfaces"
@@ -70,15 +71,16 @@ export function MembersList({ members, editMode, filter }: Props) {
 
   return (
     <Fragment>
-      {editMode && (
-        <AddCellMemberPaper
-          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            console.log("Clicked!")
-          }}
-        />
-      )}
-
       <List className={classes.root} subheader={<li />}>
+        <ListItem className={classes.listItem}>
+          <AddCellMemberPaper
+            onClick={(
+              event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+            ) => {
+              console.log("Clicked!")
+            }}
+          />
+        </ListItem>
         {members ? (
           [...members]
             .filter((member: IMember) =>
@@ -99,7 +101,7 @@ export function MembersList({ members, editMode, filter }: Props) {
               )
             })
         ) : (
-          <p>Loading...</p>
+          <p>Loading Members...</p>
         )}
       </List>
     </Fragment>

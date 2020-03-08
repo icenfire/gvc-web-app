@@ -10,7 +10,8 @@ import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
 
 import { AppState } from "../../../store/reducers/rootReducer"
-import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
+import { IMember } from "../../../types"
+import { MembersList } from "../../Level2/Lists/MembersList"
 
 // import { Props as IPMemberPaper } from "./../../Level1/Papers/MemberPaper"
 
@@ -33,7 +34,8 @@ interface State {
 }
 
 interface Props {
-  members: IPMembersList["members"]
+  members: IMember[]
+  filter: string
 }
 
 export function MembersFilter({ members }: Props) {
@@ -63,7 +65,7 @@ export function MembersFilter({ members }: Props) {
 
   const filteredMembers =
     members &&
-    members.filter((member: IPMembersList["members"][0]) => {
+    members.filter((member: IMember) => {
       switch (filter) {
         case "all":
           return true
@@ -118,7 +120,11 @@ export function MembersFilter({ members }: Props) {
           <FormHelperText>Choose a date</FormHelperText>
         </FormControl>
       )}
-      <MembersList members={filteredMembers} editMode={editMode} filter={search}/>
+      <MembersList
+        editMode={editMode}
+        members={filteredMembers}
+        filter={filter}
+      />
     </Fragment>
   )
 }

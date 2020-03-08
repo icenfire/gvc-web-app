@@ -20,7 +20,7 @@ import React, { FC, Fragment } from "react"
 import { useDispatch } from "react-redux"
 
 import { editProfile } from "../../../store/actions/authActions"
-import { IMember } from "../Papers/MemberPaper"
+import { IMember } from "../../../types"
 import Image from "./../../../static/images/MinjungKang.jpg"
 
 const useStyles = makeStyles((theme: Theme) =>

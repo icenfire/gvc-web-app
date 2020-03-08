@@ -1,10 +1,9 @@
-import IconButton from "@material-ui/core/IconButton"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { Fragment } from "react"
+import React, { FC } from "react"
 
-import { IMember } from "../../Level1/Papers/MemberPaper"
+import { IMember, IPrayer } from "../../../types"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 
 // import { Iprayer } from "./../../../interfaces"
@@ -13,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
       overflow: "auto",
-      maxHeight: 400,
+      // maxHeight: 400,
     },
 
     subheader: {
@@ -44,49 +43,41 @@ export interface Props {
   membersDic: {
     [memberId: string]: IMember
   }
-  prayers: {
-    prayer: string
-    id: string
-    date: any
-    memberId: string
-  }[]
+  prayers: IPrayer[]
+  filter: string
 }
 
-export function PrayersList({ membersDic, prayers }: Props) {
+export const PrayersList: FC<Props> = ({ membersDic, prayers, filter }) => {
   const classes = useStyles()
   return (
-    <Fragment>
-      <List className={classes.root} subheader={<li />}>
-        {prayers ? (
-          prayers
-            .filter(p => !!membersDic[p.memberId])
-            .sort((p1: Props["prayers"][0], p2: Props["prayers"][0]) => {
-              // console.log(
-              //   "prayers",
-              //   prayers,
-              //   "membersDic",
-              //   membersDic,
-              //   "p1",
-              //   p1,
-              //   "p2",
-              //   p2
-              // )
-              return membersDic[p1.memberId].name > membersDic[p2.memberId].name
-                ? 1
-                : -1
-            })
-            .map((prayerObj: Props["prayers"][0]) => {
-              const { prayer, id, date, memberId } = prayerObj
-              return (
-                <ListItem className={classes.listItem} key={id}>
-                  <PrayerPaper prayer={prayer} member={membersDic[memberId]} />
-                </ListItem>
-              )
-            })
-        ) : (
-          <p>Loading...</p>
-        )}
-      </List>
-    </Fragment>
+    <List className={classes.root} subheader={<li />}>
+      {prayers ? (
+        [...prayers]
+          .filter(
+            p =>
+              !!membersDic[p.memberId] &&
+              membersDic[p.memberId].name
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+          )
+          .sort((p1: IPrayer, p2: IPrayer) => {
+            return membersDic[p1.memberId].name > membersDic[p2.memberId].name
+              ? 1
+              : -1
+          })
+          .map((prayer: IPrayer) => {
+            return (
+              <ListItem className={classes.listItem} key={prayer.id}>
+                <PrayerPaper
+                  prayer={prayer}
+                  member={membersDic[prayer.memberId]}
+                />
+              </ListItem>
+            )
+          })
+      ) : (
+        <p>Loading Prayers...</p>
+      )}
+    </List>
   )
 }

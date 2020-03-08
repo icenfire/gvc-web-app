@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     IconButtonAddMember: {
       background: theme.palette.common.white,
       color: theme.palette.background.default,
-      // padding: theme.spacing(1),
+      padding: theme.spacing(1),
     },
     text: {
       // color: theme.palette.secondary.dark,

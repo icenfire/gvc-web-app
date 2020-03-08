@@ -1,3 +1,12 @@
+// ---Members---
+export interface IMember {
+  id: string
+  name: string
+  dob: any // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
+  cell: string
+  positions: string[]
+}
+
 // ---Notices---
 export interface INotice {
   title: string
@@ -7,6 +16,14 @@ export interface INotice {
 export interface INoticeWithMeta extends INotice {
   id: string
   createdAt: Date
+}
+
+// ---Prayers---
+export interface IPrayer {
+  content: string
+  id: string
+  date: any
+  memberId: string
 }
 
 // ---Auth---

@@ -77,6 +77,8 @@ export const Playground: FC = () => {
   const membersArr = stateFS.ordered.members
   const prayersArr = stateFS.ordered.prayers
 
+  const search = useSelector<AppState, string>(state => state.appBar.search)
+
   const dates: IPDatesList["dates"] = [
     ["January 2020", ["01.01.20", "02.01.20"]],
     ["February 2020", ["01.02.20", "02.02.20"]],
@@ -123,7 +125,7 @@ export const Playground: FC = () => {
         <Typography>Members Edit Page With Grid</Typography>
         <Container className={classes.container}>
           {/* <MembersList members={members} /> */}
-          <MembersFilter members={membersArr} />
+          <MembersFilter members={membersArr} filter={search} />
         </Container>
 
         <Typography>Korean to Korean initial</Typography>
@@ -135,7 +137,11 @@ export const Playground: FC = () => {
         <Container className={classes.container}>
           {/* <PrayerPaper /> */}
           {/* <PrayersList membersDic={membersDic} prayers={prayersArr} /> */}
-          <PrayersFilter membersDic={membersDic} prayers={prayersArr} />
+          <PrayersFilter
+            membersDic={membersDic}
+            prayers={prayersArr}
+            filter={search}
+          />
         </Container>
       </ContainerMain>
     </Fragment>

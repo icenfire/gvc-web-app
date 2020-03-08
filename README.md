@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] Implement Prayers page
 - [ ] Implement formik with edit profile card
 - [ ] Implement "Go back to previous page" after sign in for public pages too
 - [x] Included "Playground" item to the sidebar

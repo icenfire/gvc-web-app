@@ -1,8 +1,11 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import React, { FC, Fragment } from "react"
+import { useSelector } from "react-redux"
+import { useFirestoreConnect } from "react-redux-firebase"
 import SwipeableViews from "react-swipeable-views"
 
+import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
 import { Notice } from "../../Level1/Papers/Notice"
 
@@ -37,6 +40,7 @@ export interface IPNotices {
 
 export const Notices: FC<IPNotices> = ({ notices }) => {
   const classes = useStyles()
+
   return (
     <div className={classes.root}>
       <SwipeableViews
@@ -55,7 +59,7 @@ export const Notices: FC<IPNotices> = ({ notices }) => {
             </div>
           ))
         ) : (
-          <Typography>Loading...</Typography>
+          <Typography>Loading Notices...</Typography>
         )}
       </SwipeableViews>
     </div>

@@ -1,11 +1,12 @@
+import Avatar from "@material-ui/core/Avatar"
 import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
-import RemoveIcon from "@material-ui/icons/Remove"
 import React, { Fragment } from "react"
+
+import { IMember } from "../../../types"
 
 // import { IMember } from "./../../../interfaces"
 
@@ -35,14 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IMember {
-  id: string
-  name: string
-  dob: any // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
-  cell: string
-  positions: string[]
-}
-
 export interface IPMemberPaper {
   member: IMember
   editMode: boolean
@@ -58,17 +51,10 @@ export const MemberPaper: React.FC<IPMemberPaper> = ({
     <Paper className={classes.paper}>
       {id ? (
         <Grid container alignItems="center" spacing={1}>
-          {editMode && (
-            <Grid item>
-              <IconButton className={classes.IconButtonRemoveMember}>
-                <RemoveIcon />
-              </IconButton>
-            </Grid>
-          )}
           <Grid item>
-            <IconButton className={classes.IconButtonEditMember}>
+            <Avatar className={classes.IconButtonEditMember}>
               <PersonIcon />
-            </IconButton>
+            </Avatar>
           </Grid>
           <Grid item xs>
             <Typography className={classes.textMember} align="left">

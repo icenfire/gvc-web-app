@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { Fragment, useState } from "react"
+import React, { FC, Fragment, useState } from "react"
 
 import { PrayersList, Props as IPPrayersList } from "../../Level2/Lists/PrayersList"
 
@@ -27,9 +27,11 @@ interface State {
   date: "all" | "2020/01/01" | "2020/01/08" | "2020/01/15"
 }
 
-interface Props {}
-
-export function PrayersFilter({ prayers, membersDic }: IPPrayersList) {
+export const PrayersFilter: FC<IPPrayersList> = ({
+  prayers,
+  membersDic,
+  filter,
+}) => {
   const classes = useStyles()
   const [cell, setCell] = useState<State["cell"]>("all")
   const [date, setDate] = useState<State["date"]>("all")
@@ -89,7 +91,11 @@ export function PrayersFilter({ prayers, membersDic }: IPPrayersList) {
         <FormHelperText>Choose a date</FormHelperText>
       </FormControl>
 
-      <PrayersList prayers={filteredPrayers} membersDic={membersDic} />
+      <PrayersList
+        prayers={filteredPrayers}
+        membersDic={membersDic}
+        filter={filter}
+      />
     </Fragment>
   )
 }

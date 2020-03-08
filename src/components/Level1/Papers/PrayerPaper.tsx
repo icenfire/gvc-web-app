@@ -8,9 +8,9 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import React, { Fragment } from "react"
 
+import { IMember, IPrayer } from "../../../types"
 import { ProfileDialog } from "../Dialogs/ProfileDialog"
 import { ProfileEditDialog } from "./../Dialogs/ProfileEditDialog"
-import { IMember } from "./MemberPaper"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IPPrayerPaper {
   member: IMember
-  prayer: string
+  prayer: IPrayer
 }
 
 export interface ISPrayerPaper {}
@@ -81,7 +81,7 @@ function PrayerPaper({ member, prayer }: IPPrayerPaper) {
                 // label="Multiline"
                 multiline
                 rowsMax="4"
-                value={prayer}
+                value={prayer.content}
                 defaultValue="리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록."
                 inputProps={{ className: classes.input }}
               />

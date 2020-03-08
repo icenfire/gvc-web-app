@@ -1,9 +1,6 @@
-import { isLoaded } from "react-redux-firebase"
-
 import { auth } from "../../firebase"
-import { IFBError, IResetPassword, ISignIn, ISignUp } from "../../types"
+import { IFBError, IMember, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
-import { IMember } from "./../../components/Level1/Papers/MemberPaper"
 
 // Sign Up Member
 export const signUp = ({
