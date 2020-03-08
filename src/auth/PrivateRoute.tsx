@@ -21,8 +21,6 @@ export const PrivateRoute: FC<IPPrivateRoute> = ({
   )
 
   const requestedPath = useLocation()
-  console.log("redirectiffalse", redirectIfAuthenticatedIs === isAuthenticated)
-
   if (redirectIfAuthenticatedIs === undefined) redirectIfAuthenticatedIs = false
 
   return redirectIfAuthenticatedIs === isAuthenticated ? (

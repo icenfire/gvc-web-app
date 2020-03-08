@@ -46,18 +46,16 @@ export interface IMember {
 export interface IPMemberPaper {
   member: IMember
   editMode: boolean
-  onClick?: () => void
 }
 
 export const MemberPaper: React.FC<IPMemberPaper> = ({
   member: { id, name, dob, cell, positions },
   editMode,
-  onClick,
 }) => {
   const classes = useStyles()
 
   return (
-    <Paper className={classes.paper} onClick={onClick}>
+    <Paper className={classes.paper}>
       {id ? (
         <Grid container alignItems="center" spacing={1}>
           {editMode && (

@@ -20,11 +20,11 @@
 
 ## Issues
 
-Issue 2. How to reproduce error: "/public" -> "/" -> "public". This creates "TypeError: Cannot read property 'name' of undefined" error. The problem is the list "membersDic" in this setting is not fully loaded which causes the error. We need to somehow find a way to make sure to render only after all the data is ready.
+Issue 2. How to reproduce error: "/public" &rarr; "/" &rarr; "public". This creates "TypeError: Cannot read property 'name' of undefined" error. The problem is the list "membersDic" in this setting is not fully loaded which causes the error. We need to somehow find a way to make sure to render only after all the data is ready.
 
 - UPDATE: Partially solved by filtering out the prayer list which only has memberId in the membersDic. Still, the problem lies why does the membersDic load slowly when we return to the public page?
 
-Issue 1. Rerouting after signin currently has a problem. After success, in the promise, the redux state for auth is not yet updated and therefore made a temporary fix by waiting 1 millisecond. See the 'signIn' function in 'authActions.ts'
+~~Issue 1. Rerouting after signin currently has a problem. After success, in the promise, the redux state for auth is not yet updated and therefore made a temporary fix by waiting 1 millisecond. See the 'signIn' function in 'authActions.ts'~~ &larr; Solved by checking for authstate and redirecting by conditionally returning redirect on signin page
 
 ## Questions
 

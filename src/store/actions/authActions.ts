@@ -1,3 +1,5 @@
+import { isLoaded } from "react-redux-firebase"
+
 import { auth } from "../../firebase"
 import { IFBError, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
@@ -69,7 +71,6 @@ export const signIn = ({
   password,
   rememberMe,
   setSubmitting,
-  redirectOnSignIn,
 }: ISignIn): ThunkActionCustom<void> => (
   dispatch,
   getState,
@@ -94,12 +95,6 @@ export const signIn = ({
         .then(userCredentials => {
           dispatch({ type: "SIGN_IN" })
           console.log("Sign in succesful!")
-
-          // TODO: A temporary fix
-          setTimeout(() => {
-            redirectOnSignIn()
-            setSubmitting(false)
-          }, 1)
         })
         .catch((error: IFBError) => {
           dispatch({ type: "SIGN_IN_ERROR", payload: error })

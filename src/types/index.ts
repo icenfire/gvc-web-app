@@ -28,7 +28,6 @@ export interface ICredentials extends IEmail {
 export interface IResetPassword extends IEmail, ISetSubmitting, IOpenAlert {}
 export interface ISignIn extends ICredentials, ISetSubmitting {
   rememberMe: boolean
-  redirectOnSignIn: () => void
 }
 export interface ISignUp extends ICredentials, ISetSubmitting, IOpenAlert {
   name: string
