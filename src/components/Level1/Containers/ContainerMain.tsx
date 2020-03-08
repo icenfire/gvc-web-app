@@ -14,10 +14,8 @@ export const ContainerMain: React.FC<React.ReactNode> = ({ children }) => {
   const classes = useStyles()
 
   return (
-    <Container
-      maxWidth="xs"
-      className={classes.container}
-      children={children}
-    />
+    <Container maxWidth="xs" className={classes.container}>
+      {children}
+    </Container>
   )
 }

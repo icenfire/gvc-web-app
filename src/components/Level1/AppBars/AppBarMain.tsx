@@ -71,10 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IPAppBarMain {
   title: string
-  onClickEdit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-export const AppBarMain: React.FC<IPAppBarMain> = ({ title, onClickEdit }) => {
+export const AppBarMain: React.FC<IPAppBarMain> = ({ title }) => {
   const classes = useStyles()
 
   const [state, setState] = React.useState({
@@ -119,9 +118,6 @@ export const AppBarMain: React.FC<IPAppBarMain> = ({ title, onClickEdit }) => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <IconButton aria-label="Edit" onClick={onClickEdit}>
-            <EditIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <SwipeableTemporaryDrawer

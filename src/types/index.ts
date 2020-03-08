@@ -44,9 +44,11 @@ export interface IFBError {
 // ---Pages---
 export type Paths =
   | "/"
+  | "/auth"
   | "/myaccount"
   | "/prayers"
   | "/members"
   | "/calendar"
+  | "/playground"
   | "/public"
   | "/private"

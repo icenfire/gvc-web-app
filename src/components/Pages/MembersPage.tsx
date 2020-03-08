@@ -40,7 +40,7 @@ export const MembersPage: FC<IPMembersPage> = props => {
 
   return (
     <Fragment>
-      <AppBarMain title="Members" onClickEdit={setEdit} />
+      <AppBarMain title="Members" />
       <ContainerMain>
         <Notices notices={noticesArr} />
         <MembersList

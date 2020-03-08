@@ -1,12 +1,16 @@
 ## TODO LIST
 
 - [ ] Implement formik with edit profile card
+- [ ] Implement "Go back to previous page" after sign in for public pages too
+- [x] Included "Playground" item to the sidebar
+- [x] Implemented conditional "My Account/Sign In" item in the sidebar
 - [x] Finish styling the edit profile card
 - [x] Implement edit profile card
 - [x] Implemented sign out button and made appbar take title prop
 - [x] Implemented search function to filter the members list
 - [x] Make Account, Members, Prayers, Calendar page at the side bar
 - [x] Implement rerouting for signin/up &larr; (See Issue 1.)
+  - Update: Solved Issue 1.
 - [x] Implement progress animation
 - [x] Implement reset password
 - [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
@@ -25,6 +29,8 @@ Issue 2. How to reproduce error: "/public" &rarr; "/" &rarr; "public". This crea
 - UPDATE: Partially solved by filtering out the prayer list which only has memberId in the membersDic. Still, the problem lies why does the membersDic load slowly when we return to the public page?
 
 ~~Issue 1. Rerouting after signin currently has a problem. After success, in the promise, the redux state for auth is not yet updated and therefore made a temporary fix by waiting 1 millisecond. See the 'signIn' function in 'authActions.ts'~~ &larr; Solved by checking for authstate and redirecting by conditionally returning redirect on signin page
+
+- UPDATE: Properly implemented rerouting all in PrivateRouter component
 
 ## Questions
 

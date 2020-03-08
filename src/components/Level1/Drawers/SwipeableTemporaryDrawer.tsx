@@ -11,11 +11,13 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import PeopleIcon from "@material-ui/icons/People"
+import WidgetsIcon from "@material-ui/icons/Widgets"
 import React, { FC, Fragment } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 
 import { signOut } from "../../../store/actions/authActions"
+import { AppState } from "../../../store/reducers/rootReducer"
 import { Paths } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +44,7 @@ type Items = {
   name: string
   icon: (props: SvgIconProps) => JSX.Element
   page: Paths
-  dividerBelow?: boolean
+  divider?: "above" | "below"
 }[]
 
 export const SwipeableTemporaryDrawer: FC<Props> = ({
@@ -52,13 +54,16 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
+  const isAuthenticated = useSelector<AppState, boolean>(
+    state => !state.firebase.auth.isEmpty
+  )
 
   const items: Items = [
     {
-      name: "My Account",
+      name: isAuthenticated ? "My Account" : "Sign In",
       icon: AccountCircleIcon,
-      page: "/myaccount",
-      dividerBelow: true,
+      page: isAuthenticated ? "/myaccount" : "/auth",
+      divider: "below",
     },
     {
       name: "Members",
@@ -74,6 +79,12 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       name: "Calendar",
       icon: CalendarTodayIcon,
       page: "/calendar",
+    },
+    {
+      name: "Playground",
+      icon: WidgetsIcon,
+      page: "/playground",
+      divider: "above",
     },
   ]
 
@@ -91,27 +102,30 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
         <List className={classes.list}>
           {items.map(item => (
             <Fragment key={item.name}>
+              {item.divider === "above" && <Divider />}
               <ListItem button onClick={() => history.push(item.page)}>
                 <ListItemIcon>{<item.icon />}</ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>
-              {item.dividerBelow && <Divider />}
+              {item.divider === "below" && <Divider />}
             </Fragment>
           ))}
         </List>
-        <List>
-          <ListItem
-            button
-            onClick={() => {
-              dispatch(signOut())
-            }}
-          >
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Sign Out"} />
-          </ListItem>
-        </List>
+        {isAuthenticated && (
+          <List>
+            <ListItem
+              button
+              onClick={() => {
+                dispatch(signOut())
+              }}
+            >
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Sign Out"} />
+            </ListItem>
+          </List>
+        )}
       </div>
     </SwipeableDrawer>
   )

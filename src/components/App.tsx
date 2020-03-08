@@ -2,15 +2,19 @@ import { CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Link, Route, Switch, useHistory, useLocation } from "react-router-dom"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
+import { AppBarMain } from "./Level1/AppBars/AppBarMain"
+import { AuthPage } from "./Pages/AuthPage"
+import { CalendarPage } from "./Pages/CalendarPage"
 import { LeaderFormPage } from "./Pages/LeaderFormPage"
 import { MembersPage } from "./Pages/MembersPage"
+import { MyAccountPage } from "./Pages/MyAccountPage"
 import { Playground } from "./Pages/Playground"
+import { PrayersPage } from "./Pages/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
-import { SignInUpPageStatic } from "./Pages/SignInUpPageStatic"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,6 +31,16 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function App() {
   const styles = useSelector((state: { styles: any }) => state.styles)
   const classes = useStyles(styles)
+  const isAuthenticated = useSelector<AppState, boolean>(
+    state => !state.firebase.auth.isEmpty
+  )
+
+  const history = useHistory()
+  console.log(history)
+
+  const location = useLocation<{ from: string }>()
+  const fromOrHome: string = location.state?.from || "/"
+  console.log("location", location.state, fromOrHome)
 
   return (
     <div className={classes.root}>
@@ -36,44 +50,33 @@ export default function App() {
           <Route
             exact
             path="/"
-            component={() => (
-              <ul>
-                <li>
-                  <Link to="/public">Public Page</Link>
-                </li>
-                <li>
-                  <Link to="/private">Private Page</Link>
-                </li>
-              </ul>
-            )}
+            component={() => {
+              console.log("check")
+              return (
+                <ul>
+                  <li>
+                    <Link to="/public">Public Page</Link>
+                  </li>
+                  <li>
+                    <Link to="/private">Private Page</Link>
+                  </li>
+                </ul>
+              )
+            }}
           />
           <Route path="/public" component={Playground} />
-          <Route path="/signinup" component={SignInUpPageStatic} />
+          <Route path="/playground" component={Playground} />
           <PrivateRoute
-            path="/private"
-            component={MembersPage}
-            redirectPath="/signinup"
+            path="/auth"
+            redirectConditionMet={isAuthenticated}
+            checkFrom
+            component={AuthPage}
           />
-          <PrivateRoute
-            path="/myaccount"
-            component={() => <div>My Account Page</div>}
-            redirectPath="/signinup"
-          />
-          <PrivateRoute
-            path="/members"
-            component={MembersPage}
-            redirectPath="/signinup"
-          />
-          <PrivateRoute
-            path="/prayers"
-            component={() => <div>Prayers Page</div>}
-            redirectPath="/signinup"
-          />
-          <PrivateRoute
-            path="/calendar"
-            component={() => <div>Calendar Page</div>}
-            redirectPath="/signinup"
-          />
+          <PrivateRoute path="/private" component={MembersPage} />
+          <PrivateRoute path="/myaccount" component={MyAccountPage} />
+          <PrivateRoute path="/members" component={MembersPage} />
+          <PrivateRoute path="/prayers" component={PrayersPage} />
+          <PrivateRoute path="/calendar" component={CalendarPage} />
         </Switch>
       </BrowserRouter>
     </div>
