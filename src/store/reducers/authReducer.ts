@@ -82,6 +82,29 @@ export const authReducer = (
       console.error(action.payload)
       return state
 
+    case "SIGN_OUT_ERROR":
+      console.log("Sign out error!")
+      console.error(action.payload)
+      return state
+
+    case "EDIT_PROFILE":
+      console.log("Profile edit successful!")
+      return state
+
+    case "EDIT_PROFILE_ERROR":
+      console.log("Profile edit error!")
+      console.error(action.payload)
+      return state
+
+    case "UPLOAD_PHOTO":
+      console.log("Photo upload successful!")
+      return state
+
+    case "UPLOAD_PHOTO_ERROR":
+      console.log("Photo upload error!")
+      console.error(action.payload)
+      return state
+
     default:
       return state
   }

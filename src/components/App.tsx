@@ -35,12 +35,8 @@ export default function App() {
     state => !state.firebase.auth.isEmpty
   )
 
-  const history = useHistory()
-  console.log(history)
-
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
-  console.log("location", location.state, fromOrHome)
 
   return (
     <div className={classes.root}>

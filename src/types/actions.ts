@@ -110,6 +110,17 @@ export interface EditProfileError {
   payload: IFBError
 }
 
+export const UPLOAD_PHOTO = "UPLOAD_PHOTO"
+export interface UploadPhoto {
+  type: typeof UPLOAD_PHOTO
+}
+
+export const UPLOAD_PHOTO_ERROR = "UPLOAD_PHOTO_ERROR"
+export interface UploadPhotoError {
+  type: typeof UPLOAD_PHOTO_ERROR
+  payload: Error
+}
+
 export type AuthActionTypes =
   | SignUp
   | SignUpError
@@ -125,6 +136,8 @@ export type AuthActionTypes =
   | SignOutError
   | EditProfile
   | EditProfileError
+  | UploadPhoto
+  | UploadPhotoError
 
 // AppBar Actions
 export const SEARCH_ON_CHANGE = "SEARCH_ON_CHANGE"

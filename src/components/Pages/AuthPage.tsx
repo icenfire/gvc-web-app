@@ -20,6 +20,7 @@ import * as yup from "yup"
 import Logo from "../../images/Logo.svg"
 import { resetPassword, signIn, signUp } from "../../store/actions/authActions"
 import { AppState } from "../../store/reducers/rootReducer"
+import { IAuthForm } from "../../types"
 import { ChangeSignInUp } from "../Level1/Buttons/ChangeSignInUp"
 import { ContainerMain } from "../Level1/Containers/ContainerMain"
 import { FormikDatePicker } from "../Level1/DatePickers/FormikDatePicker"
@@ -79,19 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-interface IValues {
-  email: string
-  password: string
-  name: string
-  dob: Date | null
-  rememberMe: boolean
-  agreeTAndC: boolean
-  page: "signIn" | "signUp" | "resetPassword"
-  alertResetPassword: boolean
-  alertSignUp: boolean
-}
-
-const validationSchema = yup.object<Partial<IValues>>({
+const validationSchema = yup.object<Partial<IAuthForm>>({
   email: yup
     .string()
     .email("Invalid email")
@@ -144,7 +133,7 @@ export const AuthPage: FC = () => {
     state => state.auth
   )
 
-  const initialValues: IValues = {
+  const initialValues: IAuthForm = {
     email: "",
     password: "",
     name: "",
@@ -157,8 +146,8 @@ export const AuthPage: FC = () => {
   }
 
   const onSubmit = (
-    values: IValues,
-    { setSubmitting, setFieldValue }: FormikHelpers<IValues>
+    values: IAuthForm,
+    { setSubmitting, setFieldValue }: FormikHelpers<IAuthForm>
   ) => {
     const { email, password, name, dob, rememberMe, agreeTAndC, page } = values
 
@@ -206,7 +195,7 @@ export const AuthPage: FC = () => {
 
   return (
     <Fragment>
-      <Formik<IValues>
+      <Formik<IAuthForm>
         validateOnChange
         initialValues={initialValues}
         validationSchema={validationSchema}

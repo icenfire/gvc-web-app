@@ -21,10 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
       // flexDirection: "column",
       height: 200,
     },
-    IconButtonEditMember: {
+    avatar: {
       background: theme.palette.background.default,
       color: theme.palette.common.white,
-      padding: theme.spacing(1),
+      // padding: theme.spacing(1),
     },
     input: {
       color: theme.palette.secondary.main,
@@ -51,15 +51,14 @@ function PrayerPaper({ member, prayer }: IPPrayerPaper) {
       <Grid container spacing={1} className={classes.grid}>
         <Grid item>
           <ProfileEditDialog member={member}>
-            <IconButton className={classes.IconButtonEditMember}>
+            <Avatar
+              className={classes.avatar}
+              alt={member.name}
+              src={member.photoUrl}
+            >
               <PersonIcon />
-            </IconButton>
+            </Avatar>
           </ProfileEditDialog>
-          {/* <ProfileDialog>
-            <IconButton className={classes.IconButtonEditMember}>
-              <PersonIcon />
-            </IconButton>
-          </ProfileDialog> */}
         </Grid>
         <Grid item xs>
           <Grid container alignItems="center" spacing={1}>
@@ -82,7 +81,7 @@ function PrayerPaper({ member, prayer }: IPPrayerPaper) {
                 multiline
                 rowsMax="4"
                 value={prayer.content}
-                defaultValue="리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록."
+                // defaultValue="리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록.리더로의 직분을 책임있있게 감당할 수 있도록. 기도에 힘쓰고 매사에 성령님과 교제하는 삶을 살 수 있도록."
                 inputProps={{ className: classes.input }}
               />
             </Grid>

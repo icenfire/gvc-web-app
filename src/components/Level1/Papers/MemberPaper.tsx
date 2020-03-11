@@ -12,15 +12,10 @@ import { IMember } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    IconButtonEditMember: {
+    avatar: {
       background: theme.palette.background.default,
       color: theme.palette.common.white,
-      padding: theme.spacing(1),
-    },
-    IconButtonRemoveMember: {
-      background: theme.palette.common.white,
-      color: theme.palette.background.default,
-      padding: theme.spacing(1),
+      // padding: theme.spacing(1),
     },
     paper: {
       background: theme.palette.primary.main,
@@ -42,7 +37,7 @@ export interface IPMemberPaper {
 }
 
 export const MemberPaper: React.FC<IPMemberPaper> = ({
-  member: { id, name, dob, cell, positions },
+  member: { id, name, dob, cell, positions, photoUrl },
   editMode,
 }) => {
   const classes = useStyles()
@@ -52,7 +47,7 @@ export const MemberPaper: React.FC<IPMemberPaper> = ({
       {id ? (
         <Grid container alignItems="center" spacing={1}>
           <Grid item>
-            <Avatar className={classes.IconButtonEditMember}>
+            <Avatar className={classes.avatar} alt={name} src={photoUrl}>
               <PersonIcon />
             </Avatar>
           </Grid>

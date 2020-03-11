@@ -1,5 +1,7 @@
 ## TODO LIST
 
+- [x] Implement Photo upload
+- [x] Implement displaying profile photo
 - [x] Implement Prayers page
 - [ ] Implement formik with edit profile card
 - [ ] Implement "Go back to previous page" after sign in for public pages too

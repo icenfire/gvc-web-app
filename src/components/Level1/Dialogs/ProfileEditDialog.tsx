@@ -1,5 +1,6 @@
 import Button from "@material-ui/core/Button"
 import ButtonBase from "@material-ui/core/ButtonBase"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     overlay: {
-      background: "rgba(0,0,0, 0.8)",
+      background: "rgba(0,0,0, 0.5)",
       position: "absolute",
       left: 0,
       top: 0,
@@ -76,17 +77,31 @@ export interface IPProfileEditDialog {
   member: IMember
 }
 
+export interface ISLocalImage {
+  file: File | null
+  url: string
+}
+
+export interface ISProgress {
+  value: number
+  loading: boolean
+}
+
 export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
-  const [open, setOpen] = React.useState(false)
-  const [edit, setEdit] = React.useState(false)
+  const [open, setOpen] = React.useState<boolean>(false)
+  const [edit, setEdit] = React.useState<boolean>(false)
+  const [localImage, setLocalImage] = React.useState<ISLocalImage>({
+    file: null,
+    url: "",
+  })
+  const [progress, setProgress] = React.useState<number>(0)
+  const [loading, setLoading] = React.useState<boolean>(false)
   const [member, setMember] = React.useState<IMember>({
     ...props.member,
     dob: props.member.dob.toDate(),
   })
 
-  const stylesProps = { opacity: edit ? 0.2 : 1 } as { opacity: number }
-
-  const classes = useStyles(stylesProps)
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const handleClickOpen = () => {
@@ -105,12 +120,34 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
   const handleSave = (member: IMember) => (
     event: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
-    dispatch(editProfile(member, cleanUpAfterSave))
+    dispatch(
+      editProfile(
+        member,
+        localImage.file,
+        setProgress,
+        setLoading,
+        cleanUpAfterSave
+      )
+    )
   }
 
   const handleClickEdit = () => {
     console.log("Clicked!")
     setEdit(!edit)
+  }
+
+  const imageHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.target.files && event.target.files[0]
+    const reader = new FileReader()
+    reader.onloadstart = e => {
+      setLoading(true)
+    }
+    reader.onloadend = e => {
+      const imageUrl = typeof reader.result === "string" ? reader.result : ""
+      setLocalImage({ ...localImage, file: imageFile, url: imageUrl })
+      setLoading(false)
+    }
+    const result = imageFile ? reader.readAsDataURL(imageFile) : ""
   }
 
   return (
@@ -151,6 +188,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
                     className={classes.input}
                     id="icon-button-file"
                     type="file"
+                    onChange={imageHandleChange}
                   />
                 )}
                 <label
@@ -162,24 +200,40 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
                     disabled={!edit}
                     component="span"
                   >
-                    {Image ? (
+                    {localImage.url || member.photoUrl ? (
                       <img
-                        src={Image}
+                        src={localImage.url || member.photoUrl}
                         alt={member.name}
                         className={classes.image}
                       />
                     ) : edit ? (
-                      <Fragment>
-                        <CloudUploadIcon />
-                        <Typography>Upload Image</Typography>
-                      </Fragment>
+                      loading ? (
+                        <CircularProgress />
+                      ) : (
+                        <Fragment>
+                          <CloudUploadIcon />
+                          <Typography>Upload Image</Typography>
+                        </Fragment>
+                      )
                     ) : (
                       <PersonIcon />
                     )}
-                    {edit && Image && (
+                    {edit && (localImage.url || member.photoUrl) && (
                       <div className={classes.overlay}>
-                        <CloudUploadIcon />
-                        <Typography>Upload Image</Typography>
+                        {loading ? (
+                          <CircularProgress />
+                        ) : (
+                          <Fragment>
+                            <CloudUploadIcon />
+                            <Typography>Upload Image</Typography>
+                          </Fragment>
+                        )}
+                        {/* {loading && (
+                          <CircularProgress
+                            variant="determinate"
+                            value={progress}
+                          />
+                        )} */}
                       </div>
                     )}
                   </ButtonBase>
@@ -197,6 +251,24 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
                   >
                 ) => {
                   setMember({ ...member, name: event.target.value })
+                }}
+                fullWidth
+                disabled={!edit}
+                InputLabelProps={{ className: classes.text }}
+                InputProps={{ className: classes.text }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="standard-cell-input"
+                label="Cell"
+                value={member.cell}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLTextAreaElement | HTMLInputElement
+                  >
+                ) => {
+                  setMember({ ...member, cell: event.target.value })
                 }}
                 fullWidth
                 disabled={!edit}
@@ -227,12 +299,20 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
           {edit ? (
             <Grid container justify="space-around">
               <Grid item>
-                <Button onClick={handleClose} className={classes.text}>
+                <Button
+                  onClick={handleClose}
+                  className={classes.text}
+                  disabled={loading}
+                >
                   CANCEL
                 </Button>
               </Grid>
               <Grid item>
-                <Button onClick={handleSave(member)} className={classes.text}>
+                <Button
+                  onClick={handleSave(member)}
+                  className={classes.text}
+                  disabled={loading}
+                >
                   SAVE
                 </Button>
               </Grid>

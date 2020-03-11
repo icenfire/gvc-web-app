@@ -38,7 +38,7 @@ export const globalObjects = () => {
               memberId: "c" + cell + "m" + member,
               cell: "" + cell,
               date,
-              prayer: `Prayer of ${"Cell" +
+              content: `Prayer of ${"Cell" +
                 cell +
                 (member === 0
                   ? "-Leader"
