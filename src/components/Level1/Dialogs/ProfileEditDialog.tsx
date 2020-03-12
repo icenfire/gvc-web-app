@@ -20,7 +20,7 @@ import ImageIcon from "@material-ui/icons/Image"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { DatePicker } from "@material-ui/pickers"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
-import React, { FC, Fragment } from "react"
+import React, { FC, Fragment, useEffect } from "react"
 import { useDispatch } from "react-redux"
 
 import { editProfile } from "../../../store/actions/authActions"
@@ -123,6 +123,19 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     dob: props.member.dob.toDate(),
   })
   const [deleteImage, setDeleteImage] = React.useState<boolean>(false)
+  useEffect(() => {
+    setEdit(false)
+    setLocalImage({
+      file: null,
+      url: "",
+    })
+    setProgress(0)
+    setMember({
+      ...props.member,
+      dob: props.member.dob.toDate(),
+    })
+    setDeleteImage(false)
+  }, [open, props.member])
 
   console.log(open, edit, localImage, member)
 
@@ -135,17 +148,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
 
   const handleClose = () => {
     setOpen(false)
-    setEdit(false)
-    setLocalImage({
-      file: null,
-      url: "",
-    })
-    setProgress(0)
-    setMember({
-      ...props.member,
-      dob: props.member.dob.toDate(),
-    })
-    setDeleteImage(false)
   }
 
   const cleanUpAfterSave = () => {
@@ -185,6 +187,24 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     }
     const result = imageFile ? reader.readAsDataURL(imageFile) : ""
   }
+
+  // const profilePhotoSection = () => {
+  //   const renderImage = () => {
+  //     ()
+
+  //   }
+  //   if (edit) {
+  //     if (deleteImage) {
+  //       // Show AccountCircleIcon background with caption cancel delete
+
+  //     } else {
+
+  //     }
+
+  //   } else {
+  //     // Show image
+  //   }
+  // }
 
   return (
     <Fragment>
@@ -253,7 +273,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
                     disabled={!edit}
                     component="span"
                   >
-                    {localImage.url || member.photoUrl ? (
+                    {(localImage.url || member.photoUrl) && !deleteImage ? (
                       <img
                         src={localImage.url || member.photoUrl}
                         alt={member.name}
