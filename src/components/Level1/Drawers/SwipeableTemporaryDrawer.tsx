@@ -1,3 +1,4 @@
+import Avatar from "@material-ui/core/Avatar"
 import Divider from "@material-ui/core/Divider"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -18,7 +19,7 @@ import { useHistory } from "react-router-dom"
 
 import { signOut } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
-import { Paths } from "../../../types"
+import { IMemberDownload, Paths } from "../../../types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,12 +41,12 @@ interface Props {
   toggleDrawer: (open: boolean) => (event: React.MouseEvent) => void
 }
 
-type Items = {
+type Item = {
   name: string
-  icon: (props: SvgIconProps) => JSX.Element
+  icon: JSX.Element
   page: Paths
   divider?: "above" | "below"
-}[]
+}
 
 export const SwipeableTemporaryDrawer: FC<Props> = ({
   drawerOpen,
@@ -54,35 +55,37 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
+  const profile = useSelector<AppState, any>(state => state.firebase.profile)
+
   const isAuthenticated = useSelector<AppState, boolean>(
     state => !state.firebase.auth.isEmpty
   )
 
-  const items: Items = [
+  const items: Item[] = [
     {
       name: isAuthenticated ? "My Account" : "Sign In",
-      icon: AccountCircleIcon,
+      icon: <Avatar src={profile.photoUrl} />,
       page: isAuthenticated ? "/myaccount" : "/auth",
       divider: "below",
     },
     {
       name: "Members",
-      icon: PeopleIcon,
+      icon: <PeopleIcon />,
       page: "/members",
     },
     {
       name: "Prayers",
-      icon: LibraryBooksIcon,
+      icon: <LibraryBooksIcon />,
       page: "/prayers",
     },
     {
       name: "Calendar",
-      icon: CalendarTodayIcon,
+      icon: <CalendarTodayIcon />,
       page: "/calendar",
     },
     {
       name: "Playground",
-      icon: WidgetsIcon,
+      icon: <WidgetsIcon />,
       page: "/playground",
       divider: "above",
     },
@@ -104,7 +107,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
             <Fragment key={item.name}>
               {item.divider === "above" && <Divider />}
               <ListItem button onClick={() => history.push(item.page)}>
-                <ListItemIcon>{<item.icon />}</ListItemIcon>
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>
               {item.divider === "below" && <Divider />}

@@ -82,11 +82,6 @@ export const authReducer = (
       console.error(action.payload)
       return state
 
-    case "SIGN_OUT_ERROR":
-      console.log("Sign out error!")
-      console.error(action.payload)
-      return state
-
     case "EDIT_PROFILE":
       console.log("Profile edit successful!")
       return state

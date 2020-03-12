@@ -1,8 +1,12 @@
 ## TODO LIST
 
-- [x] Typed up date objects depending on download(firestore Timestamp) or upload(Date)
-- [x] Implement Photo upload
-- [x] Implement displaying profile photo
+- [ ] 12/03/20 - Implement delete photo
+  - Implemented basic delete function
+  - Issue: Dialog does not update its states/render after close e.g. After deleting/uploading photo, previous state of image is left behind. After closing the dialog once more manually then opening fixes the issue
+  - TODO: Replace position of "Cancel delete" to the "Choose Image"
+- [x] 12/03/20 - Typed up date objects depending on download(firestore Timestamp) or upload(Date)
+- [x] 11/03/20 - Implement Photo upload
+- [x] 11/03/20 - Implement displaying profile photo
 - [x] Implement Prayers page
 - [ ] Implement formik with edit profile card
 - [ ] Implement "Go back to previous page" after sign in for public pages too

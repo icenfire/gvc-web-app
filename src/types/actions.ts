@@ -121,6 +121,17 @@ export interface UploadPhotoError {
   payload: Error
 }
 
+export const DELETE_PHOTO = "DELETE_PHOTO"
+export interface DeletePhoto {
+  type: typeof DELETE_PHOTO
+}
+
+export const DELETE_PHOTO_ERROR = "DELETE_PHOTO_ERROR"
+export interface DeletePhotoError {
+  type: typeof DELETE_PHOTO_ERROR
+  payload: IFBError
+}
+
 export type AuthActionTypes =
   | SignUp
   | SignUpError
@@ -138,6 +149,8 @@ export type AuthActionTypes =
   | EditProfileError
   | UploadPhoto
   | UploadPhotoError
+  | DeletePhoto
+  | DeletePhotoError
 
 // AppBar Actions
 export const SEARCH_ON_CHANGE = "SEARCH_ON_CHANGE"

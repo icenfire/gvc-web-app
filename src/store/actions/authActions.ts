@@ -162,14 +162,24 @@ export const signOut = (): ThunkActionCustom<void> => (
     })
 }
 
+interface IPEditProfile {
+  member: IMemberUpload
+  imageFile: File | null
+  deleteImage: boolean
+  setProgress: (progress: number) => void
+  setUpdating: (updating: boolean) => void
+  handleClose: () => void
+}
+
 // Edit Profile
-export const editProfile = (
-  member: IMemberUpload,
-  imageFile: File | null,
-  setProgress: (progress: number) => void,
-  setLoading: (loading: boolean) => void,
-  cleanUpAfterSave: () => void
-): ThunkActionCustom<void> => (
+export const editProfile = ({
+  member,
+  imageFile,
+  deleteImage,
+  setProgress,
+  setUpdating,
+  handleClose,
+}: IPEditProfile): ThunkActionCustom<void> => (
   dispatch,
   getState,
   { getFirestore, getFirebase }
@@ -178,52 +188,75 @@ export const editProfile = (
   const firestore = getFirestore()
   // firebase.updateProfile(member)
 
-  const imageUpdate = (imageFile: File | null) =>
+  const updatePhoto = (imageFile: File | null) =>
     new Promise(
-      (resolve: (photoUrl: string) => void, reject: (error: Error) => void) => {
-        if (imageFile) {
-          console.log("Uploading Photo!")
-          setLoading(true)
-          const uploadTask = firebase
+      (
+        resolve: (memberWithPhotoUrl: IMemberUpload) => void,
+        reject: (error: Error) => void
+      ) => {
+        if (deleteImage) {
+          firebase
             .storage()
-            .ref(`profilePhotos/${member.id}`)
-            .put(imageFile)
-          uploadTask.on(
-            "state_changed",
-            snapshot => {
-              // progrss function ....
-              const progress = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              )
-              setProgress(progress)
-            },
-            error => {
-              // error function ....
-              reject(error)
-            },
-            () => {
-              // complete function ....
-              firebase
-                .storage()
-                .ref("profilePhotos")
-                .child(member.id)
-                .getDownloadURL()
-                .then(photoUrl => {
-                  resolve(photoUrl)
-                })
-            }
-          )
+            .ref("profilePhotos")
+            .child(member.id)
+            .delete()
+            .then(() => {
+              console.log("Photo deleted!")
+              dispatch({ type: "DELETE_PHOTO" })
+              resolve({ ...member, photoUrl: "" })
+            })
+            .catch((error: IFBError) => {
+              dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+              console.log("Photo delete error!", error)
+            })
         } else {
-          console.log("Not Uploading Photo!")
-          resolve("")
+          if (imageFile) {
+            console.log("Uploading Photo!")
+            setUpdating(true)
+            const uploadTask = firebase
+              .storage()
+              .ref(`profilePhotos/${member.id}`)
+              .put(imageFile)
+            uploadTask.on(
+              "state_changed",
+              snapshot => {
+                // progrss function ....
+                const progress = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                )
+                setProgress(progress)
+              },
+              error => {
+                // error function ....
+                reject(error)
+              },
+              () => {
+                // complete function ....
+                firebase
+                  .storage()
+                  .ref("profilePhotos")
+                  .child(member.id)
+                  .getDownloadURL()
+                  .then(photoUrl => {
+                    resolve({ ...member, photoUrl })
+                  })
+                  .catch((error: IFBError) => {
+                    // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+                    console.log("Photo upload error!", error)
+                  })
+              }
+            )
+          } else {
+            console.log("Not Uploading Photo!")
+            resolve(member)
+          }
         }
       }
     )
 
-  imageUpdate(imageFile)
-    .then(photoUrl => {
+  updatePhoto(imageFile)
+    .then(memberWithPhotoUrl => {
       dispatch({ type: "UPLOAD_PHOTO" })
-      const memberWithPhotoUrl: IMemberUpload = { ...member, photoUrl }
 
       firestore
         .collection("members")
@@ -232,8 +265,8 @@ export const editProfile = (
         .then(() => {
           dispatch({ type: "EDIT_PROFILE" })
           console.log("Profile Edited!")
-          cleanUpAfterSave()
-          setLoading(false)
+          handleClose()
+          setUpdating(false)
         })
         .catch((error: IFBError) => {
           dispatch({ type: "EDIT_PROFILE_ERROR", payload: error })
