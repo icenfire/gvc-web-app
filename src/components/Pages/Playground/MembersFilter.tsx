@@ -10,7 +10,7 @@ import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
 
 import { AppState } from "../../../store/reducers/rootReducer"
-import { IMember } from "../../../types"
+import { IMemberDownload } from "../../../types"
 import { MembersList } from "../../Level2/Lists/MembersList"
 
 // import { Props as IPMemberPaper } from "./../../Level1/Papers/MemberPaper"
@@ -34,7 +34,7 @@ interface State {
 }
 
 interface Props {
-  members: IMember[]
+  members: IMemberDownload[]
   filter: string
 }
 
@@ -65,7 +65,7 @@ export function MembersFilter({ members }: Props) {
 
   const filteredMembers =
     members &&
-    members.filter((member: IMember) => {
+    members.filter(member => {
       switch (filter) {
         case "all":
           return true

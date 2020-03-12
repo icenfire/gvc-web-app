@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] Typed up date objects depending on download(firestore Timestamp) or upload(Date)
 - [x] Implement Photo upload
 - [x] Implement displaying profile photo
 - [x] Implement Prayers page

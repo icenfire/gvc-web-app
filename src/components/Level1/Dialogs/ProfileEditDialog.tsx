@@ -21,7 +21,7 @@ import React, { FC, Fragment } from "react"
 import { useDispatch } from "react-redux"
 
 import { editProfile } from "../../../store/actions/authActions"
-import { IMember } from "../../../types"
+import { IMemberDownload, IMemberUpload } from "../../../types"
 import Image from "./../../../static/images/MinjungKang.jpg"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPProfileEditDialog {
-  member: IMember
+  member: IMemberDownload
 }
 
 export interface ISLocalImage {
@@ -96,7 +96,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
   })
   const [progress, setProgress] = React.useState<number>(0)
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [member, setMember] = React.useState<IMember>({
+  const [member, setMember] = React.useState<IMemberUpload>({
     ...props.member,
     dob: props.member.dob.toDate(),
   })
@@ -117,7 +117,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     setOpen(false)
   }
 
-  const handleSave = (member: IMember) => (
+  const handleSave = (member: IMemberUpload) => (
     event: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
     dispatch(

@@ -3,7 +3,7 @@ import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC } from "react"
 
-import { IMember, IPrayer } from "../../../types"
+import { IMemberDownload, IPrayer } from "../../../types"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
 
 // import { Iprayer } from "./../../../interfaces"
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface Props {
   membersDic: {
-    [memberId: string]: IMember
+    [memberId: string]: IMemberDownload
   }
   prayers: IPrayer[]
   filter: string

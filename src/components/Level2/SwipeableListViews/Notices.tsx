@@ -7,7 +7,7 @@ import SwipeableViews from "react-swipeable-views"
 
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
-import { Notice } from "../../Level1/Papers/Notice"
+import { NoticePaper } from "../../Level1/Papers/NoticePaper"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,7 +55,7 @@ export const Notices: FC<IPNotices> = ({ notices }) => {
           //   })
           notices.map(notice => (
             <div key={notice.id} className={classes.slide}>
-              <Notice {...notice} />
+              <NoticePaper {...notice} />
             </div>
           ))
         ) : (

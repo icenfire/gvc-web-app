@@ -7,7 +7,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import React, { Fragment } from "react"
 
-import { IMember } from "../../../types"
+import { IMemberDownload } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
 import { IPMemberPaper } from "../../Level1/Papers/MemberPaper"
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface Props {
-  members: IMember[]
+  members: IMemberDownload[]
   editMode: boolean
   filter: string
 }
@@ -83,15 +83,15 @@ export function MembersList({ members, editMode, filter }: Props) {
         </ListItem>
         {members ? (
           [...members]
-            .filter((member: IMember) =>
+            .filter(member =>
               member.name
                 .toLocaleLowerCase()
                 .includes(filter.toLocaleLowerCase())
             )
-            .sort((member1: IMember, member2: IMember) => {
+            .sort((member1, member2) => {
               return member1.name > member2.name ? 1 : -1
             })
-            .map((member: IMember) => {
+            .map(member => {
               return (
                 <ListItem className={classes.listItem} key={member.id}>
                   <ProfileEditDialog member={member}>

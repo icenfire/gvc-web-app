@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import React, { Fragment } from "react"
 
-import { IMember, IPrayer } from "../../../types"
+import { IMemberDownload, IPrayer } from "../../../types"
 import { ProfileDialog } from "../Dialogs/ProfileDialog"
 import { ProfileEditDialog } from "./../Dialogs/ProfileEditDialog"
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPPrayerPaper {
-  member: IMember
+  member: IMemberDownload
   prayer: IPrayer
 }
 

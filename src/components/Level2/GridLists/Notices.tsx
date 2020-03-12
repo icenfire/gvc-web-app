@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography"
 import React, { FC, Fragment } from "react"
 
 import { INoticeWithMeta } from "../../../types"
-import { Notice } from "../../Level1/Papers/Notice"
+import { NoticePaper } from "../../Level1/Papers/NoticePaper"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,7 +40,7 @@ export const Notices: FC<IPNotices> = ({ notices }) => {
               className={classes.gridListTile}
               rows={0.8} // Height of the tile in number of grid cells.
             >
-              <Notice {...notice} />
+              <NoticePaper {...notice} />
             </GridListTile>
           ))
         ) : (

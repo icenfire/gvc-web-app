@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
 import React, { Fragment } from "react"
 
-import { IMember } from "../../../types"
+import { IMemberDownload } from "../../../types"
 
 // import { IMember } from "./../../../interfaces"
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPMemberPaper {
-  member: IMember
+  member: IMemberDownload
   editMode: boolean
 }
 

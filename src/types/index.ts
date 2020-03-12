@@ -1,11 +1,21 @@
+import firebase from "firebase"
+
 // ---Members---
-export interface IMember {
+
+interface IMember {
   id: string
   name: string
-  dob: any // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
   cell: string
   positions: string[]
   photoUrl: string
+}
+
+export interface IMemberDownload extends IMember {
+  dob: firebase.firestore.Timestamp // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
+}
+
+export interface IMemberUpload extends IMember {
+  dob: Date | null // dob passed from Firestore is a Timestamp data type which needs to be converted first to Date type
 }
 
 // ---Notices---
@@ -16,7 +26,7 @@ export interface INotice {
 
 export interface INoticeWithMeta extends INotice {
   id: string
-  createdAt: Date
+  createdAt: firebase.firestore.Timestamp
 }
 
 // ---Prayers---

@@ -1,7 +1,6 @@
 import { auth } from "../../firebase"
-import { IFBError, IMember, IResetPassword, ISignIn, ISignUp } from "../../types"
+import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
-import { ISProgress } from "./../../components/Level1/Dialogs/ProfileEditDialog"
 
 // Sign Up Member
 export const signUp = ({
@@ -165,7 +164,7 @@ export const signOut = (): ThunkActionCustom<void> => (
 
 // Edit Profile
 export const editProfile = (
-  member: IMember,
+  member: IMemberUpload,
   imageFile: File | null,
   setProgress: (progress: number) => void,
   setLoading: (loading: boolean) => void,
@@ -224,7 +223,7 @@ export const editProfile = (
   imageUpdate(imageFile)
     .then(photoUrl => {
       dispatch({ type: "UPLOAD_PHOTO" })
-      const memberWithPhotoUrl: IMember = { ...member, photoUrl }
+      const memberWithPhotoUrl: IMemberUpload = { ...member, photoUrl }
 
       firestore
         .collection("members")

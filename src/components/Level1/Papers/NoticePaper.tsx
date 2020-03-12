@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const Notice: FC<INoticeWithMeta> = notice => {
+export const NoticePaper: FC<INoticeWithMeta> = notice => {
   const classes = useStyles()
 
   return (
@@ -34,6 +34,9 @@ export const Notice: FC<INoticeWithMeta> = notice => {
           </Typography>
         )
       })}
+      <Typography color="secondary">
+        {notice.createdAt.toDate().toDateString()}
+      </Typography>
     </Paper>
   )
 }
