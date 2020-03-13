@@ -1,9 +1,9 @@
 ## TODO LIST
 
-- [ ] 12/03/20 - Implement delete photo
+- [x] 12/03/20 - Implement delete profile photo
   - Implemented basic delete function
   - ~~Issue: Dialog does not update its states/render after close e.g. After deleting/uploading photo, previous state of image is left behind. After closing the dialog once more manually then opening fixes the issue~~ &larr; Solved with useEffect hook
-  - TODO: Replace position of "Cancel delete" to the "Choose Image"
+  - TODO: Replace position of "Cancel delete" to the "Choose Image" - Done
 - [x] 12/03/20 - Typed up date objects depending on download(firestore Timestamp) or upload(Date)
 - [x] 11/03/20 - Implement Photo upload
 - [x] 11/03/20 - Implement displaying profile photo

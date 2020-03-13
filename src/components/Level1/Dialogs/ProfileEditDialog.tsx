@@ -13,10 +13,10 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import ArrowBackIcon from "@material-ui/icons/ArrowBack"
-import ClearIcon from "@material-ui/icons/Clear"
 import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import ImageIcon from "@material-ui/icons/Image"
+import UndoIcon from "@material-ui/icons/Undo"
 import VisibilityIcon from "@material-ui/icons/Visibility"
 import { DatePicker } from "@material-ui/pickers"
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date"
@@ -25,38 +25,40 @@ import { useDispatch } from "react-redux"
 
 import { editProfile } from "../../../store/actions/authActions"
 import { IMemberDownload, IMemberUpload } from "../../../types"
-import Image from "./../../../static/images/MinjungKang.jpg"
-import { ConfirmDialog } from "./ConfirmDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    actions: {
+      width: "100%",
+      // height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      alignItems: "center",
+    },
+    accountCircleIcon: {
+      marginBottom: theme.spacing(2),
+    },
+    buttonBaseAction: {
+      padding: theme.spacing(2),
+    },
     buttonBaseChildren: {
       width: "100%",
       display: "flex",
     },
-    buttonBaseUpload: {
-      background: theme.palette.secondary.main,
-      width: "100%",
+
+    imageContainer: {
       minHeight: theme.spacing(16),
+      position: "relative",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
     },
-    dialog: {},
-    imageContainer: {
-      position: "relative",
-    },
     return: {
-      // position: "absolute",
-      // left: theme.spacing(1),
-      // top: theme.spacing(1),
       padding: 0,
     },
     edit: {
-      // position: "absolute",
-      // right: theme.spacing(1),
-      // top: theme.spacing(1),
       padding: 0,
     },
     text: {
@@ -64,7 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       display: "none",
-      flex: 1,
     },
     image: {
       width: "100%",
@@ -150,10 +151,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     setOpen(false)
   }
 
-  const cleanUpAfterSave = () => {
-    handleClose()
-  }
-
   const handleSave = (member: IMemberUpload) => (
     event: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
@@ -188,24 +185,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     const result = imageFile ? reader.readAsDataURL(imageFile) : ""
   }
 
-  // const profilePhotoSection = () => {
-  //   const renderImage = () => {
-  //     ()
-
-  //   }
-  //   if (edit) {
-  //     if (deleteImage) {
-  //       // Show AccountCircleIcon background with caption cancel delete
-
-  //     } else {
-
-  //     }
-
-  //   } else {
-  //     // Show image
-  //   }
-  // }
-
   return (
     <Fragment>
       <ButtonBase
@@ -215,7 +194,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
         {props.children}
       </ButtonBase>
       <Dialog
-        PaperProps={{ className: classes.dialog }}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
@@ -254,84 +232,77 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
         <DialogContent>
           <Grid container justify="center" alignItems="center" spacing={1}>
             <Grid item xs={12}>
-              <Fragment>
-                {edit && (
-                  <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="icon-button-file"
-                    type="file"
-                    onChange={handleImageChange}
-                  />
-                )}
-                <label
-                  htmlFor="icon-button-file"
-                  className={classes.imageContainer}
-                >
-                  <ButtonBase
-                    className={classes.buttonBaseUpload}
-                    disabled={!edit}
-                    component="span"
-                  >
-                    {(localImage.url || member.photoUrl) && !deleteImage ? (
-                      <img
-                        src={localImage.url || member.photoUrl}
-                        alt={member.name}
-                        className={classes.image}
-                      />
-                    ) : edit ? (
-                      updating ? (
+              {deleteImage ? (
+                edit && (
+                  <div className={classes.imageContainer}>
+                    <AccountCircleIcon
+                      fontSize="large"
+                      className={classes.accountCircleIcon}
+                    />
+                    <Button
+                      startIcon={<UndoIcon />}
+                      onClick={() => setDeleteImage(false)}
+                    >
+                      UNDO DELETE
+                    </Button>
+                  </div>
+                )
+              ) : (
+                <div className={classes.imageContainer}>
+                  {localImage.url || member.photoUrl ? (
+                    <img
+                      src={localImage.url || member.photoUrl}
+                      alt={member.name}
+                      className={classes.image}
+                    />
+                  ) : (
+                    !edit && <AccountCircleIcon fontSize="large" />
+                  )}
+                  {edit && (
+                    <div className={classes.overlay}>
+                      {updating ? (
                         <CircularProgress />
                       ) : (
-                        <Fragment>
-                          <ImageIcon fontSize="large" />
-                          <Typography>Choose Image</Typography>
-                        </Fragment>
-                      )
-                    ) : (
-                      <AccountCircleIcon fontSize="large" />
-                    )}
-                    {edit && (localImage.url || member.photoUrl) && (
-                      <div className={classes.overlay}>
-                        {updating ? (
-                          <CircularProgress />
-                        ) : (
-                          <Fragment>
-                            <ImageIcon fontSize="large" />
-                            <Typography>Choose Image</Typography>
-                          </Fragment>
-                        )}
-                        {/* {loading && (
+                        <div className={classes.actions}>
+                          <input
+                            accept="image/*"
+                            className={classes.input}
+                            id="icon-button-file"
+                            type="file"
+                            onChange={handleImageChange}
+                          />
+
+                          <label htmlFor="icon-button-file">
+                            <Button
+                              startIcon={<ImageIcon />}
+                              size="large"
+                              component="div"
+                            >
+                              CHOOSE PHOTO
+                            </Button>
+                          </label>
+                          {props.member.photoUrl && (
+                            <Button
+                              startIcon={<DeleteIcon />}
+                              onClick={() => setDeleteImage(true)}
+                              size="large"
+                            >
+                              DELETE PHOTO
+                            </Button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Grid>
+            {/* {loading && (
                           <CircularProgress
                             variant="determinate"
                             value={progress}
                           />
                         )} */}
-                      </div>
-                    )}
-                  </ButtonBase>
-                </label>
-              </Fragment>
-            </Grid>
-            <Grid>
-              {props.member.photoUrl &&
-                edit &&
-                (deleteImage ? (
-                  <Button
-                    startIcon={<ClearIcon />}
-                    onClick={() => setDeleteImage(false)}
-                  >
-                    CANCEL DELETING PHOTO
-                  </Button>
-                ) : (
-                  <Button
-                    startIcon={<DeleteIcon />}
-                    onClick={() => setDeleteImage(true)}
-                  >
-                    DELETE PHOTO
-                  </Button>
-                ))}
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 id="standard-name-input"
@@ -397,34 +368,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
               SAVE
             </Button>
           )}
-          {/* {edit && (
-            <Grid container justify="space-around">
-              <Grid item>
-                <Button
-                  onClick={handleClose}
-                  className={classes.text}
-                  disabled={loading}
-                >
-                  CANCEL
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  onClick={handleSave(member)}
-                  className={classes.text}
-                  disabled={loading}
-                >
-                  SAVE
-                </Button>
-              </Grid>
-            </Grid>
-          )
-          // : (
-          //   <Button onClick={handleClose} className={classes.text}>
-          //     RETURN
-          //   </Button>
-          // )
-          } */}
         </DialogActions>
       </Dialog>
     </Fragment>
