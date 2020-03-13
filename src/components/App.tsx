@@ -12,6 +12,7 @@ import { CalendarPage } from "./Pages/CalendarPage"
 import { LeaderFormPage } from "./Pages/LeaderFormPage"
 import { MembersPage } from "./Pages/MembersPage"
 import { MyAccountPage } from "./Pages/MyAccountPage"
+import { NoticesPage } from "./Pages/NoticesPage"
 import { Playground } from "./Pages/Playground"
 import { PrayersPage } from "./Pages/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
@@ -69,9 +70,10 @@ export default function App() {
             component={AuthPage}
           />
           <PrivateRoute path="/private" component={MembersPage} />
-          <PrivateRoute path="/myaccount" component={MyAccountPage} />
           <PrivateRoute path="/members" component={MembersPage} />
+          <PrivateRoute path="/myaccount" component={MyAccountPage} />
           <PrivateRoute path="/prayers" component={PrayersPage} />
+          <PrivateRoute path="/notices" component={NoticesPage} />
           <PrivateRoute path="/calendar" component={CalendarPage} />
         </Switch>
       </BrowserRouter>
