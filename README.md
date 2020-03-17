@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] Implement Absolute importing
 - [x] 13/03/20 - Add notices page
 - [x] 12/03/20 - Implement delete profile photo
   - Implemented basic delete function

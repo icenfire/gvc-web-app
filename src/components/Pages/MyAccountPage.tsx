@@ -1,23 +1,22 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { AppBarMain } from "components/Level1/AppBars/AppBarMain"
+import { ContainerMain } from "components/Level1/Containers/ContainerMain"
 import React, { FC, Fragment, useState } from "react"
-
-import { AppBarMain } from "../Level1/AppBars/AppBarMain"
-import { ContainerMain } from "../Level1/Containers/ContainerMain"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
-export interface IPAccountPage {}
+export interface IPMyAccountPage {}
 
-export interface ISAccountPage {}
+export interface ISMyAccountPage {}
 
-export const MyAccountPage: FC<IPAccountPage> = props => {
+export const MyAccountPage: FC<IPMyAccountPage> = props => {
   const classes = useStyles()
-  const [values, setValues] = useState<ISAccountPage>({})
+  const [values, setValues] = useState<ISMyAccountPage>({})
 
   return (
     <Fragment>
       <AppBarMain title="My Account" />
-      <ContainerMain>My Account Page</ContainerMain>
+      <ContainerMain></ContainerMain>
     </Fragment>
   )
 }
