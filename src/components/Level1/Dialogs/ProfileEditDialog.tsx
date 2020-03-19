@@ -90,23 +90,6 @@ export interface IPProfileEditDialog {
   member: IMemberDownload
 }
 
-// export interface ISProfileEditDialog {
-//   open: boolean
-//   edit: boolean
-//   localImage: {file: File | null, url: string}
-//   progress:
-// }
-
-export interface ISLocalImage {
-  file: File | null
-  url: string
-}
-
-// export interface ISProgress {
-//   value: number
-//   loading: boolean
-// }
-
 export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
   const [open, setOpen] = React.useState<boolean>(false)
   const [edit, setEdit] = React.useState<boolean>(false)
@@ -138,8 +121,6 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     setDeleteImage(false)
   }, [open, props.member])
 
-  console.log(open, edit, localImage, member)
-
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -157,7 +138,7 @@ export const ProfileEditDialog: FC<IPProfileEditDialog> = props => {
     dispatch(
       editProfile({
         member,
-        imageFile: localImage.file,
+        image: localImage,
         deleteImage,
         setProgress,
         setUpdating,

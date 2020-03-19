@@ -37,7 +37,7 @@ export interface IPMemberPaper {
 }
 
 export const MemberPaper: React.FC<IPMemberPaper> = ({
-  member: { id, name, dob, cell, positions, photoUrl },
+  member: { id, name, dob, cell, positions, photoUrl, thumbnailUrl },
   editMode,
 }) => {
   const classes = useStyles()
@@ -47,7 +47,7 @@ export const MemberPaper: React.FC<IPMemberPaper> = ({
       {id ? (
         <Grid container alignItems="center" spacing={1}>
           <Grid item>
-            <Avatar className={classes.avatar} alt={name} src={photoUrl}>
+            <Avatar className={classes.avatar} alt={name} src={thumbnailUrl}>
               <PersonIcon />
             </Avatar>
           </Grid>

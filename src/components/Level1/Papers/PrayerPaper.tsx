@@ -54,7 +54,7 @@ function PrayerPaper({ member, prayer }: IPPrayerPaper) {
             <Avatar
               className={classes.avatar}
               alt={member.name}
-              src={member.photoUrl}
+              src={member.thumbnailUrl}
             >
               <PersonIcon />
             </Avatar>

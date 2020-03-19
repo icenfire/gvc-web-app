@@ -8,6 +8,7 @@ interface IMember {
   cell: string
   positions: string[]
   photoUrl: string
+  thumbnailUrl: string
 }
 
 export interface IMemberDownload extends IMember {

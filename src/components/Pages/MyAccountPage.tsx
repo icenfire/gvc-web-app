@@ -16,7 +16,7 @@ export const MyAccountPage: FC<IPMyAccountPage> = props => {
   return (
     <Fragment>
       <AppBarMain title="My Account" />
-      <ContainerMain></ContainerMain>
+      <ContainerMain>My Account Page</ContainerMain>
     </Fragment>
   )
 }

@@ -1,3 +1,15 @@
+import {
+  applyExifOrientation,
+  base64ToArrayBuffer,
+  fileToBase64,
+  imageProcessor,
+  mirror,
+  noop,
+  resize,
+  rotate,
+  sharpen,
+} from "ts-image-processor"
+
 import { auth } from "../../firebase"
 import { IFBError, IMemberUpload, IResetPassword, ISignIn, ISignUp } from "../../types"
 import { ThunkActionCustom } from "../../types/actions"
@@ -164,7 +176,7 @@ export const signOut = (): ThunkActionCustom<void> => (
 
 interface IPEditProfile {
   member: IMemberUpload
-  imageFile: File | null
+  image: { file: File | null; url: string }
   deleteImage: boolean
   setProgress: (progress: number) => void
   setUpdating: (updating: boolean) => void
@@ -174,7 +186,7 @@ interface IPEditProfile {
 // Edit Profile
 export const editProfile = ({
   member,
-  imageFile,
+  image,
   deleteImage,
   setProgress,
   setUpdating,
@@ -188,64 +200,251 @@ export const editProfile = ({
   const firestore = getFirestore()
   // firebase.updateProfile(member)
 
-  const updatePhoto = (imageFile: File | null) =>
+  const storageRef = firebase.storage().ref(`profilePhotos/${member.id}`)
+  const refThumbnail = storageRef.child("thumbnail")
+  const refFull = storageRef.child("full")
+
+  const updatePhoto = (image: IPEditProfile["image"]) =>
     new Promise(
       (
         resolve: (memberWithPhotoUrl: IMemberUpload) => void,
         reject: (error: Error) => void
       ) => {
         if (deleteImage) {
-          firebase
-            .storage()
-            .ref("profilePhotos")
-            .child(member.id)
-            .delete()
+          setUpdating(true)
+          // TODO: Delete thumbnail
+          const promiseThumbnail = new Promise(
+            (
+              resThumbnail: () => void,
+              rejThumbnail: (errThumbnail: Error) => void
+            ) => {
+              refThumbnail
+                .delete()
+                .then(() => {
+                  console.log("Thumbnail photo deleted!")
+                  resThumbnail()
+                })
+                .catch((error: IFBError) => {
+                  console.log("Thumbnail photo delete error!", error)
+                })
+            }
+          )
+
+          const promiseFull = new Promise(
+            (resFull: () => void, rejFull: (errFull: Error) => void) => {
+              refFull
+                .delete()
+                .then(() => {
+                  console.log("Full photo deleted!")
+                  resFull()
+                })
+                .catch((error: IFBError) => {
+                  console.log("Full photo delete error!", error)
+                })
+            }
+          )
+
+          Promise.all([promiseThumbnail, promiseFull])
             .then(() => {
               console.log("Photo deleted!")
               dispatch({ type: "DELETE_PHOTO" })
-              resolve({ ...member, photoUrl: "" })
+              resolve({ ...member, photoUrl: "", thumbnailUrl: "" })
             })
             .catch((error: IFBError) => {
               dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
               console.log("Photo delete error!", error)
             })
+
+          // firebase
+          //   .storage()
+          //   .ref("profilePhotos")
+          //   .child(member.id)
+          //   .delete()
+          //   .then(() => {
+          //     console.log("Photo deleted!")
+          //     dispatch({ type: "DELETE_PHOTO" })
+          //     resolve({ ...member, photoUrl: { full: "", thumbnail: "" } })
+          //   })
+          //   .catch((error: IFBError) => {
+          //     dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+          //     console.log("Photo delete error!", error)
+          //   })
         } else {
-          if (imageFile) {
-            console.log("Uploading Photo!")
+          if (image.file) {
             setUpdating(true)
-            const uploadTask = firebase
-              .storage()
-              .ref(`profilePhotos/${member.id}`)
-              .put(imageFile)
-            uploadTask.on(
-              "state_changed",
-              snapshot => {
-                // progrss function ....
-                const progress = Math.round(
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                )
-                setProgress(progress)
-              },
-              error => {
-                // error function ....
-                reject(error)
-              },
-              () => {
-                // complete function ....
-                firebase
-                  .storage()
-                  .ref("profilePhotos")
-                  .child(member.id)
-                  .getDownloadURL()
-                  .then(photoUrl => {
-                    resolve({ ...member, photoUrl })
-                  })
-                  .catch((error: IFBError) => {
-                    // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
-                    console.log("Photo upload error!", error)
-                  })
+
+            console.log("Creating thumbnail photo!")
+
+            const imageFile = image.file
+            const promiseThumbnail = new Promise(
+              (
+                resThumbnail: (urlThumbnail: string) => void,
+                rejThumbnail: (errThumbnail: Error) => void
+              ) => {
+                fileToBase64(imageFile).then(base64 => {
+                  imageProcessor
+                    .src(base64)
+                    .pipe(applyExifOrientation())
+                    .then(result => {
+                      imageProcessor
+                        .src(result)
+                        .pipe(
+                          resize({
+                            maxWidth: 75,
+                            maxHeight: 75,
+                          })
+                          // sharpen({
+                          //   sharpness: +sharpness / 100,
+                          // }),
+                        )
+                        .then(resultBase64 => {
+                          const uploadTaskThumbnail = refThumbnail.put(
+                            base64ToArrayBuffer(resultBase64),
+                            {
+                              // TODO: Either force image conversion to jpeg or get metadata of the original image file
+                              contentType: "image/jpeg",
+                            }
+                          )
+                          uploadTaskThumbnail.on(
+                            "state_changed",
+                            snapshot => {
+                              //   // progrss function ....
+                              //   const progress = Math.round(
+                              //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                              //   )
+                              //   setProgress(progress)
+                            },
+                            errThumbnail => {
+                              // error function ....
+                              rejThumbnail(errThumbnail)
+                            },
+                            () => {
+                              refThumbnail
+                                .getDownloadURL()
+                                .then(photoUrl => {
+                                  resThumbnail(photoUrl)
+                                })
+                                .catch((error: IFBError) => {
+                                  // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+                                  console.log("Photo upload error!", error)
+                                })
+                            }
+                          )
+                        })
+                    })
+                })
+                // sharp(image.url)
+                //   .resize(75, 75)
+                //   .toFormat("jpeg")
+                //   .toBuffer()
+                //   .then((buffer: Buffer) => {
+                //     const refThumbnail = storageRef.child("thumbnail")
+                //     const uploadTaskThumbnail = refThumbnail.put(buffer)
+                //     uploadTaskThumbnail.on(
+                //       "state_changed",
+                //       snapshot => {
+                //         //   // progrss function ....
+                //         //   const progress = Math.round(
+                //         //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                //         //   )
+                //         //   setProgress(progress)
+                //       },
+                //       errThumbnail => {
+                //         // error function ....
+                //         rejThumbnail(errThumbnail)
+                //       },
+                //       () => {
+                //         refThumbnail
+                //           .getDownloadURL()
+                //           .then(photoUrl => {
+                //             resThumbnail(photoUrl)
+                //           })
+                //           .catch((error: IFBError) => {
+                //             // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+                //             console.log("Photo upload error!", error)
+                //           })
+                //       }
+                //     )
+                //   })
               }
             )
+
+            const uploadTaskFull = refFull.put(image.file)
+            let promiseFull = new Promise(
+              (
+                resFull: (photoUrl: string) => void,
+                rejFull: (errFull: Error) => void
+              ) => {
+                uploadTaskFull.on(
+                  "state_changed",
+                  snapshot => {
+                    // progrss function ....
+                    const progress = Math.round(
+                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    )
+                    setProgress(progress)
+                  },
+                  errFull => {
+                    // error function ....
+                    rejFull(errFull)
+                  },
+                  () => {
+                    // complete function ....
+                    refFull
+                      .getDownloadURL()
+                      .then(photoUrl => {
+                        resFull(photoUrl)
+                      })
+                      .catch((error: IFBError) => {
+                        // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+                        console.log("Photo upload error!", error)
+                      })
+                  }
+                )
+              }
+            )
+
+            Promise.all([promiseThumbnail, promiseFull]).then(Urls => {
+              resolve({
+                ...member,
+                thumbnailUrl: Urls[0],
+                photoUrl: Urls[1],
+              })
+            })
+
+            console.log("Uploading Photo!")
+
+            // const uploadTask = storageRef.child("full").put(image.file)
+
+            // uploadTask.on(
+            //   "state_changed",
+            //   snapshot => {
+            //     // progrss function ....
+            //     const progress = Math.round(
+            //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            //     )
+            //     setProgress(progress)
+            //   },
+            //   error => {
+            //     // error function ....
+            //     reject(error)
+            //   },
+            //   () => {
+            //     // complete function ....
+            //     firebase
+            //       .storage()
+            //       .ref("profilePhotos")
+            //       .child(member.id)
+            //       .getDownloadURL()
+            //       .then(photoUrl => {
+            //         resolve({ ...member, photoUrl })
+            //       })
+            //       .catch((error: IFBError) => {
+            //         // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
+            //         console.log("Photo upload error!", error)
+            //       })
+            //   }
+            // )
           } else {
             console.log("Not Uploading Photo!")
             resolve(member)
@@ -254,7 +453,7 @@ export const editProfile = ({
       }
     )
 
-  updatePhoto(imageFile)
+  updatePhoto(image)
     .then(memberWithPhotoUrl => {
       dispatch({ type: "UPLOAD_PHOTO" })
 
