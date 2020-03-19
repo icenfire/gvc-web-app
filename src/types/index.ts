@@ -120,6 +120,7 @@ export interface IFBError {
 export type Paths =
   | "/"
   | "/auth"
+  | "/bible"
   | "/calendar"
   | "/members"
   | "/myaccount"
@@ -128,3 +129,21 @@ export type Paths =
   | "/prayers"
   | "/private"
   | "/public"
+
+// ---Bibles---
+export interface IBibles {
+  info: {
+    bookEng: string
+    bookEnglish: string
+    bookKor: string
+    bookKorean: string
+    chapter: number
+    indexChapter: number
+    ref: string
+  }
+  verses: {
+    verse: number
+    indexVerse: number
+    text: string
+  }[]
+}

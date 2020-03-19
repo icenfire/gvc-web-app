@@ -51,5 +51,21 @@ export const globalObjects = () => {
       }
     }
   }
+
+  // // @ts-ignore
+  // window.uploadBibles = () => {
+  //   const bibles = require("./bibles.json")
+  //   for (const bibleKey in bibles) {
+  //     for (const chapterKey in bibles[bibleKey]) {
+  //       db.collection("bibles")
+  //         .doc(`${chapterKey}_${bibleKey}`)
+  //         .set(bibles[bibleKey][chapterKey])
+  //         .then(value => {
+  //           console.log(chapterKey, "out of 1189")
+  //         })
+  //     }
+  //   }
+  // }
+
   // Add more objects below
 }

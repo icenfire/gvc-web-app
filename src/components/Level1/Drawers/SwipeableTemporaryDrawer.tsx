@@ -8,10 +8,11 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { SvgIconProps } from "@material-ui/core/SvgIcon"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import AnnouncementIcon from "@material-ui/icons/Announcement"
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
-import MailIcon from "@material-ui/icons/Mail"
+import MenuBookIcon from "@material-ui/icons/MenuBook"
 import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
 import React, { FC, Fragment } from "react"
@@ -81,13 +82,18 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
     },
     {
       name: "Notices",
-      icon: <MailIcon />,
+      icon: <AnnouncementIcon />,
       page: "/notices",
     },
     {
       name: "Calendar",
       icon: <CalendarTodayIcon />,
       page: "/calendar",
+    },
+    {
+      name: "Bible",
+      icon: <MenuBookIcon />,
+      page: "/bible",
     },
     {
       name: "Playground",

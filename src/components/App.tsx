@@ -8,6 +8,7 @@ import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { AuthPage } from "./Pages/AuthPage"
+import { BiblePage } from "./Pages/BiblePage"
 import { CalendarPage } from "./Pages/CalendarPage"
 import { LeaderFormPage } from "./Pages/LeaderFormPage"
 import { MembersPage } from "./Pages/MembersPage"
@@ -62,6 +63,7 @@ export default function App() {
             }}
           />
           <Route path="/public" component={Playground} />
+          <Route path="/bible" component={BiblePage} />
           <Route path="/playground" component={Playground} />
           <PrivateRoute
             path="/auth"
