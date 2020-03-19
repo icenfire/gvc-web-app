@@ -2,6 +2,7 @@
 
 - [ ] Implement Bible page
   - [x] Implemented basic functionality
+  - [x] Implemented search with highlight match
   - [ ] Styling
   - [ ] Firestore persistence
   - [ ] Refactor repeated Bible dialogs

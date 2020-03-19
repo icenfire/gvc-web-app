@@ -7,6 +7,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore"
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
+import match from "autosuggest-highlight/match"
+import parse from "autosuggest-highlight/parse"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
@@ -17,9 +19,7 @@ import { IBibles } from "src/types"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    listItem: {
-      padding: 0,
-    },
+    highlight: { fontWeight: 700, background: "#000000" },
   })
 )
 
@@ -39,6 +39,7 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
   const bibleIndex = useSelector<AppState, BibleIndexState>(
     state => state.bibleIndex
   )
+  const search = useSelector<AppState, string>(state => state.appBar.search)
 
   const docId = `${String(
     bibleIndex.cumulativeChapters[book] + chapter
@@ -50,19 +51,41 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
     state => state.firestore.data.bibles && state.firestore.data.bibles[docId]
   )
 
+  const highlight = (text: string, search: string) => {
+    const matches = match(text.toLocaleLowerCase(), search.toLocaleLowerCase())
+    const parts = parse(text, matches)
+    return parts.map((part, index) =>
+      part.highlight ? (
+        <span key={index} className={classes.highlight}>
+          {part.text}
+        </span>
+      ) : (
+        <span key={index}>
+          {/* <span key={index} style={{ fontWeight: 500 }}> */}
+          {part.text}
+        </span>
+      )
+    )
+  }
+
   return (
     <Fragment>
       {reading &&
-        reading.verses.map(v => (
-          <Grid container spacing={1}>
-            <Grid item xs={1}>
-              {v.verse}
+        [...reading.verses]
+          .filter(v =>
+            v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          )
+          .map(v => (
+            <Grid container spacing={1}>
+              <Grid item xs={1}>
+                {v.verse}
+              </Grid>
+              <Grid item xs>
+                {highlight(v.text, search)}
+                {/* {v.text} */}
+              </Grid>
             </Grid>
-            <Grid item xs>
-              {v.text}
-            </Grid>
-          </Grid>
-        ))}
+          ))}
     </Fragment>
   )
 }
