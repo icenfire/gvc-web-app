@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export type Translation = "niv" | "kor" | "kor_easy"
+export type Translation = "niv" | "nkrv" | "aeb"
 
 export interface IPBibleTranslationDialog {
   translation: Translation
@@ -68,8 +68,8 @@ export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
 
   const display = {
     niv: "NIV",
-    kor: "개역한글",
-    kor_easy: "쉬운성경",
+    nkrv: "개역개정",
+    aeb: "쉬운성경",
   }
 
   return (
@@ -103,19 +103,21 @@ export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
         </DialogTitle>
         <DialogContent>
           <div className={classes.containerVertical}>
-            {(["niv", "kor", "kor_easy"] as Translation[]).map(
-              (t: Translation) =>
-                translation === t ? (
-                  <Button
-                    onClick={onClickItem(t)}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    {display[t]}
-                  </Button>
-                ) : (
-                  <Button onClick={onClickItem(t)}>{display[t]}</Button>
-                )
+            {(["niv", "nkrv", "aeb"] as Translation[]).map((t: Translation) =>
+              translation === t ? (
+                <Button
+                  key={t}
+                  onClick={onClickItem(t)}
+                  variant="outlined"
+                  color="primary"
+                >
+                  {display[t]}
+                </Button>
+              ) : (
+                <Button key={t} onClick={onClickItem(t)}>
+                  {display[t]}
+                </Button>
+              )
             )}
           </div>
         </DialogContent>

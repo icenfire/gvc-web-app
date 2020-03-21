@@ -76,7 +76,7 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
             v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
           )
           .map(v => (
-            <Grid container spacing={1}>
+            <Grid key={v.indexVerse} container spacing={1}>
               <Grid item xs={1}>
                 {v.verse}
               </Grid>

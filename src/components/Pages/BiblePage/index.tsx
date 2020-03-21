@@ -10,7 +10,7 @@ import { AppState } from "src/store/reducers/rootReducer"
 
 import { BibleBookDialog } from "../../Level1/Dialogs/BibleBookDialog"
 import { BibleChapterDialog } from "../../Level1/Dialogs/BibleChapterDialog"
-import { BibleTranslationDialog } from "../../Level1/Dialogs/BibleTranslationDialog"
+import { BibleTranslationDialog, Translation } from "../../Level1/Dialogs/BibleTranslationDialog"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -22,9 +22,7 @@ export const BiblePage: FC<IPBiblePage> = props => {
   const [openChapter, setOpenChapter] = useState<boolean>(false)
   const [openTranslation, setOpenTranslation] = useState<boolean>(false)
 
-  const [translation, setTranslation] = useState<"niv" | "kor" | "kor_easy">(
-    "niv"
-  )
+  const [translation, setTranslation] = useState<Translation>("niv")
   const [book, setBook] = useState<number | null>(null)
   const [chapter, setChapter] = useState<number | null>(null)
 
