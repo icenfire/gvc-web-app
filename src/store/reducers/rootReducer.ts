@@ -4,13 +4,13 @@ import { firestoreReducer } from "redux-firestore"
 
 import { appBarReducer } from "./appBarReducer"
 import { authReducer } from "./authReducer"
-import { bibleIndexReducer } from "./bibleIndexReducer"
+import { bibleReducer } from "./bibleReducer"
 import { noticeReducer } from "./noticeReducer"
 import { stylesReducer } from "./stylesReducer"
 
 export const rootReducer = combineReducers({
   auth: authReducer,
-  bibleIndex: bibleIndexReducer,
+  bible: bibleReducer,
   notice: noticeReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,

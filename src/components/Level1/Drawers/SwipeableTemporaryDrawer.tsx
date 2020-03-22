@@ -63,10 +63,12 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
     state => !state.firebase.auth.isEmpty
   )
 
+  console.log({ profile })
+
   const items: Item[] = [
     {
       name: isAuthenticated ? "My Account" : "Sign In",
-      icon: <Avatar src={profile.photoUrl} />,
+      icon: <Avatar src={profile.thumbnailUrl} />,
       page: isAuthenticated ? "/myaccount" : "/auth",
       divider: "below",
     },

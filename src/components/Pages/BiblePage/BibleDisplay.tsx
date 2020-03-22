@@ -13,9 +13,11 @@ import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
 import { Translation } from "src/components/Level1/Dialogs/BibleTranslationDialog"
-import { BibleIndexState } from "src/store/reducers/bibleIndexReducer"
+import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
 import { IBibles } from "src/types"
+
+import { IBibleRef } from "."
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,20 +26,20 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPBibleDisplay {
+  translation: IBibleRef["translation"]
   book: number
   chapter: number
-  translation: Translation
 }
 
 export const BibleDisplay: FC<IPBibleDisplay> = ({
-  book,
-  chapter,
   translation,
+  chapter,
+  book,
 }) => {
   const classes = useStyles()
 
-  const bibleIndex = useSelector<AppState, BibleIndexState>(
-    state => state.bibleIndex
+  const bibleIndex = useSelector<AppState, BibleState["index"]>(
+    state => state.bible.index
   )
   const search = useSelector<AppState, string>(state => state.appBar.search)
 

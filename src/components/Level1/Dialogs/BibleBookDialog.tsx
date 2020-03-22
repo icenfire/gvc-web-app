@@ -12,7 +12,8 @@ import Typography from "@material-ui/core/Typography"
 import ArrowBackIcon from "@material-ui/icons/ArrowBack"
 import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
-import { BibleIndexState } from "src/store/reducers/bibleIndexReducer"
+import { IBibleRef } from "src/components/Pages/BiblePage"
+import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
 
 import { Translation } from "./BibleTranslationDialog"
@@ -40,29 +41,25 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPBibleBookDialog {
-  book: number | null
-  setBook: (index: number) => void
+  bibleRef: IBibleRef
+  setAndUploadBibleRef: (bibleRef: IBibleRef) => void
   openBook: boolean
   setOpenBook: (open: boolean) => void
-  setChapter: (index: number | null) => void
   setOpenChapter: (open: boolean) => void
-  translation: Translation
 }
 
 export const BibleBookDialog: FC<IPBibleBookDialog> = props => {
   const {
-    book,
-    setBook,
+    bibleRef,
+    setAndUploadBibleRef,
     openBook,
     setOpenBook,
-    setChapter,
     setOpenChapter,
-    translation,
   } = props
   const classes = useStyles()
 
-  const bibleIndex = useSelector<AppState, BibleIndexState>(
-    state => state.bibleIndex
+  const bibleIndex = useSelector<AppState, BibleState["index"]>(
+    state => state.bible.index
   )
 
   const handleClickOpen = () => {
@@ -76,18 +73,22 @@ export const BibleBookDialog: FC<IPBibleBookDialog> = props => {
   const onClickItem = (i: number) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setBook(i)
+    setAndUploadBibleRef({ ...bibleRef, book: i, chapter: null })
+    // setBook(i)
+    // setChapter(null)
     setOpenBook(false)
-    setChapter(null)
     setOpenChapter(true)
   }
 
-  const translate = () => (translation === "niv" ? "english" : "korean")
+  const translate = () =>
+    bibleRef.translation === "niv" ? "english" : "korean"
 
   return (
     <Fragment>
       <Button onClick={handleClickOpen}>
-        {book !== null ? `Book: ${bibleIndex[translate()][book]}` : "Book"}
+        {bibleRef.book !== null
+          ? `Book: ${bibleIndex[translate()][bibleRef.book]}`
+          : "Book"}
       </Button>
       <Dialog
         open={openBook}
@@ -116,13 +117,13 @@ export const BibleBookDialog: FC<IPBibleBookDialog> = props => {
         <DialogContent>
           <div className={classes.containerHorizontal}>
             {["old", "new"].map(testament => (
-              <div className={classes.itemHorizontal}>
+              <div key={testament} className={classes.itemHorizontal}>
                 <Typography variant="h6" align="center">
                   {testament === "old"
-                    ? translation === "niv"
+                    ? bibleRef.translation === "niv"
                       ? "Old Testament"
                       : "구약"
-                    : translation === "niv"
+                    : bibleRef.translation === "niv"
                     ? "New Testament"
                     : "신약"}
                 </Typography>
@@ -132,7 +133,7 @@ export const BibleBookDialog: FC<IPBibleBookDialog> = props => {
                     testament === "old" ? "indicesOld" : "indicesNew"
                   ].map(i => (
                     <div key={i}>
-                      {book === i ? (
+                      {bibleRef.book === i ? (
                         <Button
                           onClick={onClickItem(i)}
                           variant="outlined"

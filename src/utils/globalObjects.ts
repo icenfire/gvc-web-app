@@ -2,9 +2,6 @@ import moment from "moment"
 
 import { db } from "./../firebase"
 
-const bibles = require("./bibles.json")
-console.log({ bibles })
-
 export const globalObjects = () => {
   // @ts-ignore
   window.createDummyMembers = () => {
@@ -55,19 +52,21 @@ export const globalObjects = () => {
     }
   }
 
-  // @ts-ignore
-  window.uploadBibles = () => {
-    for (const bibleKey in bibles) {
-      for (const chapterKey in bibles[bibleKey]) {
-        db.collection("bibles")
-          .doc(`${chapterKey}_${bibleKey}`)
-          .set(bibles[bibleKey][chapterKey])
-          .then(value => {
-            console.log(chapterKey, "out of 1189")
-          })
-      }
-    }
-  }
+  // // @ts-ignore
+  // window.uploadBibles = () => {
+  //   const bibles = require("./bibles.json")
+  // console.log({ bibles })
+  //   for (const bibleKey in bibles) {
+  //     for (const chapterKey in bibles[bibleKey]) {
+  //       db.collection("bibles")
+  //         .doc(`${chapterKey}_${bibleKey}`)
+  //         .set(bibles[bibleKey][chapterKey])
+  //         .then(value => {
+  //           console.log(chapterKey, "out of 1189")
+  //         })
+  //     }
+  //   }
+  // }
 
   // Add more objects below
 }

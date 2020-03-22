@@ -11,7 +11,8 @@ import Typography from "@material-ui/core/Typography"
 import ArrowBackIcon from "@material-ui/icons/ArrowBack"
 import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
-import { BibleIndexState } from "src/store/reducers/bibleIndexReducer"
+import { IBibleRef } from "src/components/Pages/BiblePage"
+import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,19 +35,18 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPBibleChapterDialog {
-  book: number | null
-  chapter: number | null
-  setChapter: (index: number) => void
+  bibleRef: IBibleRef
+  setAndUploadBibleRef: (bibleRef: IBibleRef) => void
   openChapter: boolean
   setOpenChapter: (open: boolean) => void
 }
 
 export const BibleChapterDialog: FC<IPBibleChapterDialog> = props => {
-  const { book, chapter, setChapter, openChapter, setOpenChapter } = props
+  const { bibleRef, setAndUploadBibleRef, openChapter, setOpenChapter } = props
   const classes = useStyles()
 
-  const bibleIndex = useSelector<AppState, BibleIndexState>(
-    state => state.bibleIndex
+  const bibleIndex = useSelector<AppState, BibleState["index"]>(
+    state => state.bible.index
   )
 
   const handleClickOpen = () => {
@@ -60,14 +60,15 @@ export const BibleChapterDialog: FC<IPBibleChapterDialog> = props => {
   const onClickItem = (i: number) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setChapter(i)
+    setAndUploadBibleRef({ ...bibleRef, chapter: i })
+    // setChapter(i)
     setOpenChapter(false)
   }
 
   const chaptersArray = () => {
     let out = []
-    if (book !== null) {
-      for (let i = 1; i <= bibleIndex.totalChapters[book]; i++) {
+    if (bibleRef.book !== null) {
+      for (let i = 1; i <= bibleIndex.totalChapters[bibleRef.book]; i++) {
         out.push(i)
       }
     }
@@ -78,7 +79,7 @@ export const BibleChapterDialog: FC<IPBibleChapterDialog> = props => {
     <Fragment>
       <Button onClick={handleClickOpen}>
         {" "}
-        {chapter !== null ? `Chapter: ${chapter}` : "Chapter"}
+        {bibleRef.chapter !== null ? `Chapter: ${bibleRef.chapter}` : "Chapter"}
       </Button>
 
       <Dialog
@@ -109,7 +110,7 @@ export const BibleChapterDialog: FC<IPBibleChapterDialog> = props => {
           <Grid container justify="center" alignItems="center" spacing={1}>
             {chaptersArray().map(i => (
               <Grid item key={i}>
-                {chapter === i ? (
+                {bibleRef.chapter === i ? (
                   <Button
                     onClick={onClickItem(i)}
                     variant="outlined"

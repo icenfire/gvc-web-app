@@ -10,9 +10,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import ArrowBackIcon from "@material-ui/icons/ArrowBack"
 import React, { FC, Fragment } from "react"
-import { useSelector } from "react-redux"
-import { BibleIndexState } from "src/store/reducers/bibleIndexReducer"
-import { AppState } from "src/store/reducers/rootReducer"
+import { IBibleRef } from "src/components/Pages/BiblePage"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,16 +34,16 @@ const useStyles = makeStyles((theme: Theme) =>
 export type Translation = "niv" | "nkrv" | "aeb"
 
 export interface IPBibleTranslationDialog {
-  translation: Translation
-  setTranslation: (translation: Translation) => void
+  bibleRef: IBibleRef
+  setAndUploadBibleRef: (bibleRef: IBibleRef) => void
   openTranslation: boolean
   setOpenTranslation: (open: boolean) => void
 }
 
 export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
   const {
-    translation,
-    setTranslation,
+    bibleRef,
+    setAndUploadBibleRef,
     openTranslation,
     setOpenTranslation,
   } = props
@@ -62,7 +60,8 @@ export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
   const onClickItem = (translation: Translation) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    setTranslation(translation)
+    setAndUploadBibleRef({ ...bibleRef, translation })
+    // setTranslation(translation)
     setOpenTranslation(false)
   }
 
@@ -74,9 +73,9 @@ export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
 
   return (
     <Fragment>
-      <Button
-        onClick={handleClickOpen}
-      >{`Translation: ${display[translation]}`}</Button>
+      <Button onClick={handleClickOpen}>{`Translation: ${
+        display[bibleRef.translation]
+      }`}</Button>
       <Dialog
         open={openTranslation}
         onClose={handleClose}
@@ -104,7 +103,7 @@ export const BibleTranslationDialog: FC<IPBibleTranslationDialog> = props => {
         <DialogContent>
           <div className={classes.containerVertical}>
             {(["niv", "nkrv", "aeb"] as Translation[]).map((t: Translation) =>
-              translation === t ? (
+              bibleRef.translation === t ? (
                 <Button
                   key={t}
                   onClick={onClickItem(t)}

@@ -3,8 +3,9 @@
 - [ ] Implement Bible page
   - [x] Implemented basic functionality
   - [x] Implemented search with highlight match
+  - [x] Updated Bible names
+  - [x] Firestore persistence
   - [ ] Styling
-  - [ ] Firestore persistence
   - [ ] Refactor repeated Bible dialogs
 - [x] Implement uploading thumbnail size profile photo
 - [x] Implement Absolute importing
