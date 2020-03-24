@@ -28,12 +28,20 @@ export const MembersPage: FC<IPMembersPage> = props => {
     setValues({ ...values, editMode: !values.editMode })
   }
 
+  const profile = useSelector<AppState, any>(state => state.firebase.profile)
+
   // Get notices from Firestore
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
   ])
+
   // Get members from Firestore
-  useFirestoreConnect("members")
+  useFirestoreConnect([
+    {
+      collection: "members",
+      where: ["cell", "==", profile.cell ? profile.cell : ""], // querying cell == "" return permission error
+    },
+  ])
   const stateFS = useSelector<AppState, any>(state => state.firestore)
   const membersArr = stateFS.ordered.members
   const noticesArr = stateFS.ordered.notices

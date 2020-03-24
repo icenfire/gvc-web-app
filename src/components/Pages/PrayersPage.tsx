@@ -19,11 +19,25 @@ export const PrayersPage: FC<IPPrayersPage> = props => {
   const classes = useStyles()
   const [values, setValues] = useState<ISPrayersPage>({})
 
+  const profile = useSelector<AppState, any>(state => state.firebase.profile)
+
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
   ])
-  useFirestoreConnect("members")
-  useFirestoreConnect("prayers")
+
+  useFirestoreConnect([
+    {
+      collection: "members",
+      where: ["cell", "==", profile.cell ? profile.cell : ""],
+    },
+  ])
+
+  useFirestoreConnect([
+    {
+      collection: "prayers",
+      where: ["cell", "==", profile.cell ? profile.cell : ""],
+    },
+  ])
 
   const stateFS = useSelector<AppState, any>(state => state.firestore)
 

@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] Implement restricting view to my cell only
 - [ ] Implement Bible page
   - [x] Implemented basic functionality
   - [x] Implemented search with highlight match
