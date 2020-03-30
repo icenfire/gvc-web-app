@@ -1,16 +1,24 @@
-import { Translation } from "src/components/Level1/Dialogs/BibleTranslationDialog"
+import { IBibleRef } from "src/components/Pages/BiblePage"
 import { BibleActionTypes } from "src/types/actions"
 
 import { bibleIndex, BibleIndex } from "./bibleIndex"
 
 export interface BibleState {
   index: BibleIndex
-  ref: { translation: Translation; book: number | null; chapter: number | null }
+  ref: {
+    translation: IBibleRef["translation"]
+    book: number | null
+    chapter: number | null
+  }
 }
 
 const initState = {
   index: bibleIndex,
-  ref: { translation: "niv" as Translation, book: null, chapter: null },
+  ref: {
+    translation: "niv" as IBibleRef["translation"],
+    book: null,
+    chapter: null,
+  },
 }
 
 export const bibleReducer = (

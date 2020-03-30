@@ -1,6 +1,12 @@
 import AppBar from "@material-ui/core/AppBar"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
+import Grid from "@material-ui/core/Grid"
+import IconButton from "@material-ui/core/IconButton"
+import Slide from "@material-ui/core/Slide"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import useScrollTrigger from "@material-ui/core/useScrollTrigger"
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore"
+import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 import React, { FC, Fragment, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useFirestoreConnect } from "react-redux-firebase"
@@ -11,12 +17,14 @@ import { uploadBibleRef } from "src/store/actions/bibleActions"
 import { BibleState } from "src/store/reducers/bibleReducer"
 import { AppState } from "src/store/reducers/rootReducer"
 
-import { BibleBookDialog } from "../../Level1/Dialogs/BibleBookDialog"
-import { BibleChapterDialog } from "../../Level1/Dialogs/BibleChapterDialog"
-import { BibleTranslationDialog } from "../../Level1/Dialogs/BibleTranslationDialog"
+import { BibleDialog } from "../../Level1/Dialogs/BibleDialog"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: { minHeight: "100vh" },
+    buttonGroup: {
+      height: "100%",
+    },
     footer: {
       bottom: 0,
     },
@@ -30,11 +38,20 @@ export interface IBibleRef {
   chapter: number | null
 }
 
+export type IBiblePageOpen = {
+  [key in keyof IBibleRef]: boolean
+}
+
+export type IBiblePageSetOpen = (open: IBiblePageOpen) => void
+
 export const BiblePage: FC<IPBiblePage> = props => {
   const classes = useStyles()
-  const [openTranslation, setOpenTranslation] = useState<boolean>(false)
-  const [openBook, setOpenBook] = useState<boolean>(false)
-  const [openChapter, setOpenChapter] = useState<boolean>(false)
+
+  const [open, setOpen] = useState<IBiblePageOpen>({
+    translation: false,
+    book: false,
+    chapter: false,
+  })
 
   const [bibleRef, setBibleRef] = useState<IBibleRef>({
     translation: "niv",
@@ -42,14 +59,11 @@ export const BiblePage: FC<IPBiblePage> = props => {
     chapter: null,
   })
 
-  // const [localTranslation, setLocalTranslation] = useState<Translation>(
-  //   "niv" as Translation
-  // )
-  // const [localBook, setLocalBook] = useState<number | null>(null)
-  // const [localChapter, setLocalChapter] = useState<number | null>(null)
-
   const dispatch = useDispatch()
 
+  const bibleIndex = useSelector<AppState, BibleState["index"]>(
+    state => state.bible.index
+  )
   const uid = useSelector<AppState, string>(state => state.firebase.auth.uid)
 
   useFirestoreConnect([{ collection: "bibleRefs", doc: uid }])
@@ -58,19 +72,20 @@ export const BiblePage: FC<IPBiblePage> = props => {
       state.firestore.data.bibleRefs && state.firestore.data.bibleRefs[uid]
   )
 
-  // let translation: Translation, book: number | null, chapter: number | null
-  // let setTranslation: (translation: Translation) => void,
-  //   setBook: (book: number | null) => void,
-  //   setChapter: (chapter: number | null) => void
-
   useEffect(() => {
     if (uid)
       setBibleRef({
         translation: remoteBibleRef?.translation
           ? remoteBibleRef.translation
           : "niv",
-        book: remoteBibleRef?.book ? remoteBibleRef.book : null,
-        chapter: remoteBibleRef?.chapter ? remoteBibleRef.chapter : null,
+        book:
+          remoteBibleRef?.book !== (null || undefined)
+            ? remoteBibleRef.book
+            : null,
+        chapter:
+          remoteBibleRef?.chapter !== (null || undefined)
+            ? remoteBibleRef.chapter
+            : null,
       })
   }, [uid, remoteBibleRef])
 
@@ -78,56 +93,110 @@ export const BiblePage: FC<IPBiblePage> = props => {
     if (uid) dispatch(uploadBibleRef(br, uid))
     setBibleRef(br)
   }
-  // setTranslation = (translation: Translation) => {
-  //   setLocalTranslation(translation)
-  // }
-  // setBook = (book: number | null) => {
-  //   if (uid) dispatch(uploadBibleRef("book", book, uid))
-  //   setLocalBook(book)
-  // }
-  // setChapter = (chapter: number | null) => {
-  //   if (uid) dispatch(uploadBibleRef("chapter", chapter, uid))
-  //   setLocalChapter(chapter)
-  // }
+
+  const nextChapter = () => {
+    if (bibleRef.book !== null && bibleRef.chapter !== null) {
+      let newBook: number
+      let newChapter: number
+
+      if (bibleRef.chapter === bibleIndex.totalChapters[bibleRef.book]) {
+        newBook =
+          bibleRef.book === bibleIndex.totalChapters.length - 1
+            ? 0
+            : bibleRef.book + 1
+        newChapter = 1
+      } else {
+        newBook = bibleRef.book
+        newChapter = bibleRef.chapter + 1
+      }
+
+      setAndUploadBibleRef({
+        ...bibleRef,
+        book: newBook,
+        chapter: newChapter,
+      })
+    }
+  }
+
+  const previousChapter = () => {
+    if (bibleRef.book !== null && bibleRef.chapter !== null) {
+      let newBook: number
+      let newChapter: number
+
+      if (bibleRef.chapter === 1) {
+        newBook =
+          bibleRef.book === 0
+            ? bibleIndex.indices[bibleIndex.indices.length - 1]
+            : bibleRef.book - 1
+        newChapter = bibleIndex.totalChapters[newBook]
+      } else {
+        newChapter = bibleRef.chapter - 1
+        newBook = bibleRef.book
+      }
+
+      setAndUploadBibleRef({
+        ...bibleRef,
+        book: newBook,
+        chapter: newChapter,
+      })
+    }
+  }
 
   return (
     <Fragment>
       <AppBarMain title="Bible" />
       <ContainerMain>
-        {bibleRef.book !== null && bibleRef.chapter !== null && (
-          <BibleDisplay
-            translation={bibleRef.translation}
-            book={bibleRef.book}
-            chapter={bibleRef.chapter}
-          />
-        )}
-      </ContainerMain>
-      <AppBar position="sticky" className={classes.footer}>
-        <ButtonGroup>
-          <BibleTranslationDialog
-            bibleRef={bibleRef}
-            setAndUploadBibleRef={setAndUploadBibleRef}
-            openTranslation={openTranslation}
-            setOpenTranslation={setOpenTranslation}
-          />
-          <BibleBookDialog
-            bibleRef={bibleRef}
-            setAndUploadBibleRef={setAndUploadBibleRef}
-            openBook={openBook}
-            setOpenBook={setOpenBook}
-            setOpenChapter={setOpenChapter}
-          />
-
-          {bibleRef.book !== null && (
-            <BibleChapterDialog
-              bibleRef={bibleRef}
-              setAndUploadBibleRef={setAndUploadBibleRef}
-              openChapter={openChapter}
-              setOpenChapter={setOpenChapter}
+        <div className={classes.root}>
+          {bibleRef.book !== null && bibleRef.chapter !== null && (
+            <BibleDisplay
+              translation={bibleRef.translation}
+              book={bibleRef.book}
+              chapter={bibleRef.chapter}
             />
           )}
-        </ButtonGroup>
-      </AppBar>
+        </div>
+      </ContainerMain>
+      <Slide appear={false} direction="up" in={true}>
+        {/* <Slide appear={false} direction="up" in={!useScrollTrigger()}> */}
+        <AppBar position="sticky" className={classes.footer}>
+          <Grid container justify="space-between">
+            <Grid item>
+              <IconButton onClick={previousChapter}>
+                <NavigateBeforeIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs>
+              <ButtonGroup fullWidth className={classes.buttonGroup}>
+                <Grid container justify="center" alignItems="center">
+                  {([
+                    "translation",
+                    "book",
+                    "chapter",
+                  ] as (keyof IBibleRef)[]).map(
+                    bibleRefKey =>
+                      (bibleRefKey !== "chapter" || bibleRef.book !== null) && (
+                        <Grid item>
+                          <BibleDialog
+                            key={bibleRefKey}
+                            bibleRefKey={bibleRefKey}
+                            bibleRef={bibleRef}
+                            setAndUploadBibleRef={setAndUploadBibleRef}
+                            open={open}
+                            setOpen={setOpen}
+                          />
+                        </Grid>
+                      )
+                  )}
+                </Grid>
+              </ButtonGroup>
+            </Grid>
+            <Grid item></Grid>
+            <IconButton onClick={nextChapter}>
+              <NavigateNextIcon />
+            </IconButton>
+          </Grid>
+        </AppBar>
+      </Slide>
     </Fragment>
   )
 }

@@ -1,5 +1,3 @@
-import { Translation } from "src/components/Level1/Dialogs/BibleTranslationDialog"
-
 import { ThunkActionCustom } from "../../types/actions"
 import { IBibleRef } from "./../../components/Pages/BiblePage"
 

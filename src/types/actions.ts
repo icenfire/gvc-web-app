@@ -1,6 +1,5 @@
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
-import { Translation } from "src/components/Level1/Dialogs/BibleTranslationDialog"
 
 import { IFBError, INotice } from "."
 import { AppState } from "../store/reducers/rootReducer"
