@@ -46,3 +46,17 @@ let example: WithRubricKeys = {
   b: "hello",
   c: 12,
 }
+
+// Conditional type based on value
+interface IObject {
+  name: string
+  age: number
+}
+
+const object: IObject = {
+  name: "Adam",
+  age: 20,
+}
+
+const exampleFunction = <K extends keyof IObject>(key: K): IObject[K] =>
+  object(key)

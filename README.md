@@ -53,7 +53,8 @@ Issue 2. How to reproduce error: "/public" &rarr; "/" &rarr; "public". This crea
 
 ## Questions
 
-- [ ] How to make conditional type? See src&rarr;utils&rarr;example.ts
+- [x] How to make conditional type? See src&rarr;utils&rarr;example.ts
+  - See notes.tsx on section "Conditional type based on value"
 - [ ] How should we structure our database? In particular, if we only have members details have one source of truth on "members" collection, then users like 목사님 may end up doing 300+ reads every session. This could be dealt with: caching/having multiple source of truth synchronised by firefunctions/summary document
 - [ ] There is a lag between firebase auth update and redux-firebase state
 - [ ] How should we sign people up?

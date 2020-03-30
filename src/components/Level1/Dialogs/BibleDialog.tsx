@@ -59,18 +59,17 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
     setOpen({ ...open, [bibleRefKey]: false })
   }
 
-  // TODO: Make the types of keys and items match!
-  const onClickItem = (value: IBibleRef[keyof IBibleRef]) => (
+  const onClickItem = <K extends keyof IBibleRef>(value: IBibleRef[K]) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     let updatedBibleRef = {
       ...bibleRef,
-      [bibleRefKey as keyof IBibleRef]: value,
+      [bibleRefKey as K]: value,
     }
 
     let updatedOpen = {
       ...open,
-      [bibleRefKey as keyof IBibleRef]: false,
+      [bibleRefKey as K]: false,
     }
 
     if (bibleRefKey === "book") {
