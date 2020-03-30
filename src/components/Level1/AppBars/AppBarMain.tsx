@@ -1,9 +1,11 @@
 import AppBar from "@material-ui/core/AppBar"
 import IconButton from "@material-ui/core/IconButton"
 import InputBase from "@material-ui/core/InputBase"
+import Slide from "@material-ui/core/Slide"
 import { createStyles, fade, makeStyles, Theme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
+import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import EditIcon from "@material-ui/icons/Edit"
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
@@ -96,31 +98,33 @@ export const AppBarMain: React.FC<IPAppBarMain> = ({ title }) => {
 
   return (
     <Fragment>
-      <AppBar className={classes.appBar} position="sticky">
-        <Toolbar disableGutters={!state.drawerOpen}>
-          <IconButton aria-label="Open drawer" onClick={toggleDrawer(true)}>
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} noWrap>
-            {title}
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+      <Slide appear={false} direction="down" in={!useScrollTrigger()}>
+        <AppBar className={classes.appBar} position="sticky">
+          <Toolbar disableGutters={!state.drawerOpen}>
+            <IconButton aria-label="Open drawer" onClick={toggleDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.title} noWrap>
+              {title}
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                value={search}
+                onChange={setSearch}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              value={search}
-              onChange={setSearch}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
+      </Slide>
       <SwipeableTemporaryDrawer
         drawerOpen={state.drawerOpen}
         toggleDrawer={toggleDrawer}

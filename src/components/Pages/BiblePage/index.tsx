@@ -1,3 +1,4 @@
+import AppBar from "@material-ui/core/AppBar"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { FC, Fragment, useEffect, useState } from "react"
@@ -14,7 +15,13 @@ import { BibleBookDialog } from "../../Level1/Dialogs/BibleBookDialog"
 import { BibleChapterDialog } from "../../Level1/Dialogs/BibleChapterDialog"
 import { BibleTranslationDialog } from "../../Level1/Dialogs/BibleTranslationDialog"
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    footer: {
+      bottom: 0,
+    },
+  })
+)
 
 export interface IPBiblePage {}
 export interface IBibleRef {
@@ -87,6 +94,15 @@ export const BiblePage: FC<IPBiblePage> = props => {
     <Fragment>
       <AppBarMain title="Bible" />
       <ContainerMain>
+        {bibleRef.book !== null && bibleRef.chapter !== null && (
+          <BibleDisplay
+            translation={bibleRef.translation}
+            book={bibleRef.book}
+            chapter={bibleRef.chapter}
+          />
+        )}
+      </ContainerMain>
+      <AppBar position="sticky" className={classes.footer}>
         <ButtonGroup>
           <BibleTranslationDialog
             bibleRef={bibleRef}
@@ -111,14 +127,7 @@ export const BiblePage: FC<IPBiblePage> = props => {
             />
           )}
         </ButtonGroup>
-        {bibleRef.book !== null && bibleRef.chapter !== null && (
-          <BibleDisplay
-            translation={bibleRef.translation}
-            book={bibleRef.book}
-            chapter={bibleRef.chapter}
-          />
-        )}
-      </ContainerMain>
+      </AppBar>
     </Fragment>
   )
 }
