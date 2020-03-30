@@ -22,6 +22,9 @@ import { IBibleRef } from "."
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     highlight: { fontWeight: 700, background: "#000000" },
+    listItem: { display: "flex", alignItems: "flex-start" },
+    verse: { alignSelf: "flex-start", flex: 1 },
+    text: { flex: 10 },
   })
 )
 
@@ -71,23 +74,40 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
   }
 
   return (
-    <Fragment>
+    <List>
       {reading &&
         [...reading.verses]
           .filter(v =>
             v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
           )
           .map(v => (
-            <Grid key={v.indexVerse} container spacing={1}>
-              <Grid item xs={1}>
+            <ListItem className={classes.listItem} key={v.indexVerse}>
+              <Typography className={classes.verse} align="left">
                 {v.verse}
-              </Grid>
-              <Grid item xs>
+              </Typography>
+              <Typography className={classes.text} align="left">
                 {highlight(v.text, search)}
-                {/* {v.text} */}
-              </Grid>
-            </Grid>
+              </Typography>
+            </ListItem>
           ))}
-    </Fragment>
+    </List>
+    // <Fragment>
+    //   {reading &&
+    //     [...reading.verses]
+    //       .filter(v =>
+    //         v.text.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    //       )
+    //       .map(v => (
+    //         <Grid key={v.indexVerse} container spacing={1}>
+    //           <Grid item xs={1}>
+    //             {v.verse}
+    //           </Grid>
+    //           <Grid item xs>
+    //             {highlight(v.text, search)}
+    //             {/* {v.text} */}
+    //           </Grid>
+    //         </Grid>
+    //       ))}
+    // </Fragment>
   )
 }

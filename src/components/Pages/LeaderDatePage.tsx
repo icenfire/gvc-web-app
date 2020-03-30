@@ -16,7 +16,7 @@ export const LeaderDatePage: FC<IPLeaderDatePage> = props => {
   return (
     <Fragment>
       {/* <AppBarMain /> */}
-      <ContainerMain></ContainerMain>
+      <ContainerMain>Leader Date Page</ContainerMain>
     </Fragment>
   )
 }

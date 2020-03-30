@@ -45,7 +45,7 @@ export default function App() {
       <BrowserRouter>
         <CssBaseline />
         <Switch>
-          <Route
+          {/* <Route
             exact
             path="/"
             component={() => {
@@ -61,7 +61,8 @@ export default function App() {
                 </ul>
               )
             }}
-          />
+          /> */}
+          <PrivateRoute path="/" exact component={MembersPage} />
           <Route path="/public" component={Playground} />
           <Route path="/bible" component={BiblePage} />
           <Route path="/playground" component={Playground} />
