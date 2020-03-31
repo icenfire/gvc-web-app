@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      paddingLeft: theme.spacing(1.5),
+      // paddingLeft: theme.spacing(1.5),
     },
     search: {
       position: "relative",
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export interface IPAppBarMain {
-  title: string
+  title: React.ReactNode
 }
 
 export const AppBarMain: React.FC<IPAppBarMain> = ({ title }) => {

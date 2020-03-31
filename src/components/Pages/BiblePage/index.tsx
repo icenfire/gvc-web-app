@@ -1,5 +1,7 @@
 import AppBar from "@material-ui/core/AppBar"
+import Button from "@material-ui/core/Button"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
+import Divider from "@material-ui/core/Divider"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import Slide from "@material-ui/core/Slide"
@@ -24,9 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
     root: { minHeight: "100vh" },
     buttonGroup: {
       height: "100%",
+      padding: 0,
     },
     footer: {
       bottom: 0,
+    },
+    divider: {
+      color: theme.palette.common.white,
+      background: theme.palette.common.white,
     },
   })
 )
@@ -53,11 +60,9 @@ export const BiblePage: FC<IPBiblePage> = props => {
     chapter: false,
   })
 
-  const [bibleRef, setBibleRef] = useState<IBibleRef>({
-    translation: "niv",
-    book: null,
-    chapter: null,
-  })
+  const bibleRef = useSelector<AppState, BibleState["ref"]>(
+    state => state.bible.ref
+  )
 
   const dispatch = useDispatch()
 
@@ -74,24 +79,27 @@ export const BiblePage: FC<IPBiblePage> = props => {
 
   useEffect(() => {
     if (uid)
-      setBibleRef({
-        translation: remoteBibleRef?.translation
-          ? remoteBibleRef.translation
-          : "niv",
-        book:
-          remoteBibleRef?.book !== (null || undefined)
-            ? remoteBibleRef.book
-            : null,
-        chapter:
-          remoteBibleRef?.chapter !== (null || undefined)
-            ? remoteBibleRef.chapter
-            : null,
+      dispatch({
+        type: "SET_BIBLE_REFERENCE",
+        payload: {
+          translation: remoteBibleRef?.translation
+            ? remoteBibleRef.translation
+            : "niv",
+          book:
+            remoteBibleRef?.book !== (null || undefined)
+              ? remoteBibleRef.book
+              : null,
+          chapter:
+            remoteBibleRef?.chapter !== (null || undefined)
+              ? remoteBibleRef.chapter
+              : null,
+        },
       })
-  }, [uid, remoteBibleRef])
+  }, [uid, remoteBibleRef, dispatch])
 
   const setAndUploadBibleRef = (br: IBibleRef) => {
     if (uid) dispatch(uploadBibleRef(br, uid))
-    setBibleRef(br)
+    dispatch({ type: "SET_BIBLE_REFERENCE", payload: br })
   }
 
   const nextChapter = () => {

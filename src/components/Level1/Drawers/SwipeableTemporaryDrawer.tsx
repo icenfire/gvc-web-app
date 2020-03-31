@@ -17,7 +17,7 @@ import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
 import React, { FC, Fragment } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 
 import { signOut } from "../../../store/actions/authActions"
 import { AppState } from "../../../store/reducers/rootReducer"
@@ -48,6 +48,7 @@ type Item = {
   icon: JSX.Element
   page: Paths
   divider?: "above" | "below"
+  disabled?: boolean
 }
 
 export const SwipeableTemporaryDrawer: FC<Props> = ({
@@ -55,6 +56,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
   toggleDrawer,
 }) => {
   const classes = useStyles()
+  const location = useLocation()
   const history = useHistory()
   const dispatch = useDispatch()
   const profile = useSelector<AppState, any>(state => state.firebase.profile)
@@ -74,21 +76,26 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       name: "Members",
       icon: <PeopleIcon />,
       page: "/members",
+      disabled: !isAuthenticated,
     },
     {
       name: "Prayers",
       icon: <LibraryBooksIcon />,
       page: "/prayers",
+      disabled: !isAuthenticated,
     },
     {
       name: "Notices",
       icon: <AnnouncementIcon />,
       page: "/notices",
+      disabled: !isAuthenticated,
     },
     {
       name: "Calendar",
       icon: <CalendarTodayIcon />,
       page: "/calendar",
+      disabled: !isAuthenticated,
+      divider: "below",
     },
     {
       name: "Bible",
@@ -99,7 +106,6 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       name: "Playground",
       icon: <WidgetsIcon />,
       page: "/playground",
-      divider: "above",
     },
   ]
 
@@ -118,7 +124,12 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
           {items.map(item => (
             <Fragment key={item.name}>
               {item.divider === "above" && <Divider />}
-              <ListItem button onClick={() => history.push(item.page)}>
+              <ListItem
+                button
+                onClick={() => history.push(item.page)}
+                selected={item.page === location.pathname}
+                disabled={item.disabled}
+              >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>

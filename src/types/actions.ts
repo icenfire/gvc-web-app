@@ -1,5 +1,6 @@
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
+import { IBibleRef } from "src/components/Pages/BiblePage"
 
 import { IFBError, INotice } from "."
 import { AppState } from "../store/reducers/rootReducer"
@@ -162,42 +163,10 @@ export interface SearchOnChange {
 export type AppBarActionTypes = SearchOnChange
 
 // Bible Actions
-// export const SET_TRANSLATION = "SET_TRANSLATION"
-// export interface SetTranslation {
-//   type: typeof SET_TRANSLATION
-// }
-
-// export const SET_TRANSLATION_ERROR = "SET_TRANSLATION_ERROR"
-// export interface SetTranslationError {
-//   type: typeof SET_TRANSLATION_ERROR
-//   payload: IFBError
-// }
-
-// export const SET_CHAPTER = "SET_CHAPTER"
-// export const SET_BOOK = "SET_BOOK"
-// export interface SetBook {
-//   type: typeof SET_BOOK
-// }
-
-// export const SET_BOOK_ERROR = "SET_BOOK_ERROR"
-// export interface SetBookError {
-//   type: typeof SET_BOOK_ERROR
-//   payload: IFBError
-// }
-
-// export interface SetChapter {
-//   type: typeof SET_CHAPTER
-// }
-
-// export const SET_CHAPTER_ERROR = "SET_CHAPTER_ERROR"
-// export interface SetChapterError {
-//   type: typeof SET_CHAPTER_ERROR
-//   payload: IFBError
-// }
-
 export const SET_BIBLE_REFERENCE = "SET_BIBLE_REFERENCE"
 export interface SetBibleReference {
   type: typeof SET_BIBLE_REFERENCE
+  payload: IBibleRef
 }
 
 export const SET_BIBLE_REFERENCE_ERROR = "SET_BIBLE_REFERENCE_ERROR"
@@ -205,14 +174,6 @@ export interface SetBibleReferenceError {
   type: typeof SET_BIBLE_REFERENCE_ERROR
   payload: IFBError
 }
-
-// export type BibleActionTypes =
-//   | SetTranslation
-//   | SetTranslationError
-//   | SetBook
-//   | SetBookError
-//   | SetChapter
-//   | SetChapterError
 
 export type BibleActionTypes = SetBibleReference | SetBibleReferenceError
 

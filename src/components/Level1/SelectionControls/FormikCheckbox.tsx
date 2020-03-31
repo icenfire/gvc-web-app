@@ -3,12 +3,12 @@ import Checkbox from "@material-ui/core/Checkbox"
 import Typography from "@material-ui/core/Typography"
 import { FieldAttributes, useField } from "formik"
 import React, { FC } from "react"
+import { IAuthForm } from "src/types"
 
-export const FormikCheckBox: FC<FieldAttributes<{}> & { label: string }> = ({
-  label,
-  placeholder,
-  ...props
-}) => {
+export const FormikCheckBox: FC<FieldAttributes<{}> & {
+  label: string
+  name: keyof IAuthForm
+}> = ({ label, placeholder, ...props }) => {
   const [field, meta] = useField<{}>({ ...props, type: "checkbox" })
   const errorText = meta.error && meta.touched ? meta.error : ""
   return (

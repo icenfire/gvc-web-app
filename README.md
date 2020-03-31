@@ -1,5 +1,7 @@
 ## TODO LIST
 
+- [x] Make the current page highlight on the side drawer
+- [x] Make local BibleRef a redux state
 - [x] Implement restricting view to my cell only
 - [x] Implement Bible page
   - [x] Implemented basic functionality
@@ -32,8 +34,8 @@
   - Update: Solved Issue 1.
 - [x] Implement progress animation
 - [x] Implement reset password
-- [ ] Make "name" prop in form fields in SignInUpPageStatic one of key of IValues
-- [x] Make the yup input object, type safe with IValues
+- [x] Make "name" prop in form fields in AuthPage one of key of IAuthForm
+- [x] Make the yup input object, type safe with IAuthForm
 - [x] Implement Signin/up error message
 - [x] Implement Remember me
 - [x] Use Formik for forms ([Youtube](https://www.youtube.com/watch?v=FD50LPJ6bjE), [Github](https://github.com/benawad/formik-2-example/tree/master))

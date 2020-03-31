@@ -2,9 +2,10 @@ import InputAdornment from "@material-ui/core/InputAdornment"
 import TextField, { TextFieldProps } from "@material-ui/core/TextField"
 import { FieldAttributes, useField } from "formik"
 import React, { FC } from "react"
+import { IAuthForm } from "src/types"
 
 export const FormikTextField: FC<FieldAttributes<{}> &
-  TextFieldProps & { icon: JSX.Element }> = ({
+  TextFieldProps & { icon: JSX.Element; name: keyof IAuthForm }> = ({
   label,
   type,
   placeholder,

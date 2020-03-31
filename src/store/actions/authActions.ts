@@ -46,36 +46,11 @@ export const signUp = ({
         agreeTAndC,
       }
     )
-
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then(value => {
-    //     dispatch({ type: "SIGN_UP" })
-    //     console.log("Sign up succesful!")
-
-    //     // Create Member Profile
-    //     firestore
-    //       .collection("members")
-    //       .doc(value.user?.uid)
-    //       .set({
-    //         name,
-    //         dob,
-    //         cell: "",
-    //         positions: [],
-    //         agreeTAndC,
-    //       })
     .then(() => {
       dispatch({ type: "MEMBER_PROFILE_CREATED" })
       openAlertSignUp()
       setSubmitting(false)
     })
-    // .catch((error: IFBError) => {
-    //   dispatch({ type: "MEMBER_PROFILE_CREATED_ERROR", payload: error })
-    //   console.log(error)
-    //   setSubmitting(false)
-    // })
-    // })
     .catch((error: IFBError) => {
       dispatch({ type: "SIGN_UP_ERROR", payload: error })
       console.log(error)
@@ -254,21 +229,6 @@ export const editProfile = ({
               dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
               console.log("Photo delete error!", error)
             })
-
-          // firebase
-          //   .storage()
-          //   .ref("profilePhotos")
-          //   .child(member.id)
-          //   .delete()
-          //   .then(() => {
-          //     console.log("Photo deleted!")
-          //     dispatch({ type: "DELETE_PHOTO" })
-          //     resolve({ ...member, photoUrl: { full: "", thumbnail: "" } })
-          //   })
-          //   .catch((error: IFBError) => {
-          //     dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
-          //     console.log("Photo delete error!", error)
-          //   })
         } else {
           if (image.file) {
             setUpdating(true)
@@ -333,39 +293,6 @@ export const editProfile = ({
                         })
                     })
                 })
-                // sharp(image.url)
-                //   .resize(75, 75)
-                //   .toFormat("jpeg")
-                //   .toBuffer()
-                //   .then((buffer: Buffer) => {
-                //     const refThumbnail = storageRef.child("thumbnail")
-                //     const uploadTaskThumbnail = refThumbnail.put(buffer)
-                //     uploadTaskThumbnail.on(
-                //       "state_changed",
-                //       snapshot => {
-                //         //   // progrss function ....
-                //         //   const progress = Math.round(
-                //         //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                //         //   )
-                //         //   setProgress(progress)
-                //       },
-                //       errThumbnail => {
-                //         // error function ....
-                //         rejThumbnail(errThumbnail)
-                //       },
-                //       () => {
-                //         refThumbnail
-                //           .getDownloadURL()
-                //           .then(photoUrl => {
-                //             resThumbnail(photoUrl)
-                //           })
-                //           .catch((error: IFBError) => {
-                //             // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
-                //             console.log("Photo upload error!", error)
-                //           })
-                //       }
-                //     )
-                //   })
               }
             )
 
@@ -413,38 +340,6 @@ export const editProfile = ({
             })
 
             console.log("Uploading Photo!")
-
-            // const uploadTask = storageRef.child("full").put(image.file)
-
-            // uploadTask.on(
-            //   "state_changed",
-            //   snapshot => {
-            //     // progrss function ....
-            //     const progress = Math.round(
-            //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            //     )
-            //     setProgress(progress)
-            //   },
-            //   error => {
-            //     // error function ....
-            //     reject(error)
-            //   },
-            //   () => {
-            //     // complete function ....
-            //     firebase
-            //       .storage()
-            //       .ref("profilePhotos")
-            //       .child(member.id)
-            //       .getDownloadURL()
-            //       .then(photoUrl => {
-            //         resolve({ ...member, photoUrl })
-            //       })
-            //       .catch((error: IFBError) => {
-            //         // dispatch({ type: "DELETE_PHOTO_ERROR", payload: error })
-            //         console.log("Photo upload error!", error)
-            //       })
-            //   }
-            // )
           } else {
             console.log("Not Uploading Photo!")
             resolve(member)

@@ -26,8 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
     containerHorizontal: {
       display: "flex",
     },
+    dialog: {},
     itemHorizontal: {
       flex: 1,
+      // TODO: Find the proper way to style
+      width: "100vw",
     },
     return: {
       padding: 0,
@@ -118,21 +121,15 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
         return (
           <div className={classes.containerVertical}>
             {(["niv", "nkrv", "aeb"] as IBibleRef["translation"][]).map(
-              (t: IBibleRef["translation"]) =>
-                bibleRef.translation === t ? (
-                  <Button
-                    key={t}
-                    onClick={onClickItem(t)}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    {translationFull[t]}
-                  </Button>
-                ) : (
-                  <Button key={t} onClick={onClickItem(t)}>
-                    {translationFull[t]}
-                  </Button>
-                )
+              (t: IBibleRef["translation"]) => (
+                <Button
+                  key={t}
+                  onClick={onClickItem(t)}
+                  variant={bibleRef.translation === t ? "outlined" : "text"}
+                >
+                  {translationFull[t]}
+                </Button>
+              )
             )}
           </div>
         )
@@ -156,21 +153,13 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
                   {bibleIndex[
                     testament === "old" ? "indicesOld" : "indicesNew"
                   ].map(i => (
-                    <div key={i}>
-                      {bibleRef.book === i ? (
-                        <Button
-                          onClick={onClickItem(i)}
-                          variant="outlined"
-                          color="primary"
-                        >
-                          {bibleIndex[translate()][i]}
-                        </Button>
-                      ) : (
-                        <Button onClick={onClickItem(i)}>
-                          {bibleIndex[translate()][i]}
-                        </Button>
-                      )}
-                    </div>
+                    <Button
+                      key={i}
+                      onClick={onClickItem(i)}
+                      variant={bibleRef.book === i ? "outlined" : "text"}
+                    >
+                      {bibleIndex[translate()][i]}
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -193,17 +182,12 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
           <Grid container justify="center" alignItems="center" spacing={1}>
             {chaptersArray().map(i => (
               <Grid item key={i}>
-                {bibleRef[bibleRefKey] === i ? (
-                  <Button
-                    onClick={onClickItem(i)}
-                    variant="outlined"
-                    color="primary"
-                  >
-                    {i}
-                  </Button>
-                ) : (
-                  <Button onClick={onClickItem(i)}>{i}</Button>
-                )}
+                <Button
+                  onClick={onClickItem(i)}
+                  variant={bibleRef[bibleRefKey] === i ? "outlined" : "text"}
+                >
+                  {i}
+                </Button>
               </Grid>
             ))}
           </Grid>
@@ -216,9 +200,12 @@ export const BibleDialog: FC<IPBibleDialog> = props => {
 
   return (
     <Fragment>
-      <Button onClick={handleClickOpen}>{buttonContent(bibleRefKey)}</Button>
+      <Button size="small" onClick={handleClickOpen}>
+        {buttonContent(bibleRefKey)}
+      </Button>
 
       <Dialog
+        className={classes.dialog}
         open={open[bibleRefKey]}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
