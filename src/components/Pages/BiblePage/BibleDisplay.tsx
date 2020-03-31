@@ -84,7 +84,7 @@ export const BibleDisplay: FC<IPBibleDisplay> = ({
               <Typography className={classes.verse} align="left">
                 {v.verse}
               </Typography>
-              <Typography className={classes.text} align="left">
+              <Typography className={classes.text} align="justify">
                 {highlight(v.text, search)}
               </Typography>
             </ListItem>
