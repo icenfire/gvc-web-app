@@ -1,45 +1,51 @@
-import Container from "@material-ui/core/Container"
-import IconButton from "@material-ui/core/IconButton"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import PersonIcon from "@material-ui/icons/Person"
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle"
-import React, { FC, Fragment } from "react"
-import { useSelector } from "react-redux"
-import { ExtendedFirestoreInstance, useFirestoreConnect } from "react-redux-firebase"
-import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
-import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import Container from '@material-ui/core/Container'
+import IconButton from '@material-ui/core/IconButton'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import PersonIcon from '@material-ui/icons/Person'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle'
+import React, { FC, Fragment } from 'react'
+import { useSelector } from 'react-redux'
+import {
+  ExtendedFirestoreInstance,
+  useFirestoreConnect
+} from 'react-redux-firebase'
+import { AppBarMain } from 'src/components/Level1/AppBars/AppBarMain'
+import { ContainerMain } from 'src/components/Level1/Containers/ContainerMain'
 
-import { AppState } from "../../../store/reducers/rootReducer"
-import { INoticeWithMeta } from "../../../types"
-import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
-import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
-import { Notices as NoticesGridList } from "../../Level2/GridLists/Notices"
-import { DatesList, IPDatesList } from "../../Level2/Lists/DatesList"
-import { MembersEditList } from "../../Level2/Lists/MembersEditList"
-import { MembersList, Props as IPMembersList } from "../../Level2/Lists/MembersList"
-import { NoticeCreator } from "../../Level2/NoticeCreator"
-import { Notices as NoticesSwipeable } from "../../Level2/SwipeableListViews/Notices"
-import { PrayersList } from "./../../Level2/Lists/PrayersList"
-import { GetNameInitialLetter } from "./GetNameInitialLetter"
-import { MembersFilter } from "./MembersFilter"
-import { PrayersFilter } from "./PrayersFilter"
+import { AppState } from '../../../store/reducers/rootReducer'
+import { INoticeWithMeta } from '../../../types'
+import { ProfileEditDialog } from '../../Level1/Dialogs/ProfileEditDialog'
+import { PrayerPaper } from '../../Level1/Papers/PrayerPaper'
+import { Notices as NoticesGridList } from '../../Level2/GridLists/Notices'
+import { DatesList, IPDatesList } from '../../Level2/Lists/DatesList'
+import { MembersEditList } from '../../Level2/Lists/MembersEditList'
+import {
+  MembersList,
+  Props as IPMembersList
+} from '../../Level2/Lists/MembersList'
+import { NoticeCreator } from '../../Level2/NoticeCreator'
+import { Notices as NoticesSwipeable } from '../../Level2/SwipeableListViews/Notices'
+import { PrayersList } from './../../Level2/Lists/PrayersList'
+import { GetNameInitialLetter } from './GetNameInitialLetter'
+import { MembersFilter } from './MembersFilter'
+import { PrayersFilter } from './PrayersFilter'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       borderColor: theme.palette.common.white,
       borderWidth: 2,
-      borderStyle: "solid",
+      borderStyle: 'solid',
       marginBottom: 50,
-      padding: theme.spacing(1),
+      padding: theme.spacing(1)
     },
     IconButtonEditMember: {
       background: theme.palette.background.default,
       color: theme.palette.common.white,
-      padding: theme.spacing(1),
-    },
+      padding: theme.spacing(1)
+    }
   })
 )
 
@@ -62,13 +68,13 @@ export const Playground: FC = () => {
 
   // Get notices from Firestore
   useFirestoreConnect([
-    { collection: "notices", orderBy: ["createdAt", "asc"] },
+    { collection: 'notices', orderBy: ['createdAt', 'asc'] }
   ])
   // Get members from Firestore
-  useFirestoreConnect("members")
+  useFirestoreConnect('members')
 
   // Get prayers from Firestore
-  useFirestoreConnect("prayers")
+  useFirestoreConnect('prayers')
 
   const stateFS = useSelector<AppState, any>(state => state.firestore)
 
@@ -79,11 +85,11 @@ export const Playground: FC = () => {
 
   const search = useSelector<AppState, string>(state => state.appBar.search)
 
-  const dates: IPDatesList["dates"] = [
-    ["January 2020", ["01.01.20", "02.01.20"]],
-    ["February 2020", ["01.02.20", "02.02.20"]],
-    ["March 2020", ["01.03.20", "02.03.20"]],
-    ["April 2020", ["01.04.20", "02.04.20"]],
+  const dates: IPDatesList['dates'] = [
+    ['January 2020', ['01.01.20', '02.01.20']],
+    ['February 2020', ['01.02.20', '02.02.20']],
+    ['March 2020', ['01.03.20', '02.03.20']],
+    ['April 2020', ['01.04.20', '02.04.20']]
   ]
 
   // const members: IPMembersEditList["members"] = [

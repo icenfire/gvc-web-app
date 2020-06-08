@@ -1,5 +1,5 @@
-import { ThunkActionCustom } from "../../types/actions"
-import { INotice } from "./../../types"
+import { ThunkActionCustom } from '../../types/actions'
+import { INotice, INoticeWithMeta } from './../../types'
 
 export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
   dispatch,
@@ -10,12 +10,56 @@ export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
   const firebase = getFirebase()
 
   firestore
-    .collection("notices")
+    .collection('notices')
     .add({ ...notice, createdAt: new Date() })
     .then(() => {
-      dispatch({ type: "CREATE_NOTICE", payload: notice })
+      dispatch({ type: 'CREATE_NOTICE', payload: notice })
     })
     .catch((error: Error) => {
-      dispatch({ type: "CREATE_NOTICE_ERROR", payload: error })
+      dispatch({ type: 'CREATE_NOTICE_ERROR', payload: error })
+    })
+}
+
+export const deleteNotice = (id: string): ThunkActionCustom<void> => (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore()
+
+  console.log('deleteNotice', id)
+  let deleteDoc = firestore
+    .collection('notices')
+    .doc(id)
+    .delete()
+    .then(() => {
+      dispatch({ type: 'DELETE_NOTICE', payload: id })
+    })
+    .catch((error: Error) => {
+      dispatch({ type: 'CREATE_NOTICE_ERROR', payload: error })
+    })
+
+  console.log('deleteDoc', deleteDoc)
+}
+
+export const updateNotice = (
+  notice: INoticeWithMeta
+): ThunkActionCustom<void> => (
+  dispatch,
+  getState,
+  { getFirestore, getFirebase }
+) => {
+  const firestore = getFirestore()
+  const firebase = getFirebase()
+
+  firestore
+    .collection('notices')
+    .doc(notice.id)
+    .set(notice)
+    .then(() => {
+      dispatch({ type: 'CREATE_NOTICE', payload: notice })
+    })
+    .catch((error: Error) => {
+      dispatch({ type: 'CREATE_NOTICE_ERROR', payload: error })
     })
 }

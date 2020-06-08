@@ -30,7 +30,13 @@ export interface CreateNoticeError {
   payload: Error
 }
 
-export type NoticeActionTypes = CreateNotice | CreateNoticeError
+export const DELETE_NOTICE = 'DELETE_NOTICE'
+export interface DeleteNotice {
+  type: typeof DELETE_NOTICE
+  payload: string
+}
+
+export type NoticeActionTypes = CreateNotice | CreateNoticeError | DeleteNotice
 
 // Auth actions
 export const SIGN_UP = 'SIGN_UP'
