@@ -165,7 +165,6 @@ export const BiblePage: FC<IPBiblePage> = props => {
         </div>
       </ContainerMain>
       <Slide appear={false} direction="up" in={true}>
-        {/* <Slide appear={false} direction="up" in={!useScrollTrigger()}> */}
         <AppBar position="sticky" className={classes.footer}>
           <Grid container justify="space-between">
             <Grid item>
