@@ -1,13 +1,13 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, Fragment, useState } from "react"
-import { useSelector } from "react-redux"
-import { useFirestoreConnect } from "react-redux-firebase"
-import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
-import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import React, { FC, Fragment, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import { AppBarMain } from 'src/components/Level1/AppBars/AppBarMain'
+import { ContainerMain } from 'src/components/Level1/Containers/ContainerMain'
 
-import { AppState } from "../../store/reducers/rootReducer"
-import { MembersList } from "../Level2/Lists/MembersList"
-import { Notices } from "../Level2/SwipeableListViews/Notices"
+import { AppState } from '../../store/reducers/rootReducer'
+import { MembersList } from '../Level2/Lists/MembersList'
+import { Notices } from '../Level2/SwipeableListViews/Notices'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}))
 
@@ -20,7 +20,7 @@ export interface ISMembersPage {
 export const MembersPage: FC<IPMembersPage> = props => {
   const classes = useStyles()
   const [values, setValues] = useState<ISMembersPage>({
-    editMode: false,
+    editMode: false
   })
 
   const search = useSelector<AppState, string>(state => state.appBar.search)
@@ -32,15 +32,15 @@ export const MembersPage: FC<IPMembersPage> = props => {
 
   // Get notices from Firestore
   useFirestoreConnect([
-    { collection: "notices", orderBy: ["createdAt", "asc"] },
+    { collection: 'notices', orderBy: ['createdAt', 'asc'] }
   ])
 
   // Get members from Firestore
   useFirestoreConnect([
     {
-      collection: "members",
-      where: ["cell", "==", profile.cell ? profile.cell : ""], // querying cell == "" return permission error
-    },
+      collection: 'members',
+      where: ['cell', '==', profile.cell ? profile.cell : ''] // querying cell == "" return permission error
+    }
   ])
   const stateFS = useSelector<AppState, any>(state => state.firestore)
   const membersArr = stateFS.ordered.members
