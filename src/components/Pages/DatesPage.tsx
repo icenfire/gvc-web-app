@@ -21,7 +21,9 @@ export const DatesPage: FC = () => {
   })
 
   const changeDate = (dateType: keyof ISDatesPage) => (date: Date | null) => {
-    setDates({ ...dates, [dateType]: moment(date) })
+    if (date) {
+      setDates({ ...dates, [dateType]: moment(date) })
+    }
   }
 
   return (
