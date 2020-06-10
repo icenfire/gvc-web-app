@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] Make week view list all past weeks this year
 - [x] Make the current page highlight on the side drawer
 - [x] Make local BibleRef a redux state
 - [x] Implement restricting view to my cell only
