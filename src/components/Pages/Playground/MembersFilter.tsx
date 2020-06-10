@@ -43,7 +43,6 @@ export function MembersFilter({ members }: Props) {
   const [editMode, setEditMode] = React.useState<State["editMode"]>(false)
   const [filter, setFilter] = React.useState<State["filter"]>("all")
   const [cell, setCell] = React.useState<State["cell"]>("")
-  const search = useSelector<AppState, string>(state => state.appBar.search)
 
   // const inputLabel = React.useRef<HTMLLabelElement>(null)
   // const [labelWidth, setLabelWidth] = React.useState(0)
@@ -65,7 +64,7 @@ export function MembersFilter({ members }: Props) {
 
   const filteredMembers =
     members &&
-    members.filter(member => {
+    members.filter((member) => {
       switch (filter) {
         case "all":
           return true
@@ -120,11 +119,7 @@ export function MembersFilter({ members }: Props) {
           <FormHelperText>Choose a date</FormHelperText>
         </FormControl>
       )}
-      <MembersList
-        editMode={editMode}
-        members={filteredMembers}
-        filter={filter}
-      />
+      <MembersList editMode={editMode} members={filteredMembers} />
     </Fragment>
   )
 }

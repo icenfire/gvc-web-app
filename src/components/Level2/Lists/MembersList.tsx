@@ -6,6 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import React, { Fragment } from "react"
+import { useSelector } from "react-redux"
+import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload } from "../../../types"
 import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
@@ -63,11 +65,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface Props {
   members: IMemberDownload[]
   editMode: boolean
-  filter: string
 }
 
-export function MembersList({ members, editMode, filter }: Props) {
+export function MembersList({ members, editMode }: Props) {
   const classes = useStyles()
+
+  const search = useSelector<AppState, string>((state) => state.appBar.search)
 
   return (
     <Fragment>
@@ -83,15 +86,15 @@ export function MembersList({ members, editMode, filter }: Props) {
         </ListItem>
         {members ? (
           [...members]
-            .filter(member =>
+            .filter((member) =>
               member.name
                 .toLocaleLowerCase()
-                .includes(filter.toLocaleLowerCase())
+                .includes(search.toLocaleLowerCase())
             )
             .sort((member1, member2) => {
               return member1.name > member2.name ? 1 : -1
             })
-            .map(member => {
+            .map((member) => {
               return (
                 <ListItem className={classes.listItem} key={member.id}>
                   <ProfileEditDialog member={member}>
