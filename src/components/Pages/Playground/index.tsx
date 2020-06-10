@@ -93,7 +93,9 @@ export const Playground: FC = () => {
     to: moment(),
   })
   const changeDate = (dateType: keyof Dates) => (date: Date | null) => {
-    setDates({ ...dates, [dateType]: moment(date) })
+    if (date) {
+      setDates({ ...dates, [dateType]: moment(date) })
+    }
   }
 
   // const members: IPMembersEditList["members"] = [
