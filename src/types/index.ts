@@ -38,6 +38,8 @@ export interface IPrayer {
   memberId: string
 }
 
+export type TPrayerQueries = [string, string, any][]
+
 // ---Auth---
 // Types
 export type AuthTypes = {
@@ -122,6 +124,7 @@ export type Paths =
   | "/auth"
   | "/bible"
   | "/calendar"
+  | "/dates"
   | "/members"
   | "/myaccount"
   | "/notices"

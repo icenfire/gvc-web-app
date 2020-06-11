@@ -1,6 +1,9 @@
 ## TODO LIST
 
-- [x] Make week view list all past weeks this year
+- [x] Made prayers query a redux reducer
+  - [ ] Issue: Not so clean implementation. Probably should find another way
+- [x] Created Dates page and have it be the landing prayers page
+- [x] Make week view list all past weeks this year in prayers page
 - [x] Make the current page highlight on the side drawer
 - [x] Make local BibleRef a redux state
 - [x] Implement restricting view to my cell only

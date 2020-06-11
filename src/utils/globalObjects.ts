@@ -32,19 +32,17 @@ export const globalObjects = () => {
     for (let cell = 1; cell <= 5; cell++) {
       for (let member = 0; member <= 3; member++) {
         for (let day = 0; day <= 2; day++) {
-          let date = new Date("2020/01/" + (7 * day + 1))
+          let date = moment()
+            .day(0)
+            .subtract(7 * day, "days")
           db.collection("prayers")
             .add({
               memberId: "c" + cell + "m" + member,
               cell: "" + cell,
-              date,
-              content: `Prayer of ${"Cell" +
-                cell +
-                (member === 0
-                  ? "-Leader"
-                  : "-Member" + member)} created at ${moment(date).format(
-                "Do MMM YYYY"
-              )}`,
+              date: date.toDate(),
+              content: `Prayer of ${
+                "Cell" + cell + (member === 0 ? "-Leader" : "-Member" + member)
+              } created at ${date.format("Do MMM YYYY")}`,
             })
             .then(() => console.log("Complete!"))
         }

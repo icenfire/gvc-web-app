@@ -6,6 +6,7 @@ import { appBarReducer } from "./appBarReducer"
 import { authReducer } from "./authReducer"
 import { bibleReducer } from "./bibleReducer"
 import { noticeReducer } from "./noticeReducer"
+import { prayerReducer } from "./prayerReducer"
 import { stylesReducer } from "./stylesReducer"
 
 export const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers({
   firestore: firestoreReducer,
   styles: stylesReducer,
   appBar: appBarReducer,
+  prayers: prayerReducer,
 })
 
 export type AppState = ReturnType<typeof rootReducer>

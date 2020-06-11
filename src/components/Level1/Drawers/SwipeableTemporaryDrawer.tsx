@@ -59,10 +59,10 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
   const location = useLocation()
   const history = useHistory()
   const dispatch = useDispatch()
-  const profile = useSelector<AppState, any>(state => state.firebase.profile)
+  const profile = useSelector<AppState, any>((state) => state.firebase.profile)
 
   const isAuthenticated = useSelector<AppState, boolean>(
-    state => !state.firebase.auth.isEmpty
+    (state) => !state.firebase.auth.isEmpty
   )
 
   const items: Item[] = [
@@ -81,7 +81,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
     {
       name: "Prayers",
       icon: <LibraryBooksIcon />,
-      page: "/prayers",
+      page: "/dates",
       disabled: !isAuthenticated,
     },
     {
@@ -121,7 +121,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
         onClick={toggleDrawer(false)}
       >
         <List className={classes.list}>
-          {items.map(item => (
+          {items.map((item) => (
             <Fragment key={item.name}>
               {item.divider === "above" && <Divider />}
               <ListItem

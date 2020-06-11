@@ -10,6 +10,7 @@ import { AppBarMain } from "./Level1/AppBars/AppBarMain"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
 import { CalendarPage } from "./Pages/CalendarPage"
+import { DatesPage } from "./Pages/DatesPage"
 import { LeaderFormPage } from "./Pages/LeaderFormPage"
 import { MembersPage } from "./Pages/MembersPage"
 import { MyAccountPage } from "./Pages/MyAccountPage"
@@ -34,7 +35,7 @@ export default function App() {
   const styles = useSelector((state: { styles: any }) => state.styles)
   const classes = useStyles(styles)
   const isAuthenticated = useSelector<AppState, boolean>(
-    state => !state.firebase.auth.isEmpty
+    (state) => !state.firebase.auth.isEmpty
   )
 
   const location = useLocation<{ from: string }>()
@@ -76,6 +77,7 @@ export default function App() {
           <PrivateRoute path="/members" component={MembersPage} />
           <PrivateRoute path="/myaccount" component={MyAccountPage} />
           <PrivateRoute path="/prayers" component={PrayersPage} />
+          <PrivateRoute path="/dates" component={DatesPage} />
           <PrivateRoute path="/notices" component={NoticesPage} />
           <PrivateRoute path="/calendar" component={CalendarPage} />
         </Switch>
