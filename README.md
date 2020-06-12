@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] 12/06/20 JH - Added delete, edit on Notice
 - [x] Made prayers query a redux reducer
   - [ ] Issue: Not so clean implementation. Probably should find another way
 - [x] Created Dates page and have it be the landing prayers page
