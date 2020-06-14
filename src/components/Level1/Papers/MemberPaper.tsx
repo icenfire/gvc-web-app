@@ -1,12 +1,12 @@
-import Avatar from "@material-ui/core/Avatar"
-import Grid from "@material-ui/core/Grid"
-import Paper from "@material-ui/core/Paper"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import PersonIcon from "@material-ui/icons/Person"
-import React, { Fragment } from "react"
+import Avatar from '@material-ui/core/Avatar'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import PersonIcon from '@material-ui/icons/Person'
+import React, { Fragment } from 'react'
 
-import { IMemberDownload } from "../../../types"
+import { IMemberDownload } from '../../../types'
 
 // import { IMember } from "./../../../interfaces"
 
@@ -14,20 +14,20 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
       background: theme.palette.background.default,
-      color: theme.palette.common.white,
+      color: theme.palette.common.white
       // padding: theme.spacing(1),
     },
     paper: {
       background: theme.palette.primary.main,
-      width: "100%",
+      width: '100%',
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingBottom: theme.spacing(1)
     },
     textMember: {
-      color: theme.palette.secondary.dark,
-    },
+      color: theme.palette.secondary.dark
+    }
   })
 )
 
@@ -38,7 +38,7 @@ export interface IPMemberPaper {
 
 export const MemberPaper: React.FC<IPMemberPaper> = ({
   member: { id, name, dob, cell, positions, photoUrl, thumbnailUrl },
-  editMode,
+  editMode
 }) => {
   const classes = useStyles()
 
