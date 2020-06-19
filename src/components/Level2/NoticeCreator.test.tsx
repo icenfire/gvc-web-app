@@ -95,6 +95,7 @@ describe('<NoticeCreator />', () => {
     container.find('button[type="button"]').simulate('click')
 
     expect(mockDispatch).toHaveBeenCalledTimes(1)
+    //dispatch 제대로 호출됐는지 체크 with argument
 
     expect(
       container

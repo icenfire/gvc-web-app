@@ -1,9 +1,16 @@
+/**
+ * @jest-environment node
+ */
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import EnzymeAdapter from 'enzyme-adapter-react-16'
 import { EditNotice } from './EditNotice'
 
 import firebase from '../../firebase/index'
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn()
+}))
 
 Enzyme.configure({
   adapter: new EnzymeAdapter(),
