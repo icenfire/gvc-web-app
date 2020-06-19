@@ -6,6 +6,7 @@ export const createNotice = (notice: INotice): ThunkActionCustom<void> => (
   getState,
   { getFirestore, getFirebase }
 ) => {
+  console.log('createNotice', notice)
   const firestore = getFirestore()
   const firebase = getFirebase()
 

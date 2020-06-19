@@ -1,19 +1,15 @@
-import Button from "@material-ui/core/Button"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Textfield from "@material-ui/core/TextField"
-import React, { Fragment } from "react"
-import { useDispatch } from "react-redux"
+import Button from '@material-ui/core/Button'
+import Textfield from '@material-ui/core/TextField'
+import React, { Fragment } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { createNotice } from "./../../store/actions/noticeActions"
-import { INotice } from "./../../types"
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+import { createNotice } from './../../store/actions/noticeActions'
+import { INotice } from './../../types'
 
 export const NoticeCreator: React.FC = () => {
-  const classes = useStyles()
   const [values, setValues] = React.useState<INotice>({
-    title: "",
-    content: "",
+    title: '',
+    content: ''
   })
 
   const onChange = (name: keyof INotice) => (
@@ -23,28 +19,39 @@ export const NoticeCreator: React.FC = () => {
   }
 
   const dispatch = useDispatch()
-  const onSubmit = () => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    setValues({
+      title: '',
+      content: ''
+    })
     dispatch(createNotice(values))
   }
 
   return (
     <Fragment>
-      <Textfield
-        label="Title"
-        fullWidth
-        onChange={onChange("title")}
-        value={values.title}
-      />
-      <Textfield
-        id="standard-multiline-flexible"
-        fullWidth
-        multiline
-        rowsMax="4"
-        label="Content"
-        onChange={onChange("content")}
-        value={values.content}
-      />
-      <Button onClick={onSubmit}>Create new notice</Button>
+      <div data-testid="component-notice-creator">
+        <Textfield
+          data-testid="title"
+          label="Title"
+          fullWidth
+          onChange={onChange('title')}
+          value={values.title}
+        />
+        <Textfield
+          data-testid="content"
+          id="standard-multiline-flexible"
+          fullWidth
+          multiline
+          rowsMax="4"
+          label="Content"
+          onChange={onChange('content')}
+          value={values.content}
+        />
+        <Button data-testid="submit" onClick={onSubmit}>
+          Create new notice
+        </Button>
+      </div>
     </Fragment>
   )
 }
