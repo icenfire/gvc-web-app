@@ -1,5 +1,5 @@
 import React from 'react'
-import Enzyme, { mount } from 'enzyme'
+import Enzyme, { shallow, mount } from 'enzyme'
 import EnzymeAdapter from 'enzyme-adapter-react-16'
 import { EditNoticePaper } from './EditNoticePaper'
 import { INoticeWithMeta } from '../../../types'

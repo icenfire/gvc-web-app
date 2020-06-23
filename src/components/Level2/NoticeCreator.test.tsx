@@ -3,32 +3,36 @@ import Enzyme, { mount } from 'enzyme'
 import { NoticeCreator } from './NoticeCreator'
 import EnzymeAdapter from 'enzyme-adapter-react-16'
 import { useDispatch } from 'react-redux'
+import { ThunkActionCustom } from '../../types/actions'
+import { createNotice } from './../../store/actions/noticeActions'
 
 Enzyme.configure({
   adapter: new EnzymeAdapter(),
   disableLifecycleMethods: true
 })
 
+const mockDispatch = jest.fn()
 jest.mock('react-redux', () => ({
-  useDispatch: jest.fn()
+  useDispatch: jest.fn().mockReturnValue(mockDispatch)
 }))
 
-const mockUseDispatch = useDispatch as jest.Mock
-const createNotice = jest.fn()
-const mockDispatch = jest.fn(createNotice)
+jest.mock('../../types/actions', () => ({
+  createNotice: jest.fn(x => x)
+}))
+
+// const mockUseDispatch = useDispatch as jest.Mock
+// const mockCreateNotice = createNotice as jest.Mock
+// const mockDispatch = jest.fn(() =>
+//   mockCreateNotice({ title: 'new title', content: 'new content' })
+// )
 
 describe('<NoticeCreator />', () => {
-  mockUseDispatch.mockReturnValue(mockDispatch)
+  // mockUseDispatch.mockReturnValue(mockDispatch)
+
   const container = mount(<NoticeCreator />)
 
   it('should match the snapshot', () => {
     expect(container.html()).toMatchSnapshot()
-  })
-
-  it('renders without error', () => {
-    expect(
-      container.find('[data-testid="component-notice-creator"]').length
-    ).toEqual(1)
   })
 
   it('should have an title field', () => {
@@ -96,6 +100,9 @@ describe('<NoticeCreator />', () => {
 
     expect(mockDispatch).toHaveBeenCalledTimes(1)
     //dispatch 제대로 호출됐는지 체크 with argument
+    expect(mockDispatch).toHaveBeenCalledWith(
+      createNotice({ title: 'new title', content: 'new content' })
+    )
 
     expect(
       container

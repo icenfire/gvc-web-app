@@ -25,33 +25,32 @@ export const NoticeCreator: React.FC = () => {
       title: '',
       content: ''
     })
+
     dispatch(createNotice(values))
   }
 
   return (
     <Fragment>
-      <div data-testid="component-notice-creator">
-        <Textfield
-          data-testid="title"
-          label="Title"
-          fullWidth
-          onChange={onChange('title')}
-          value={values.title}
-        />
-        <Textfield
-          data-testid="content"
-          id="standard-multiline-flexible"
-          fullWidth
-          multiline
-          rowsMax="4"
-          label="Content"
-          onChange={onChange('content')}
-          value={values.content}
-        />
-        <Button data-testid="submit" onClick={onSubmit}>
-          Create new notice
-        </Button>
-      </div>
+      <Textfield
+        data-testid="title"
+        label="Title"
+        fullWidth
+        onChange={onChange('title')}
+        value={values.title}
+      />
+      <Textfield
+        data-testid="content"
+        id="standard-multiline-flexible"
+        fullWidth
+        multiline
+        rowsMax="4"
+        label="Content"
+        onChange={onChange('content')}
+        value={values.content}
+      />
+      <Button data-testid="submit" onClick={onSubmit}>
+        Create new notice
+      </Button>
     </Fragment>
   )
 }

@@ -1,5 +1,6 @@
 import { createNotice } from './noticeActions'
-
+//https://www.npmjs.com/package/firestore-jest-mock
+//https://redux.js.org/recipes/writing-tests#async-action-creators
 describe('createNotice action creator', () => {
   it('create response word to state', () => {
     const notice = {

@@ -13,11 +13,15 @@ export const EditNotice: React.FC<IPEditNotice> = ({ notices }) => {
   } else if (notices.length === 0) {
     contents = <div data-testid="edit-instructions">광고가 없습니다.</div>
   } else {
-    contents = notices.map(notice => (
-      <div key={notice.id} data-testid="edit-notices">
-        <EditNoticePaper notice={notice} />
+    contents = (
+      <div>
+        {notices.map(notice => (
+          <div key={notice.id} data-testid="edit-notices">
+            <EditNoticePaper notice={notice} />
+          </div>
+        ))}
       </div>
-    ))
+    )
   }
-  return <div data-testid="component-edit-notice">{contents}</div>
+  return contents
 }

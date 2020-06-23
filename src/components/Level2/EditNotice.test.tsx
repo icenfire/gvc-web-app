@@ -31,7 +31,7 @@ describe('<EditNotice /> with undefined', () => {
   })
 
   it('renders instructions to edit without error', () => {
-    expect(container.find('[data-testid="edit-loading"]').length).toEqual(1)
+    expect(container.text()).toContain('Loading...')
   })
 })
 
