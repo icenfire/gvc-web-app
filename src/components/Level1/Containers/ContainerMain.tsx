@@ -1,16 +1,21 @@
-import Container from "@material-ui/core/Container"
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, ReactNode } from "react"
+import Container from '@material-ui/core/Container'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import React, { FC, ReactNode, ReactNodeArray, ReactElement } from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      width: "100%",
-    },
+      width: '100%'
+    }
   })
 )
 
-export const ContainerMain: FC<ReactNode> = ({ children }) => {
+interface IPContainerMain {
+  children: ReactElement | string | ReactNodeArray
+  // children: ReactNode
+}
+
+export const ContainerMain: FC<IPContainerMain> = ({ children }) => {
   const classes = useStyles()
 
   return (

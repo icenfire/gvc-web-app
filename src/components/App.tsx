@@ -17,13 +17,14 @@ import { MyAccountPage } from "./Pages/MyAccountPage"
 import { NoticesPage } from "./Pages/NoticesPage"
 import { Playground } from "./Pages/Playground"
 import { PrayersPage } from "./Pages/PrayersPage"
+import { PrayersPage as PrayersPage2 } from "./Pages2/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      background: theme.palette.background.default,
+      // background: theme.palette.background.default,
       // height: "100%",
       padding: 0,
       margin: 0,
@@ -44,7 +45,7 @@ export default function App() {
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Switch>
           {/* <Route
             exact
@@ -80,6 +81,7 @@ export default function App() {
           <PrivateRoute path="/dates" component={DatesPage} />
           <PrivateRoute path="/notices" component={NoticesPage} />
           <PrivateRoute path="/calendar" component={CalendarPage} />
+          <PrivateRoute path="/prayers2" component={PrayersPage2} />
         </Switch>
       </BrowserRouter>
     </div>
