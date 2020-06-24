@@ -6,6 +6,7 @@ import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 
 import { AppState } from "../../store/reducers/rootReducer"
+import { AddCellMemberPaper } from "../Level1/Papers/AddCellMemberPaper"
 import { MembersList } from "../Level2/Lists/MembersList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
@@ -50,6 +51,7 @@ export const MembersPage: FC<IPMembersPage> = (props) => {
       <AppBarMain title="Members" />
       <ContainerMain>
         <Notices notices={noticesArr} />
+        <AddCellMemberPaper />
         <MembersList members={membersArr} editMode={values.editMode} />
       </ContainerMain>
     </Fragment>

@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import PersonIcon from "@material-ui/icons/Person"
+import moment, { Moment } from "moment"
 import React, { FC, Fragment } from "react"
 
 import { IMemberDownload } from "../../../types"
@@ -31,36 +32,28 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface IPMemberPaper {
-  member: IMemberDownload
-  editMode: boolean
+export interface IPDatePaper {
+  date: Moment
 }
 
-export const MemberPaper: FC<IPMemberPaper> = ({
-  member: { id, name, dob, cell, positions, photoUrl, thumbnailUrl },
-  editMode,
-}) => {
+export const DatePaper: FC<IPDatePaper> = ({ date }) => {
   const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>
-      {id ? (
+      {date ? (
         <Grid container alignItems="center" spacing={1}>
           <Grid item>
-            <Avatar className={classes.avatar} alt={name} src={thumbnailUrl}>
-              <PersonIcon />
-            </Avatar>
+            <Avatar className={classes.avatar}>80%</Avatar>
           </Grid>
           <Grid item xs>
             <Typography className={classes.textMember} align="left">
-              {name}
+              {date.format("DD/MM/YYYY")}
             </Typography>
           </Grid>
-          <Grid item>
-            <Typography className={classes.textMember} align="right">
-              {dob.toDate().toLocaleDateString()}
-            </Typography>
-          </Grid>
+          <Typography className={classes.textMember} align="right">
+            8/10
+          </Typography>
         </Grid>
       ) : (
         <Typography>Loading...</Typography>

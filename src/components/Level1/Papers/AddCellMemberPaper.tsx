@@ -28,12 +28,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-}
-
-export const AddCellMemberPaper: React.FC<Props> = ({ onClick }) => {
+export const AddCellMemberPaper: React.FC = () => {
   const classes = useStyles()
+
+  const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log("Clicked!")
+  }
 
   return (
     <ButtonBase onClick={onClick} className={classes.buttonBase}>

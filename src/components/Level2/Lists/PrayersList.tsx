@@ -5,6 +5,7 @@ import React, { FC } from "react"
 
 import { IMemberDownload, IPrayer } from "../../../types"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
+import { CustomList } from "./CustomList"
 
 // import { Iprayer } from "./../../../interfaces"
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,35 +50,30 @@ export interface Props {
 
 export const PrayersList: FC<Props> = ({ membersDic, prayers, filter }) => {
   const classes = useStyles()
+
+  const prayers_ =
+    prayers &&
+    [...prayers]
+      .filter(
+        (p) =>
+          !!membersDic[p.memberId] &&
+          membersDic[p.memberId].name
+            .toLocaleLowerCase()
+            .includes(filter.toLocaleLowerCase())
+      )
+      .sort((p1: IPrayer, p2: IPrayer) => {
+        return membersDic[p1.memberId].name > membersDic[p2.memberId].name
+          ? 1
+          : -1
+      })
+
   return (
-    <List className={classes.root} subheader={<li />}>
-      {prayers ? (
-        [...prayers]
-          .filter(
-            p =>
-              !!membersDic[p.memberId] &&
-              membersDic[p.memberId].name
-                .toLocaleLowerCase()
-                .includes(filter.toLocaleLowerCase())
-          )
-          .sort((p1: IPrayer, p2: IPrayer) => {
-            return membersDic[p1.memberId].name > membersDic[p2.memberId].name
-              ? 1
-              : -1
-          })
-          .map((prayer: IPrayer) => {
-            return (
-              <ListItem className={classes.listItem} key={prayer.id}>
-                <PrayerPaper
-                  prayer={prayer}
-                  member={membersDic[prayer.memberId]}
-                />
-              </ListItem>
-            )
-          })
-      ) : (
-        <p>Loading Prayers...</p>
+    <CustomList
+      items={prayers_}
+      getKey={(prayer) => prayer.id}
+      render={(prayer) => (
+        <PrayerPaper prayer={prayer} member={membersDic[prayer.memberId]} />
       )}
-    </List>
+    />
   )
 }

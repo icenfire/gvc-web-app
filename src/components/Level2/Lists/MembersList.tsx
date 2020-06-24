@@ -1,11 +1,6 @@
-import IconButton from "@material-ui/core/IconButton"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
-import React, { Fragment } from "react"
+import React, { FC, Fragment } from "react"
 import { useSelector } from "react-redux"
 import { AppState } from "src/store/reducers/rootReducer"
 
@@ -14,15 +9,10 @@ import { ProfileEditDialog } from "../../Level1/Dialogs/ProfileEditDialog"
 import { AddCellMemberPaper } from "../../Level1/Papers/AddCellMemberPaper"
 import { IPMemberPaper } from "../../Level1/Papers/MemberPaper"
 import { MemberPaper } from "../../Level1/Papers/MemberPaper"
+import { CustomList } from "./CustomList"
 
-// import { IMember } from "./../../../interfaces"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: "100%",
-      overflow: "auto",
-      // maxHeight: 200,
-    },
     IconButtonAddMember: {
       background: theme.palette.common.white,
       color: theme.palette.background.default,
@@ -38,9 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.background.default,
       padding: theme.spacing(1),
     },
-    subheader: {
-      background: theme.palette.background.default,
-    },
     paper: {
       background: theme.palette.primary.main,
       width: "100%",
@@ -55,58 +42,38 @@ const useStyles = makeStyles((theme: Theme) =>
     textMember: {
       color: theme.palette.secondary.dark,
     },
-
-    listItem: {
-      padding: theme.spacing(0.5),
-    },
   })
 )
 
-export interface Props {
+export interface IPMembersList {
   members: IMemberDownload[]
   editMode: boolean
 }
 
-export function MembersList({ members, editMode }: Props) {
+export const MembersList: FC<IPMembersList> = ({ members, editMode }) => {
   const classes = useStyles()
 
   const search = useSelector<AppState, string>((state) => state.appBar.search)
 
+  const members_ =
+    members &&
+    [...members]
+      .filter((member) =>
+        member.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      )
+      .sort((member1, member2) => {
+        return member1.name > member2.name ? 1 : -1
+      })
+
   return (
-    <Fragment>
-      <List className={classes.root} subheader={<li />}>
-        <ListItem className={classes.listItem}>
-          <AddCellMemberPaper
-            onClick={(
-              event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-            ) => {
-              console.log("Clicked!")
-            }}
-          />
-        </ListItem>
-        {members ? (
-          [...members]
-            .filter((member) =>
-              member.name
-                .toLocaleLowerCase()
-                .includes(search.toLocaleLowerCase())
-            )
-            .sort((member1, member2) => {
-              return member1.name > member2.name ? 1 : -1
-            })
-            .map((member) => {
-              return (
-                <ListItem className={classes.listItem} key={member.id}>
-                  <ProfileEditDialog member={member}>
-                    <MemberPaper member={member} editMode={editMode} />
-                  </ProfileEditDialog>
-                </ListItem>
-              )
-            })
-        ) : (
-          <p>Loading Members...</p>
-        )}
-      </List>
-    </Fragment>
+    <CustomList
+      items={members_}
+      getKey={(member) => member.id}
+      render={(member) => (
+        <ProfileEditDialog member={member}>
+          <MemberPaper member={member} editMode={editMode} />
+        </ProfileEditDialog>
+      )}
+    />
   )
 }
