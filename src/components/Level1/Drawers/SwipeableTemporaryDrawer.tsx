@@ -81,7 +81,8 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
     {
       name: "Prayers",
       icon: <LibraryBooksIcon />,
-      page: "/dates",
+      page: "/prayers2",
+      // page: "/dates",
       disabled: !isAuthenticated,
     },
     {

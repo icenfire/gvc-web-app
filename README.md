@@ -3,6 +3,7 @@
 - [ ] Styling
 - [ ] Implement Date & Datepicker dialog
 - [ ] Connect Date and Prayer query
+- [x] 24/06/20 CY - Changed the notice alert icon
 - [x] 24/06/20 CY - Implemented new design prayer component
 - [x] 24/06/20 CY - Refactored List components into Presentational & Container
 - [x] 12/06/20 JH - Added delete, edit on Notice

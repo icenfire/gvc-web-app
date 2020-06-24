@@ -17,8 +17,8 @@ import { MyAccountPage } from "./Pages/MyAccountPage"
 import { NoticesPage } from "./Pages/NoticesPage"
 import { Playground } from "./Pages/Playground"
 import { PrayersPage } from "./Pages/PrayersPage"
-import { PrayersPage as PrayersPage2 } from "./Pages2/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
+import { PrayersPage as PrayersPage2 } from "./Pages2/PrayersPage"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>

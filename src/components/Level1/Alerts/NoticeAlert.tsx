@@ -1,15 +1,16 @@
-import React, { FC } from 'react'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
-import { Alert, AlertTitle } from '@material-ui/lab'
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import InfoIcon from "@material-ui/icons/Info"
+import { Alert, AlertTitle } from "@material-ui/lab"
+import React, { FC } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2)
-      }
-    }
+      width: "100%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
   })
 )
 
@@ -23,7 +24,7 @@ export const NoticeAlert: FC<IPNoticeAlert> = ({ title, content }) => {
 
   return (
     <div className={classes.root}>
-      <Alert severity="info">
+      <Alert severity="info" icon={<InfoIcon />}>
         <AlertTitle>{title}</AlertTitle>
         {content}
       </Alert>
