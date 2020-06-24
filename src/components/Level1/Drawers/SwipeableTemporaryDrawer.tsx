@@ -31,9 +31,14 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
+      background: theme.palette.secondary.dark,
+      color: theme.palette.common.white,
     },
     list: {
       flex: 1,
+    },
+    listItemIcon: {
+      color: theme.palette.common.white,
     },
   })
 )
@@ -131,7 +136,9 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
                 selected={item.page === location.pathname}
                 disabled={item.disabled}
               >
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon className={classes.listItemIcon}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItem>
               {item.divider === "below" && <Divider />}
@@ -146,7 +153,7 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
                 dispatch(signOut())
               }}
             >
-              <ListItemIcon>
+              <ListItemIcon className={classes.listItemIcon}>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary={"Sign Out"} />
