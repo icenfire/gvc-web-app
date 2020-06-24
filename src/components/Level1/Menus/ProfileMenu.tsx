@@ -5,7 +5,9 @@ import MenuItem from "@material-ui/core/MenuItem"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import React, { FC } from "react"
 
-export const ProfileMenu: FC = () => {
+export const ProfileMenu: FC<{
+  edge?: false | "start" | "end" | undefined
+}> = ({ edge }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,6 +24,7 @@ export const ProfileMenu: FC = () => {
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
+        edge={edge}
         onClick={handleClick}
       >
         <MoreVertIcon />

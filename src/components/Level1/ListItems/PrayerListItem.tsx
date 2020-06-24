@@ -1,4 +1,5 @@
 import Avatar from "@material-ui/core/Avatar"
+import IconButton from "@material-ui/core/IconButton"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -6,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
+import DeleteIcon from "@material-ui/icons/Delete"
 import React, { FC, Fragment } from "react"
 import { CustomList } from "src/components/Level2/Lists/CustomList"
 import { IMemberDownload, IPrayer } from "src/types"
@@ -36,7 +38,7 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({ member, prayer }) => {
   }
 
   return (
-    <Fragment>
+    <ListItem alignItems="flex-start">
       <ListItemAvatar>
         <ProfileEditDialog member={member}>
           <Avatar alt={member.name} src={member.thumbnailUrl} />
@@ -47,7 +49,7 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({ member, prayer }) => {
         primary={<Typography>{member.name}</Typography>}
         secondary={
           <TextField
-            // fullWidth
+            fullWidth
             placeholder="기도제목을 입력해주세요"
             multiline
             rowsMax="2"
@@ -56,9 +58,10 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({ member, prayer }) => {
           />
         }
       />
+
       <ListItemSecondaryAction>
-        <ProfileMenu />
+        <ProfileMenu edge="end" />
       </ListItemSecondaryAction>
-    </Fragment>
+    </ListItem>
   )
 }

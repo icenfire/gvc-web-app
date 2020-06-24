@@ -66,7 +66,6 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
   // .sort((member1, member2) => {
   //   return member1.name > member2.name ? 1 : -1
   // })
-  console.log({ members })
 
   const render = (member: IMemberDownload) => {
     let prayer: IPrayer
@@ -78,11 +77,7 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
       prayer = { content: "", memberId: member.id, date }
     }
 
-    return (
-      <ListItem key={member.id} alignItems="flex-start">
-        <PrayerListItem prayer={prayer} member={member} />
-      </ListItem>
-    )
+    return <PrayerListItem prayer={prayer} member={member} key={member.id} />
   }
 
   return <CustomList items={members_} render={render} />

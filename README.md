@@ -1,6 +1,7 @@
 ## TODO LIST
 
 - [ ] Styling
+  - [x] Finished styling prayer list item
 - [ ] Implement Date & Datepicker dialog
 - [ ] Connect Date and Prayer query
 - [x] 24/06/20 CY - Changed the notice alert icon
