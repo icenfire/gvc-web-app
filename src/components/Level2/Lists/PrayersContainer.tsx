@@ -1,8 +1,11 @@
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { Moment } from "moment"
 import React, { FC } from "react"
+import { useSelector } from "react-redux"
 import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
+import { AppState } from "src/store/reducers/rootReducer"
 
 import { IMemberDownload, IPrayer } from "../../../types"
 import { PrayerPaper } from "../../Level1/Papers/PrayerPaper"
@@ -41,41 +44,46 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export interface Props {
-  membersDic: {
-    [memberId: string]: IMemberDownload
-  }
+export interface IPPrayersContainer {
+  members: IMemberDownload[]
   prayers: IPrayer[]
-  filter: string
+  date: Moment
 }
 
-export const PrayersList: FC<Props> = ({ membersDic, prayers, filter }) => {
+export const PrayersContainer: FC<IPPrayersContainer> = ({
+  members,
+  prayers,
+  date,
+}) => {
   const classes = useStyles()
+  const search = useSelector<AppState, string>((state) => state.appBar.search)
 
-  const prayers_ =
-    prayers &&
-    [...prayers]
-      .filter(
-        (p) =>
-          !!membersDic[p.memberId] &&
-          membersDic[p.memberId].name
-            .toLocaleLowerCase()
-            .includes(filter.toLocaleLowerCase())
-      )
-      .sort((p1: IPrayer, p2: IPrayer) => {
-        return membersDic[p1.memberId].name > membersDic[p2.memberId].name
-          ? 1
-          : -1
-      })
+  const members_ =
+    members &&
+    [...members].filter((member) =>
+      member.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    )
+  // .sort((member1, member2) => {
+  //   return member1.name > member2.name ? 1 : -1
+  // })
+  console.log({ members })
 
-  return (
-    <CustomList
-      items={prayers_}
-      render={(prayer) => (
-        <ListItem key={prayer.id}>
-          <PrayerPaper prayer={prayer} member={membersDic[prayer.memberId]} />
-        </ListItem>
-      )}
-    />
-  )
+  const render = (member: IMemberDownload) => {
+    let prayer: IPrayer
+    let query =
+      prayers && prayers.filter((prayer) => prayer.memberId === member.id)
+    if (query && query.length === 1) {
+      prayer = query[0]
+    } else {
+      prayer = { content: "", memberId: member.id, date }
+    }
+
+    return (
+      <ListItem key={member.id} alignItems="flex-start">
+        <PrayerListItem prayer={prayer} member={member} />
+      </ListItem>
+    )
+  }
+
+  return <CustomList items={members_} render={render} />
 }

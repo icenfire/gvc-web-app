@@ -98,18 +98,12 @@ export const DatesList: FC<IPDatesList> = ({ from, to }) => {
   }
 
   const render = (sunday: Moment) => (
-    // <Container className={classes.container}>
-    <ButtonBase className={classes.buttonBase} onClick={onClick(sunday)}>
-      <DatePaper date={sunday} />
-    </ButtonBase>
-    // </Container>
+    <ListItem key={sunday.toString()}>
+      <ButtonBase className={classes.buttonBase} onClick={onClick(sunday)}>
+        <DatePaper date={sunday} />
+      </ButtonBase>
+    </ListItem>
   )
 
-  return (
-    <CustomList
-      items={mYandSs}
-      getKey={(sunday) => sunday.toString()}
-      render={render}
-    />
-  )
+  return <CustomList items={mYandSs} render={render} />
 }

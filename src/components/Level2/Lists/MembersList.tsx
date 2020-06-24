@@ -1,3 +1,4 @@
+import ListItem from "@material-ui/core/ListItem"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import PersonAddIcon from "@material-ui/icons/PersonAdd"
 import React, { FC, Fragment } from "react"
@@ -68,11 +69,12 @@ export const MembersList: FC<IPMembersList> = ({ members, editMode }) => {
   return (
     <CustomList
       items={members_}
-      getKey={(member) => member.id}
       render={(member) => (
-        <ProfileEditDialog member={member}>
-          <MemberPaper member={member} editMode={editMode} />
-        </ProfileEditDialog>
+        <ListItem key={member.id}>
+          <ProfileEditDialog member={member}>
+            <MemberPaper member={member} editMode={editMode} />
+          </ProfileEditDialog>
+        </ListItem>
       )}
     />
   )

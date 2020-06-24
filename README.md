@@ -1,5 +1,10 @@
 ## TODO LIST
 
+- [ ] Styling
+- [ ] Implement Date & Datepicker dialog
+- [ ] Connect Date and Prayer query
+- [x] 24/06/20 CY - Implemented new design prayer component
+- [x] 24/06/20 CY - Refactored List components into Presentational & Container
 - [x] 12/06/20 JH - Added delete, edit on Notice
 - [x] Made prayers query a redux reducer
   - [ ] Issue: Not so clean implementation. Probably should find another way

@@ -14,6 +14,7 @@ import { useSelector } from "react-redux"
 import { ExtendedFirestoreInstance, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
 
 import { AppState } from "../../../store/reducers/rootReducer"
 import { INoticeWithMeta } from "../../../types"
@@ -33,7 +34,7 @@ import { PrayersFilter } from "./PrayersFilter"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      borderColor: theme.palette.common.white,
+      borderColor: theme.palette.common.black,
       borderWidth: 2,
       borderStyle: "solid",
       marginBottom: 50,
@@ -178,6 +179,11 @@ export const Playground: FC = () => {
             prayers={prayersArr}
             filter={search}
           />
+        </Container>
+
+        <Typography>Prayers Listitems</Typography>
+        <Container className={classes.container}>
+          {/* <PrayerListItem /> */}
         </Container>
       </ContainerMain>
     </Fragment>

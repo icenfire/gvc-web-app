@@ -8,7 +8,6 @@ import React, { FC, ReactNode } from "react"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     list: { width: "100%", overflow: "auto" },
-    listItem: { padding: theme.spacing(0.5) },
     ul: { padding: 0 },
     subheader: { background: theme.palette.background.default },
   })
@@ -18,18 +17,11 @@ type itemType = any | { subheader: string; subitems: any[] }
 
 export interface IPCustomList {
   items: itemType[]
-  getKey: (item: any) => string
   render: (item: any) => ReactNode
 }
 
-export const CustomList: FC<IPCustomList> = ({ items, getKey, render }) => {
+export const CustomList: FC<IPCustomList> = ({ items, render }) => {
   const classes = useStyles()
-
-  const listItem = (item: itemType) => (
-    <ListItem className={classes.listItem} key={getKey(item)}>
-      {render(item)}
-    </ListItem>
-  )
 
   return (
     <List className={classes.list} subheader={<li />}>
@@ -41,11 +33,11 @@ export const CustomList: FC<IPCustomList> = ({ items, getKey, render }) => {
                 <ListSubheader className={classes.subheader}>
                   <Typography align="center">{item.subheader}</Typography>
                 </ListSubheader>
-                {item.subitems.map(listItem)}
+                {item.subitems.map(render)}
               </ul>
             </li>
           ) : (
-            listItem(item)
+            render(item)
           )
         })
       ) : (

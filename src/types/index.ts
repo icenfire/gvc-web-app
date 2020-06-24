@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from "firebase"
 
 // ---Members---
 
@@ -33,7 +33,7 @@ export interface INoticeWithMeta extends INotice {
 // ---Prayers---
 export interface IPrayer {
   content: string
-  id: string
+  id?: string
   date: any
   memberId: string
 }
@@ -50,7 +50,7 @@ export type AuthTypes = {
   photoUrl: string
   rememberMe: boolean
   agreeTAndC: boolean
-  page: 'signIn' | 'signUp' | 'resetPassword'
+  page: "signIn" | "signUp" | "resetPassword"
   alertResetPassword: boolean
   alertSignUp: boolean
   setSubmitting: (isSubmitting: boolean) => void
@@ -60,33 +60,33 @@ export type AuthTypes = {
 // Auth Interface
 export type IResetPassword = Pick<
   AuthTypes,
-  'email' | 'setSubmitting' | 'openAlert'
+  "email" | "setSubmitting" | "openAlert"
 >
 export type ISignIn = Pick<
   AuthTypes,
-  'email' | 'password' | 'rememberMe' | 'setSubmitting'
+  "email" | "password" | "rememberMe" | "setSubmitting"
 >
 export type ISignUp = Pick<
   AuthTypes,
-  | 'email'
-  | 'password'
-  | 'name'
-  | 'dob'
-  | 'agreeTAndC'
-  | 'setSubmitting'
-  | 'openAlert'
+  | "email"
+  | "password"
+  | "name"
+  | "dob"
+  | "agreeTAndC"
+  | "setSubmitting"
+  | "openAlert"
 >
 export type IAuthForm = Pick<
   AuthTypes,
-  | 'email'
-  | 'password'
-  | 'name'
-  | 'dob'
-  | 'rememberMe'
-  | 'agreeTAndC'
-  | 'page'
-  | 'alertResetPassword'
-  | 'alertSignUp'
+  | "email"
+  | "password"
+  | "name"
+  | "dob"
+  | "rememberMe"
+  | "agreeTAndC"
+  | "page"
+  | "alertResetPassword"
+  | "alertSignUp"
 >
 
 // export interface IEmail {
@@ -120,19 +120,19 @@ export interface IFBError {
 
 // ---Pages---
 export type Paths =
-  | '/'
-  | '/auth'
-  | '/bible'
-  | '/calendar'
-  | '/dates'
-  | '/members'
-  | '/myaccount'
-  | '/notices'
-  | '/playground'
-  | '/prayers'
-  | '/private'
-  | '/public'
-  | '/prayers2'
+  | "/"
+  | "/auth"
+  | "/bible"
+  | "/calendar"
+  | "/dates"
+  | "/members"
+  | "/myaccount"
+  | "/notices"
+  | "/playground"
+  | "/prayers"
+  | "/private"
+  | "/public"
+  | "/prayers2"
 
 // ---Bibles---
 export interface IBibles {
