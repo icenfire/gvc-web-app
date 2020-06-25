@@ -1,6 +1,6 @@
 import Container from "@material-ui/core/Container"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import React, { FC, ReactNode } from "react"
+import React, { FC, PropsWithChildren, ReactNode } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -10,12 +10,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const ContainerMain: FC<ReactNode> = ({ children }) => {
-  const classes = useStyles()
+export interface IPContainerMain<C> {
+  children: C
+}
 
+function ContainerMain<C>({ children }: PropsWithChildren<IPContainerMain<C>>) {
+  const classes = useStyles()
   return (
     <Container maxWidth="xs" className={classes.container}>
       {children}
     </Container>
   )
 }
+
+export { ContainerMain }
