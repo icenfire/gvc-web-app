@@ -55,6 +55,8 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
   const members = stateFS.ordered.members
   const prayers = stateFS.ordered.prayers
 
+  isLoaded(prayers)
+
   return (
     <Fragment>
       <AppBarMain title="Prayers" />

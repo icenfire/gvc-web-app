@@ -1,4 +1,3 @@
-import { CssBaseline } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
@@ -45,7 +44,6 @@ export default function App() {
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        {/* <CssBaseline /> */}
         <Switch>
           {/* <Route
             exact

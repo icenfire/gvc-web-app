@@ -15,34 +15,37 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type itemType = any | { subheader: string; subitems: any[] }
 
-export interface IPCustomList {
-  items: itemType[]
-  render: (item: any) => ReactNode
+export interface IPCustomList<I> {
+  items: I[] | { subheader: string; subitems: I[] }[]
+  render: (item: I) => ReactNode
 }
 
-export const CustomList: FC<IPCustomList> = ({ items, render }) => {
+function CustomList<I>({ items, render }: IPCustomList<I>) {
   const classes = useStyles()
-
   return (
     <List className={classes.list} subheader={<li />}>
       {items ? (
-        items.map((item) => {
-          return "subheader" in item ? (
-            <li key={item.subheader}>
-              <ul className={classes.ul}>
-                <ListSubheader className={classes.subheader}>
-                  <Typography align="center">{item.subheader}</Typography>
-                </ListSubheader>
-                {item.subitems.map(render)}
-              </ul>
-            </li>
-          ) : (
-            render(item)
-          )
-        })
+        (items as Array<I | { subheader: string; subitems: I[] }>).map(
+          (item: I | { subheader: string; subitems: I[] }) => {
+            return "subheader" in item ? (
+              <li key={item.subheader}>
+                <ul className={classes.ul}>
+                  <ListSubheader className={classes.subheader}>
+                    <Typography align="center">{item.subheader}</Typography>
+                  </ListSubheader>
+                  {item.subitems.map(render)}
+                </ul>
+              </li>
+            ) : (
+              render(item)
+            )
+          }
+        )
       ) : (
         <p>Loading...</p>
       )}
     </List>
   )
 }
+
+export { CustomList }

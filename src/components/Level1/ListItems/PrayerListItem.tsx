@@ -30,9 +30,9 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({ member, prayer }) => {
   const [prayerState, setPrayerState] = React.useState<string>(prayer.content)
   const classes = useStyles()
   // TODO: THIS IS A TEMPORARY CODE WHICH REQUIRES IMMEDIATE FIXING
-  // useEffect(() => {
-  //   setPrayerState(prayer.content)
-  // }, [prayer.content])
+  useEffect(() => {
+    setPrayerState(prayer.content)
+  }, [prayer.content])
 
   const onChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
