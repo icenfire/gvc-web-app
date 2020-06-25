@@ -71,6 +71,7 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
     let prayer: IPrayer
     let query =
       prayers && prayers.filter((prayer) => prayer.memberId === member.id)
+
     if (query && query.length === 1) {
       prayer = query[0]
     } else {

@@ -1,3 +1,4 @@
+import Button from "@material-ui/core/Button"
 import Divider from "@material-ui/core/Divider"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
@@ -62,6 +63,15 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
           title={"출석체크"}
           content={"프로필 이미지를 누르면 출석으로 저장됩니다."}
         />
+        <Button
+          onClick={() => {
+            setDate(moment("2020/06/07"))
+          }}
+          color="secondary"
+          variant="contained"
+        >
+          Test changing date with prayers
+        </Button>
         <Typography variant="h4">{date.format("DD MMM YYYY")}</Typography>
         <Divider className={classes.divider} />
         {isLoaded(prayers) && isLoaded(members) ? (
