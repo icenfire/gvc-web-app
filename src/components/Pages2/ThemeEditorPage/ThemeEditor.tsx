@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button"
 import FormControl from "@material-ui/core/FormControl"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import FormHelperText from "@material-ui/core/FormHelperText"
+import Grid from "@material-ui/core/Grid"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
@@ -75,59 +76,75 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
   }
 
   const getMenus = () => {
+    let menus = ["New...", "Default"]
     if (themes) {
-      return ["New...", "Default", ...Object.keys(themes)]
+      return [...menus, ...Object.keys(themes)]
     } else {
-      return ["New...", "Default"]
+      return menus
     }
   }
 
   return (
     <Fragment>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Theme</InputLabel>
-        <Select
-          value={currentThemeNameState}
-          onChange={handleCurrentThemeChange}
-        >
-          {getMenus().map((name) => (
-            <MenuItem value={name} key={name}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-        <FormHelperText>Choose a theme</FormHelperText>
-      </FormControl>
+      <Grid container alignItems="center" justify="center">
+        <Grid item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Theme</InputLabel>
+            <Select
+              value={currentThemeNameState}
+              onChange={handleCurrentThemeChange}
+            >
+              {getMenus().map((name) => (
+                <MenuItem value={name} key={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item></Grid>
+        <TextField
+          value={newThemeName}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setNewThemeName(event.target.value)
+          }}
+          label="Save as..."
+        />
 
-      <TextField
-        value={newThemeName}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setNewThemeName(event.target.value)
-        }}
-        label="Save as..."
-      />
+        <Grid item>
+          {newThemeName !== "Default" && newThemeName !== "" && (
+            <Button
+              onClick={() => {
+                dispatch(uploadTheme(newThemeName, currentThemeValues))
+                dispatch(setCurrentThemeName(newThemeName as string))
+                setCurrentThemeNameState(newThemeName as string)
+              }}
+              disabled={newThemeName === "Default" || newThemeName === ""}
+              variant="contained"
+            >
+              SAVE
+            </Button>
+          )}
+        </Grid>
 
-      <Button
-        onClick={() => {
-          dispatch(uploadTheme(newThemeName, currentThemeValues))
-          dispatch(setCurrentThemeName(newThemeName as string))
-          setCurrentThemeNameState(newThemeName as string)
-        }}
-        disabled={newThemeName === "Default" || newThemeName === ""}
-      >
-        SAVE
-      </Button>
-      <Button
-        onClick={() => {
-          dispatch(setCurrentThemeName("Default"))
-          setNewThemeName("Default")
-          setCurrentThemeNameState("Default")
-          dispatch(deleteTheme(newThemeName))
-        }}
-        disabled={currentThemeNameState === "Default"}
-      >
-        DELETE
-      </Button>
+        <Grid item>
+          {currentThemeNameState !== "Default" && (
+            <Button
+              onClick={() => {
+                dispatch(setCurrentThemeName("Default"))
+                setNewThemeName("Default")
+                setCurrentThemeNameState("Default")
+                dispatch(deleteTheme(newThemeName))
+              }}
+              disabled={currentThemeNameState === "Default"}
+              variant="contained"
+            >
+              DELETE
+            </Button>
+          )}
+        </Grid>
+      </Grid>
+
       <div className={classes.editor}>
         <ReactJsonEditor
           values={getCurrentTheme(currentThemeNameState)}

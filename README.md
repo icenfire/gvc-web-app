@@ -7,8 +7,9 @@
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
 - [ ] Connect Date and Prayer query
-- [x] Added Storybook 'npm run storybook' - See [Link](https://storybook.js.org/)
-- [x] Typed CustomList & ContainerMain using generics
+- [x] 27/06/20 CY - Added Theme editor page
+- [x] 27/06/20 CY - Added Storybook 'npm run storybook' - See [Link](https://storybook.js.org/)
+- [x] 26/06/20 CY - Typed CustomList & ContainerMain using generics
 - [x] 26/06/20 CY - Implement Date & Datepicker dialog
 - [x] 24/06/20 CY - Changed the notice alert icon
 - [x] 24/06/20 CY - Implemented new design prayer component

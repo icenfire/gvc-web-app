@@ -57,13 +57,16 @@ export default function App() {
     (state) => state.firestore.data.settings
   )
 
-  const getTheme = (name: string) =>
-    name === "Default" ? {} : JSON.parse(themes[name]["string"])
-
   return (
     <Fragment>
       {isLoaded(themes) && isLoaded(settings) ? (
-        <MuiThemeProvider theme={createMuiTheme(getTheme(settings.theme.name))}>
+        <MuiThemeProvider
+          theme={createMuiTheme(
+            settings.theme.name === "Default"
+              ? {}
+              : JSON.parse(themes[settings.theme.name]["string"])
+          )}
+        >
           <div className={classes.root}>
             <BrowserRouter>
               <Switch>
