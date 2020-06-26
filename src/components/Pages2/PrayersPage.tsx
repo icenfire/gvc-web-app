@@ -1,7 +1,7 @@
-import Button from "@material-ui/core/Button"
-import Divider from "@material-ui/core/Divider"
+import InputAdornment from "@material-ui/core/InputAdornment"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
+import EventIcon from "@material-ui/icons/Event"
+import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
 import { useSelector } from "react-redux"
@@ -12,11 +12,13 @@ import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
 import { PrayersContainer } from "../Level2/Lists/PrayersContainer"
-import { PrayersList } from "../Level2/Lists/PrayersList"
 import { Notices } from "../Level2/SwipeableListViews/Notices"
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({ divider: { backgroundColor: theme.palette.common.black } })
+  createStyles({
+    divider: { backgroundColor: theme.palette.common.black },
+    datePicker: { fontSize: theme.typography.h4.fontSize },
+  })
 )
 
 export interface IPPrayersPage {}
@@ -59,23 +61,33 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
 
   return (
     <Fragment>
-      <AppBarMain title="Prayers" />
+      <AppBarMain title="기도제목" />
       <ContainerMain>
         <NoticeAlert
           title={"출석체크"}
           content={"프로필 이미지를 누르면 출석으로 저장됩니다."}
         />
-        <Button
-          onClick={() => {
-            setDate(moment("2020/06/07"))
+
+        <DatePicker
+          fullWidth
+          shouldDisableDate={(date) => date?.getDay() !== 0}
+          value={date.toDate()}
+          disableFuture
+          format="dd MMM yyyy"
+          onChange={(date: Date | null) => {
+            if (date) {
+              setDate(moment(date))
+            }
           }}
-          color="secondary"
-          variant="contained"
-        >
-          Test changing date with prayers
-        </Button>
-        <Typography variant="h4">{date.format("DD MMM YYYY")}</Typography>
-        <Divider className={classes.divider} />
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <EventIcon />
+              </InputAdornment>
+            ),
+            classes: { input: classes.datePicker },
+          }}
+        />
         {isLoaded(prayers) && isLoaded(members) ? (
           <PrayersContainer prayers={prayers} members={members} date={date} />
         ) : (

@@ -5,8 +5,8 @@
 - [ ] Styling
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
-- [ ] Implement Date & Datepicker dialog
 - [ ] Connect Date and Prayer query
+- [x] 26/06/20 CY - Implement Date & Datepicker dialog
 - [x] 24/06/20 CY - Changed the notice alert icon
 - [x] 24/06/20 CY - Implemented new design prayer component
 - [x] 24/06/20 CY - Refactored List components into Presentational & Container

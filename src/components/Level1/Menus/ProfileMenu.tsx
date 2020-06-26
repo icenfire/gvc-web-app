@@ -36,8 +36,9 @@ export const ProfileMenu: FC<{
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Attendance</MenuItem>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
+        <MenuItem onClick={handleClose}>출석 취소</MenuItem>
+        <MenuItem onClick={handleClose}>파송</MenuItem>
       </Menu>
     </div>
   )
