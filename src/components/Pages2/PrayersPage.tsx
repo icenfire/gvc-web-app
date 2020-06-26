@@ -17,7 +17,7 @@ import { Notices } from "../Level2/SwipeableListViews/Notices"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     divider: { backgroundColor: theme.palette.common.black },
-    datePicker: { fontSize: theme.typography.h4.fontSize },
+    datePicker: theme.typography.h4,
   })
 )
 
