@@ -1,7 +1,11 @@
+import { createMuiTheme } from "@material-ui/core"
+import { MuiThemeProvider } from "@material-ui/core/styles"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux"
+import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { BrowserRouter, Link, Route, Switch, useHistory, useLocation } from "react-router-dom"
+import { Themes } from "src/types"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
@@ -18,6 +22,7 @@ import { Playground } from "./Pages/Playground"
 import { PrayersPage } from "./Pages/PrayersPage"
 import SignInUpPage from "./Pages/SignInUpPage"
 import { PrayersPage as PrayersPage2 } from "./Pages2/PrayersPage"
+import { ThemeEditorPage } from "./Pages2/ThemeEditorPage"
 
 // import LeaderDatePage from "./Pages/LeaderDatePage"
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,47 +46,53 @@ export default function App() {
   const location = useLocation<{ from: string }>()
   const fromOrHome: string = location.state?.from || "/"
 
+  useFirestoreConnect([{ collection: "themes" }])
+  useFirestoreConnect([{ collection: "settings" }])
+
+  const themes = useSelector<AppState, Themes>(
+    (state) => state.firestore.data.themes
+  )
+
+  const settings = useSelector<AppState, any>(
+    (state) => state.firestore.data.settings
+  )
+
+  const getTheme = (name: string) =>
+    name === "Default" ? {} : JSON.parse(themes[name]["string"])
+
   return (
-    <div className={classes.root}>
-      <BrowserRouter>
-        <Switch>
-          {/* <Route
-            exact
-            path="/"
-            component={() => {
-              console.log("check")
-              return (
-                <ul>
-                  <li>
-                    <Link to="/public">Public Page</Link>
-                  </li>
-                  <li>
-                    <Link to="/private">Private Page</Link>
-                  </li>
-                </ul>
-              )
-            }}
-          /> */}
-          <PrivateRoute path="/" exact component={MembersPage} />
-          <Route path="/public" component={Playground} />
-          <Route path="/bible" component={BiblePage} />
-          <Route path="/playground" component={Playground} />
-          <PrivateRoute
-            path="/auth"
-            redirectConditionMet={isAuthenticated}
-            checkFrom
-            component={AuthPage}
-          />
-          <PrivateRoute path="/private" component={MembersPage} />
-          <PrivateRoute path="/members" component={MembersPage} />
-          <PrivateRoute path="/myaccount" component={MyAccountPage} />
-          <PrivateRoute path="/prayers" component={PrayersPage} />
-          <PrivateRoute path="/dates" component={DatesPage} />
-          <PrivateRoute path="/notices" component={NoticesPage} />
-          <PrivateRoute path="/calendar" component={CalendarPage} />
-          <PrivateRoute path="/prayers2" component={PrayersPage2} />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <Fragment>
+      {isLoaded(themes) && isLoaded(settings) ? (
+        <MuiThemeProvider theme={createMuiTheme(getTheme(settings.theme.name))}>
+          <div className={classes.root}>
+            <BrowserRouter>
+              <Switch>
+                <PrivateRoute path="/" exact component={MembersPage} />
+                <Route path="/public" component={Playground} />
+                <Route path="/bible" component={BiblePage} />
+                <Route path="/playground" component={Playground} />
+                <PrivateRoute
+                  path="/auth"
+                  redirectConditionMet={isAuthenticated}
+                  checkFrom
+                  component={AuthPage}
+                />
+                <PrivateRoute path="/private" component={MembersPage} />
+                <PrivateRoute path="/members" component={MembersPage} />
+                <PrivateRoute path="/myaccount" component={MyAccountPage} />
+                <PrivateRoute path="/prayers" component={PrayersPage} />
+                <PrivateRoute path="/dates" component={DatesPage} />
+                <PrivateRoute path="/notices" component={NoticesPage} />
+                <PrivateRoute path="/calendar" component={CalendarPage} />
+                <PrivateRoute path="/prayers2" component={PrayersPage2} />
+                <PrivateRoute path="/theme" component={ThemeEditorPage} />
+              </Switch>
+            </BrowserRouter>
+          </div>
+        </MuiThemeProvider>
+      ) : (
+        "Loading..."
+      )}
+    </Fragment>
   )
 }

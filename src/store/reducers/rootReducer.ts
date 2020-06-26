@@ -7,7 +7,6 @@ import { authReducer } from "./authReducer"
 import { bibleReducer } from "./bibleReducer"
 import { noticeReducer } from "./noticeReducer"
 import { prayerReducer } from "./prayerReducer"
-import { stylesReducer } from "./stylesReducer"
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,7 +14,6 @@ export const rootReducer = combineReducers({
   notice: noticeReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-  styles: stylesReducer,
   appBar: appBarReducer,
   prayers: prayerReducer,
 })

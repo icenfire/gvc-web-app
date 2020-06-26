@@ -1,6 +1,5 @@
 import DateFnsUtils from "@date-io/date-fns"
 import { CssBaseline } from "@material-ui/core"
-import { MuiThemeProvider } from "@material-ui/core/styles"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
 import firebase from "firebase"
 import React, { Fragment } from "react"
@@ -15,7 +14,6 @@ import thunk, { ThunkMiddleware } from "redux-thunk"
 
 import { AppState, rootReducer } from "../src/store/reducers/rootReducer"
 import App from "./components/App"
-import { theme } from "./theme"
 import { globalObjects } from "./utils/globalObjects"
 
 // Define global objects for testing
@@ -59,17 +57,15 @@ ReactDOM.render(
   <Fragment>
     <CssBaseline />
     <BrowserRouter>
-      <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
-          <ReactReduxFirebaseProvider {...rrfProps}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <AuthIsLoaded>
-                <App />
-              </AuthIsLoaded>
-            </MuiPickersUtilsProvider>
-          </ReactReduxFirebaseProvider>
-        </Provider>
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <AuthIsLoaded>
+              <App />
+            </AuthIsLoaded>
+          </MuiPickersUtilsProvider>
+        </ReactReduxFirebaseProvider>
+      </Provider>
     </BrowserRouter>
   </Fragment>,
   document.getElementById("root")

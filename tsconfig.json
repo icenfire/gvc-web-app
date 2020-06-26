@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".", // Allows absolute import with root url as the root -> import ... from "src/..."
+    "typeRoots": ["./src/@types", "./node_modules/@types"], // Allows custom declaration files
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

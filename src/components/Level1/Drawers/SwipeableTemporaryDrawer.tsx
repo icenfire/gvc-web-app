@@ -13,6 +13,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import MenuBookIcon from "@material-ui/icons/MenuBook"
+import PaletteIcon from "@material-ui/icons/Palette"
 import PeopleIcon from "@material-ui/icons/People"
 import WidgetsIcon from "@material-ui/icons/Widgets"
 import React, { FC, Fragment } from "react"
@@ -112,6 +113,11 @@ export const SwipeableTemporaryDrawer: FC<Props> = ({
       name: "Playground",
       icon: <WidgetsIcon />,
       page: "/playground",
+    },
+    {
+      name: "Theme",
+      icon: <PaletteIcon />,
+      page: "/theme",
     },
   ]
 

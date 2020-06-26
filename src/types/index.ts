@@ -1,4 +1,8 @@
+import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 import firebase from "firebase"
+
+// ---Themes---
+export type Themes = { [key: string]: { string: string } }
 
 // ---Members---
 
@@ -133,6 +137,7 @@ export type Paths =
   | "/private"
   | "/public"
   | "/prayers2"
+  | "/theme"
 
 // ---Bibles---
 export interface IBibles {
