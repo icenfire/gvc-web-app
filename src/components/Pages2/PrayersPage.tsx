@@ -70,6 +70,7 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
 
         <DatePicker
           fullWidth
+          variant="inline"
           shouldDisableDate={(date) => date?.getDay() !== 0}
           value={date.toDate()}
           disableFuture
@@ -81,8 +82,8 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
             }
           }}
           InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
+            startAdornment: (
+              <InputAdornment position="start">
                 <EventIcon />
               </InputAdornment>
             ),
