@@ -65,9 +65,7 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
     if (chosenTheme === "New...") {
       setCreateNewTheme(true)
       setNewThemeName("")
-      console.log("Creating new theme...")
     } else {
-      console.log("Dispatching...")
       setCreateNewTheme(false)
       setNewThemeName(chosenTheme as string)
       dispatch(setCurrentThemeName(chosenTheme as string))
@@ -86,7 +84,7 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
 
   return (
     <Fragment>
-      <Grid container alignItems="center" justify="center">
+      <Grid container alignItems="center" justify="center" spacing={2}>
         <Grid item>
           <FormControl className={classes.formControl}>
             <InputLabel>Theme</InputLabel>
@@ -121,8 +119,9 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
               }}
               disabled={newThemeName === "Default" || newThemeName === ""}
               variant="contained"
+              color="primary"
             >
-              SAVE
+              {"SAVE & Apply"}
             </Button>
           )}
         </Grid>
@@ -138,6 +137,7 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
               }}
               disabled={currentThemeNameState === "Default"}
               variant="contained"
+              color="secondary"
             >
               DELETE
             </Button>

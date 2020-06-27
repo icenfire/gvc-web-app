@@ -74,6 +74,7 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
           value={date.toDate()}
           disableFuture
           format="dd MMM yyyy"
+          autoOk
           onChange={(date: Date | null) => {
             if (date) {
               setDate(moment(date))

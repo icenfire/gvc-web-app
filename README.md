@@ -4,6 +4,7 @@
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
 - [ ] Styling
   - [ ] Padding and spacing
+  - [x] 27/06/20 CY - Stylised Theme editor page
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
 - [ ] Connect Date and Prayer query
