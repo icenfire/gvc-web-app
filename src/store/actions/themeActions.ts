@@ -5,7 +5,8 @@ import { IFBError } from "./../../types"
 
 export const uploadTheme = (
   name: string,
-  theme: ThemeOptions
+  theme: { input: string; output: string },
+  setCreateNewThemeMode: (b: boolean) => void
 ): ThunkActionCustom<void> => (
   dispatch,
   getState,
@@ -16,8 +17,9 @@ export const uploadTheme = (
   firestore
     .collection("themes")
     .doc(name)
-    .set({ string: JSON.stringify(theme) })
+    .set(theme)
     .then(() => {
+      setCreateNewThemeMode(false)
       dispatch({ type: "UPLOAD_THEME" })
     })
     .catch((error: IFBError) => {

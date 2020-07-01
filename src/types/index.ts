@@ -2,7 +2,9 @@ import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme"
 import firebase from "firebase"
 
 // ---Themes---
-export type Themes = { [key: string]: { string: string } }
+export type Themes = {
+  [key: string]: { output: string; input: string }
+}
 
 // ---Members---
 

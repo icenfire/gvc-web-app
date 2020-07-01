@@ -62,9 +62,7 @@ export default function App() {
       {isLoaded(themes) && isLoaded(settings) ? (
         <MuiThemeProvider
           theme={createMuiTheme(
-            settings.theme.name === "Default"
-              ? {}
-              : JSON.parse(themes[settings.theme.name]["string"])
+            JSON.parse(themes[settings.theme.name]["output"])
           )}
         >
           <div className={classes.root}>
