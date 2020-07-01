@@ -1,5 +1,6 @@
 ## TODO LIST
 
+- [x] 01/07/20 CY - Finished adding JSON input feature on theme page
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
 - [ ] Styling

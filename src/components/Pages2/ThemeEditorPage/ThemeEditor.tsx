@@ -47,7 +47,6 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
     output: string
   }>(themes[currentThemeName])
 
-  const [inputJSON, setInputJSON] = useState<string>("{}")
   const [JSONErrorMessage, setJSONErrorMessage] = useState<string>("")
 
   const prettifyJSONString = (s: string) => {
@@ -61,21 +60,19 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
     }
   }
 
-  console.log({ currentThemeValues })
-
   const getCurrentTheme = (name: string) =>
     createNewThemeMode ? { input: "{}", output: "{}" } : themes[name]
 
   const handleCurrentThemeChange = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
-    setInputJSON("{}")
     setJSONErrorMessage("")
 
     let chosenTheme = event.target.value
     if (chosenTheme === "New...") {
       setCreateNewThemeMode(true)
       setNewThemeName("")
+      setCurrentThemeValues({ input: "{}", output: "{}" })
     } else {
       setCreateNewThemeMode(false)
       setNewThemeName(chosenTheme as string)
@@ -90,7 +87,9 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
     if (themes) {
       return [
         ...menus,
-        ...Object.keys(themes).filter((theme) => theme !== "Default"),
+        ...Object.keys(themes).filter(
+          (theme) => theme !== "Default" && themes[theme] !== null
+        ),
       ]
     } else {
       return menus
@@ -127,10 +126,13 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
         />
         <Grid item xs={12}>
           <TextField
-            value={createNewThemeMode ? inputJSON : currentThemeValues.input}
+            value={currentThemeValues.input}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               prettifyJSONString(event.target.value)
-              setInputJSON(event.target.value)
+              setCurrentThemeValues({
+                input: event.target.value,
+                output: event.target.value,
+              })
             }}
             label="Input JSON"
             multiline
@@ -148,7 +150,10 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
               variant="contained"
               color="primary"
               onClick={() => {
-                setInputJSON(prettifyJSONString(inputJSON))
+                setCurrentThemeValues((prevState) => ({
+                  ...prevState,
+                  inpute: prettifyJSONString(currentThemeValues.input),
+                }))
               }}
               disabled={JSONErrorMessage !== "" || !createNewThemeMode}
             >
@@ -161,30 +166,29 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
           {newThemeName !== "Default" && (
             <Button
               onClick={() => {
-                if (createNewThemeMode) {
-                  console.log(
-                    { pretty: prettifyJSONString(inputJSON) },
-                    { inputJSON }
-                  )
-                  setCurrentThemeValues({
-                    input: prettifyJSONString(inputJSON),
-                    output: prettifyJSONString(inputJSON),
-                  })
+                let theme = {
+                  input: prettifyJSONString(currentThemeValues.input),
+                  output: prettifyJSONString(currentThemeValues.output),
                 }
-                setTimeout(() => {
-                  console.log({ currentThemeValues }, { inputJSON })
-                  dispatch(
-                    uploadTheme(
-                      newThemeName,
-                      currentThemeValues,
-                      setCreateNewThemeMode
-                    )
-                  )
-                  dispatch(setCurrentThemeName(newThemeName as string))
-                  setCurrentThemeNameState(newThemeName)
-                }, 1000)
+
+                dispatch(
+                  uploadTheme({
+                    name: newThemeName,
+                    theme,
+                    callback: () => {
+                      setCreateNewThemeMode(false)
+                    },
+                  })
+                )
+                dispatch(setCurrentThemeName(newThemeName as string))
+                setCurrentThemeNameState(newThemeName)
+                setCurrentThemeValues(theme)
               }}
-              disabled={newThemeName === "Default" || newThemeName === ""}
+              disabled={
+                newThemeName === "Default" ||
+                newThemeName === "" ||
+                JSONErrorMessage !== ""
+              }
               variant="contained"
               color="primary"
             >
@@ -201,6 +205,7 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
                 setNewThemeName("Default")
                 setCurrentThemeNameState("Default")
                 dispatch(deleteTheme(newThemeName))
+                setCurrentThemeValues({ input: "{}", output: "{}" })
               }}
               disabled={
                 currentThemeNameState === "Default" && !createNewThemeMode
