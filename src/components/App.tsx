@@ -6,10 +6,12 @@ import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { BrowserRouter, Link, Route, Switch, useHistory, useLocation } from "react-router-dom"
 import { Themes } from "src/types"
+import WebFont from "webfontloader"
 
 import { PrivateRoute } from "../auth/PrivateRoute"
 import { AppState } from "../store/reducers/rootReducer"
 import { AppBarMain } from "./Level1/AppBars/AppBarMain"
+import { Font } from "./Level1/Dialogs/FontDialog"
 import { AuthPage } from "./Pages/AuthPage"
 import { BiblePage } from "./Pages/BiblePage"
 import { CalendarPage } from "./Pages/CalendarPage"
@@ -47,15 +49,28 @@ export default function App() {
   const fromOrHome: string = location.state?.from || "/"
 
   useFirestoreConnect([{ collection: "themes" }])
+  useFirestoreConnect([{ collection: "fonts" }])
   useFirestoreConnect([{ collection: "settings" }])
 
   const themes = useSelector<AppState, Themes>(
     (state) => state.firestore.data.themes
   )
 
+  const fonts = useSelector<AppState, Font[]>(
+    (state) => state.firestore.ordered.fonts
+  )
+
   const settings = useSelector<AppState, any>(
     (state) => state.firestore.data.settings
   )
+
+  if (isLoaded(fonts) && fonts.length > 0) {
+    WebFont.load({
+      google: {
+        families: fonts.map((font) => font.font),
+      },
+    })
+  }
 
   return (
     <Fragment>

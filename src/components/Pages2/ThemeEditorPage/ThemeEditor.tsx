@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField"
 import ReactJsonEditor from "jsoneditor-for-react"
 import React, { FC, Fragment, useState } from "react"
 import { useDispatch } from "react-redux"
+import { FontDialog } from "src/components/Level1/Dialogs/FontDialog"
 import { deleteTheme, setCurrentThemeName, uploadTheme } from "src/store/actions/themeActions"
 import { Themes } from "src/types"
 
@@ -21,7 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
       minWidth: 120,
     },
-    editor: { maxHeight: "80vh", overflow: "auto" },
+    root: {
+      padding: theme.spacing(2),
+    },
   })
 )
 
@@ -87,9 +90,9 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
     if (themes) {
       return [
         ...menus,
-        ...Object.keys(themes).filter(
-          (theme) => theme !== "Default" && themes[theme] !== null
-        ),
+        ...Object.keys(themes)
+          .filter((theme) => theme !== "Default" && themes[theme] !== null)
+          .sort(),
       ]
     } else {
       return menus
@@ -97,7 +100,7 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
   }
 
   return (
-    <Fragment>
+    <div className={classes.root}>
       <Grid container alignItems="center" justify="center" spacing={2}>
         <Grid item>
           <FormControl className={classes.formControl}>
@@ -114,16 +117,22 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item></Grid>
-        <TextField
-          value={newThemeName}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setNewThemeName(event.target.value)
-          }}
-          label="Save as..."
-          error={newThemeName === ""}
-          helperText={newThemeName === "" ? "Please write a name to save" : ""}
-        />
+        <Grid item>
+          <TextField
+            value={newThemeName}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setNewThemeName(event.target.value)
+            }}
+            label="Save as..."
+            error={newThemeName === ""}
+            helperText={
+              newThemeName === "" ? "Please write a name to save" : ""
+            }
+          />
+        </Grid>
+        <Grid item>
+          <FontDialog />
+        </Grid>
         <Grid item xs={12}>
           <TextField
             value={currentThemeValues.input}
@@ -144,24 +153,6 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
             disabled={!createNewThemeMode}
           />
         </Grid>
-        {createNewThemeMode && (
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setCurrentThemeValues((prevState) => ({
-                  ...prevState,
-                  inpute: prettifyJSONString(currentThemeValues.input),
-                }))
-              }}
-              disabled={JSONErrorMessage !== "" || !createNewThemeMode}
-            >
-              Auto Format JSON
-            </Button>
-          </Grid>
-        )}
-
         <Grid item>
           {newThemeName !== "Default" && (
             <Button
@@ -196,7 +187,6 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
             </Button>
           )}
         </Grid>
-
         <Grid item>
           {currentThemeNameState !== "Default" && !createNewThemeMode && (
             <Button
@@ -217,23 +207,39 @@ export const ThemeEditor: FC<IPThemeEditor> = ({
             </Button>
           )}
         </Grid>
-      </Grid>
-
-      <div className={classes.editor}>
-        {!createNewThemeMode && (
-          <ReactJsonEditor
-            values={createMuiTheme(
-              JSON.parse(getCurrentTheme(currentThemeNameState).output)
-            )}
-            onChange={(values) =>
-              setCurrentThemeValues((prevState) => ({
-                ...prevState,
-                output: JSON.stringify(values),
-              }))
-            }
-          />
+        {createNewThemeMode && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setCurrentThemeValues((prevState) => ({
+                  ...prevState,
+                  input: prettifyJSONString(currentThemeValues.input),
+                }))
+              }}
+              disabled={JSONErrorMessage !== "" || !createNewThemeMode}
+            >
+              Auto Format JSON
+            </Button>
+          </Grid>
         )}
-      </div>
-    </Fragment>
+        <Grid item xs={12}>
+          {!createNewThemeMode && (
+            <ReactJsonEditor
+              values={createMuiTheme(
+                JSON.parse(getCurrentTheme(currentThemeNameState).output)
+              )}
+              onChange={(values) =>
+                setCurrentThemeValues((prevState) => ({
+                  ...prevState,
+                  output: JSON.stringify(values),
+                }))
+              }
+            />
+          )}
+        </Grid>
+      </Grid>
+    </div>
   )
 }

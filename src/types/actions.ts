@@ -1,5 +1,6 @@
 import { ExtendedFirestoreInstance, getFirebase } from "react-redux-firebase"
 import { ThunkAction } from "redux-thunk"
+import { Font } from "src/components/Level1/Dialogs/FontDialog"
 import { IBibleRef } from "src/components/Pages/BiblePage"
 
 import { IFBError, INotice, TPrayerQueries } from "."
@@ -59,6 +60,35 @@ export type ThemeActionTypes =
   | SetCurrentThemeNameError
   | DeleteTheme
   | DeleteThemeError
+
+// Theme actions
+export const UPLOAD_FONT = "UPLOAD_FONT"
+export interface UploadFont {
+  type: typeof UPLOAD_FONT
+}
+
+export const UPLOAD_FONT_ERROR = "UPLOAD_FONT_ERROR"
+export interface UploadFontError {
+  type: typeof UPLOAD_FONT_ERROR
+  payload: IFBError
+}
+
+export const DELETE_FONT = "DELETE_FONT"
+export interface DeleteFont {
+  type: typeof DELETE_FONT
+}
+
+export const DELETE_FONT_ERROR = "DELETE_FONT_ERROR"
+export interface DeleteFontError {
+  type: typeof DELETE_FONT_ERROR
+  payload: IFBError
+}
+
+export type FontActionTypes =
+  | UploadFont
+  | UploadFontError
+  | DeleteFont
+  | DeleteFontError
 
 // Notice actions
 export const CREATE_NOTICE = "CREATE_NOTICE"
@@ -266,3 +296,5 @@ export type AppActions =
   | AuthActionTypes
   | AppBarActionTypes
   | BibleActionTypes
+  | ThemeActionTypes
+  | FontActionTypes
