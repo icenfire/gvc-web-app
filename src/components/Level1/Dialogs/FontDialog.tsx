@@ -7,6 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import Link from "@material-ui/core/Link"
+import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -88,8 +89,26 @@ export const FontDialog: FC = () => {
             </Link>
           </DialogContentText>
           <CustomList items={fonts} render={render} />
+
           <Grid container alignItems="center">
-            <Grid item xs>
+            {extractFontFromURL() && (
+              <Fragment>
+                <Grid item>
+                  <Typography>Preview</Typography>
+                </Grid>
+                <Grid item xs>
+                  <List>
+                    <ListItem>
+                      <ListItemText
+                        primary={extractFontFromURL()?.name}
+                        secondary={extractFontFromURL()?.font}
+                      />
+                    </ListItem>
+                  </List>
+                </Grid>
+              </Fragment>
+            )}
+            <Grid item xs={10}>
               <TextField
                 autoFocus
                 value={fontURL}
@@ -114,6 +133,7 @@ export const FontDialog: FC = () => {
                 onClick={() => {
                   const font = extractFontFromURL()
                   font && dispatch(uploadFont(font))
+                  setFontURL("")
                 }}
                 color="primary"
                 disabled={fontURL === "" || extractFontFromURL() === null}
