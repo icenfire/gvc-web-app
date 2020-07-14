@@ -1,6 +1,7 @@
 ## TODO LIST
 
 - [ ] Make prayers save on firestore
+  - [x] Convert prayers objects to report objects
 - [ ] Add a FAB
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem

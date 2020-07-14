@@ -8,6 +8,7 @@ import { useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { IMemberDownload, IReport } from "src/types"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
@@ -42,22 +43,22 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
 
   useFirestoreConnect([
     {
-      collection: "prayers",
+      collection: "reports",
       where: [
-        ["date", "<=", moment(date).add(1, "day").toDate()],
-        ["date", ">=", moment(date).subtract(1, "day").toDate()],
+        ["date", "==", date.format("YYYY/MM/DD")],
         ["cell", "==", profile.cell ? profile.cell : ""],
       ],
     },
   ])
 
   const stateFS = useSelector<AppState, any>((state) => state.firestore)
-
   const notices = stateFS.ordered.notices
-  const members = stateFS.ordered.members
-  const prayers = stateFS.ordered.prayers
-
-  isLoaded(prayers)
+  const members = useSelector<AppState, IMemberDownload[]>(
+    (state) => state.firestore.ordered.members
+  )
+  const reports = useSelector<AppState, IReport[]>(
+    (state) => state.firestore.ordered.reports
+  )
 
   return (
     <Fragment>
@@ -90,8 +91,8 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
             classes: { input: classes.datePicker },
           }}
         />
-        {isLoaded(prayers) && isLoaded(members) ? (
-          <PrayersContainer prayers={prayers} members={members} date={date} />
+        {isLoaded(reports) && isLoaded(members) ? (
+          <PrayersContainer reports={reports} members={members} />
         ) : (
           "Loading data..."
         )}

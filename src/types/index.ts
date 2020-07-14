@@ -46,6 +46,20 @@ export interface IPrayer {
 
 export type TPrayerQueries = [string, string, any][]
 
+// --Reports--
+export interface IReport {
+  id?: string
+  memberId: string
+  cell: string
+  date: string
+  prayer: string
+  attendance: {
+    service: boolean
+    cell: boolean
+    info?: string
+  }
+}
+
 // ---Auth---
 // Types
 export type AuthTypes = {

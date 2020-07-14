@@ -11,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import { Moment } from "moment"
 import React, { FC, Fragment, useEffect } from "react"
 import { CustomList } from "src/components/Level2/Lists/CustomList"
-import { IMemberDownload, IPrayer } from "src/types"
+import { IMemberDownload, IPrayer, IReport } from "src/types"
 
 import { ProfileEditDialog } from "../Dialogs/ProfileEditDialog"
 import { ProfileMenu } from "../Menus/ProfileMenu"
@@ -23,16 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 export interface IPPrayerListItem {
   member: IMemberDownload
-  prayer: IPrayer
+  prayer: string
 }
 
 export const PrayerListItem: FC<IPPrayerListItem> = ({ member, prayer }) => {
-  const [prayerState, setPrayerState] = React.useState<string>(prayer.content)
+  const [prayerState, setPrayerState] = React.useState<string>(prayer)
   const classes = useStyles()
   // TODO: THIS IS A TEMPORARY CODE WHICH REQUIRES IMMEDIATE FIXING
   useEffect(() => {
-    setPrayerState(prayer.content)
-  }, [prayer.content])
+    setPrayerState(prayer)
+  }, [prayer])
 
   const onChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
