@@ -133,7 +133,7 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
         </Fab>
         <Snackbar
           open={alertSaved}
-          autoHideDuration={6000}
+          autoHideDuration={1000}
           message="Changes saved."
           onClose={handleSnackbarClose}
           action={
