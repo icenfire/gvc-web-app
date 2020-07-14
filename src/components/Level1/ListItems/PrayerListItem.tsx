@@ -33,9 +33,9 @@ export const PrayerListItem: FC<IPPrayerListItem> = ({ member, report }) => {
   const [timeoutID, setTimeoutID] = React.useState<NodeJS.Timeout | null>(null)
   const classes = useStyles()
   // TODO: THIS IS A TEMPORARY CODE WHICH REQUIRES IMMEDIATE FIXING
-  // useEffect(() => {
-  //   setPrayerState(report.prayer)
-  // }, [report])
+  useEffect(() => {
+    setPrayerState(report.prayer)
+  }, [report])
   const AUTOSAVE_INTERVAL = 1000
   useEffect(() => {
     const timer = setTimeout(saveChanges, AUTOSAVE_INTERVAL)
