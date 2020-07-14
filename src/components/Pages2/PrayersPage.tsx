@@ -1,14 +1,20 @@
+import Button from "@material-ui/core/Button"
+import Fab from "@material-ui/core/Fab"
 import InputAdornment from "@material-ui/core/InputAdornment"
+import Snackbar from "@material-ui/core/Snackbar"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import DoneAllIcon from "@material-ui/icons/DoneAll"
 import EventIcon from "@material-ui/icons/Event"
 import { DatePicker } from "@material-ui/pickers"
 import moment, { Moment } from "moment"
 import React, { FC, Fragment, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { isLoaded, useFirestoreConnect } from "react-redux-firebase"
 import { AppBarMain } from "src/components/Level1/AppBars/AppBarMain"
 import { ContainerMain } from "src/components/Level1/Containers/ContainerMain"
+import { IAlertState } from "src/store/reducers/alertReducer"
 import { IMemberDownload, IReport } from "src/types"
+import { ALERT_SAVED } from "src/types/actions"
 
 import { AppState } from "../../store/reducers/rootReducer"
 import { NoticeAlert } from "../Level1/Alerts/NoticeAlert"
@@ -19,6 +25,16 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     divider: { backgroundColor: theme.palette.common.black },
     datePicker: theme.typography.h4,
+    fab: {
+      position: "absolute",
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+    },
+    snackbar: {
+      [theme.breakpoints.down("xs")]: {
+        bottom: 90,
+      },
+    },
   })
 )
 
@@ -28,6 +44,8 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
   const classes = useStyles()
   const [date, setDate] = useState<Moment>(moment().day(0))
   const profile = useSelector<AppState, any>((state) => state.firebase.profile)
+
+  const dispatch = useDispatch()
 
   useFirestoreConnect([
     { collection: "notices", orderBy: ["createdAt", "asc"] },
@@ -45,7 +63,7 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
     {
       collection: "reports",
       where: [
-        ["date", "==", date.format("YYYY/MM/DD")],
+        ["date", "==", date.format("YYYY.MM.DD")],
         ["cell", "==", profile.cell ? profile.cell : ""],
       ],
     },
@@ -59,6 +77,20 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
   const reports = useSelector<AppState, IReport[]>(
     (state) => state.firestore.ordered.reports
   )
+
+  const alertSaved = useSelector<AppState, IAlertState["saved"]>(
+    (state) => state.alert.saved
+  )
+
+  const handleSnackbarClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return
+    }
+    dispatch({ type: ALERT_SAVED, payload: false })
+  }
 
   return (
     <Fragment>
@@ -92,10 +124,29 @@ export const PrayersPage: FC<IPPrayersPage> = (props) => {
           }}
         />
         {isLoaded(reports) && isLoaded(members) ? (
-          <PrayersContainer reports={reports} members={members} />
+          <PrayersContainer reports={reports} members={members} date={date} />
         ) : (
           "Loading data..."
         )}
+        <Fab color="secondary" className={classes.fab}>
+          <DoneAllIcon />
+        </Fab>
+        <Snackbar
+          open={alertSaved}
+          autoHideDuration={6000}
+          message="Changes saved."
+          onClose={handleSnackbarClose}
+          action={
+            <Button
+              color="secondary"
+              size="small"
+              onClick={handleSnackbarClose}
+            >
+              CLOSE
+            </Button>
+          }
+          className={classes.snackbar}
+        />
       </ContainerMain>
     </Fragment>
   )

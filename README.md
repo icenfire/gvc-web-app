@@ -1,7 +1,5 @@
 ## TODO LIST
 
-- [ ] Make prayers save on firestore
-  - [x] Convert prayers objects to report objects
 - [ ] Add a FAB
 - [ ] Currently, there are multiple instances of profileeditdialogs. Fix if unnecessary
 - [ ] Complete the relationships between change of date from PrayersPage and state and props of PrayerListItem
@@ -13,6 +11,9 @@
   - [x] 27/06/20 CY - Stylised Theme editor page
   - [x] 24/06/20 CY - Finished styling prayer list item
   - [x] 24/06/20 CY - Finished styling app bar and drawer
+- [x] 14/07/20 CY - Make prayers save on firestore
+  - [x] 14/07/20 CY - Convert prayers objects to report objects
+  - [x] 14/07/20 CY - Implemented timer and onBlur based autosave
 - [x] 11/07/20 CY - Install new typographies: Added font installer in theme editor page
 - [x] 01/07/20 CY - Finished adding JSON input feature on theme page
 - [x] 27/06/20 CY - Added Theme editor page

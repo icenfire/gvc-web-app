@@ -1,4 +1,5 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
+import { Moment } from "moment"
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
 import { PrayerListItem } from "src/components/Level1/ListItems/PrayerListItem"
@@ -43,11 +44,13 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface IPPrayersContainer {
   members: IMemberDownload[]
   reports: IReport[]
+  date: Moment
 }
 
 export const PrayersContainer: FC<IPPrayersContainer> = ({
   members,
   reports,
+  date,
 }) => {
   const classes = useStyles()
   const search = useSelector<AppState, string>((state) => state.appBar.search)
@@ -62,13 +65,26 @@ export const PrayersContainer: FC<IPPrayersContainer> = ({
   // })
 
   const render = (member: IMemberDownload) => {
-    let prayer = ""
+    let _report: IReport
     let query =
       reports && reports.filter((report) => report.memberId === member.id)
 
-    if (query && query.length === 1) prayer = query[0].prayer
+    _report =
+      query && query.length === 1
+        ? query[0]
+        : {
+            memberId: member.id,
+            prayer: "",
+            cell: member.cell,
+            date: date.format("YYYY.MM.DD"),
+            attendance: {
+              service: false,
+              cell: false,
+              info: "",
+            },
+          }
 
-    return <PrayerListItem prayer={prayer} member={member} key={member.id} />
+    return <PrayerListItem report={_report} member={member} key={member.id} />
   }
   return <CustomList items={members_} render={render} />
 }

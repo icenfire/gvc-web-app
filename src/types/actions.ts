@@ -18,6 +18,21 @@ export type ThunkActionCustom<ReturnType> = ThunkAction<
   AppActions
 >
 
+// Alert actions
+export const ALERT_SAVED = "ALERT_SAVED"
+export interface AlertSaved {
+  type: typeof ALERT_SAVED
+  payload: boolean
+}
+
+export const ALERT_SAVED_ERROR = "ALERT_SAVED_ERROR"
+export interface AlertSavedError {
+  type: typeof ALERT_SAVED_ERROR
+  payload: IFBError
+}
+
+export type AlertActionTypes = AlertSaved | AlertSavedError
+
 // Theme actions
 export const UPLOAD_THEME = "UPLOAD_THEME"
 export interface UploadTheme {
@@ -298,3 +313,4 @@ export type AppActions =
   | BibleActionTypes
   | ThemeActionTypes
   | FontActionTypes
+  | AlertActionTypes

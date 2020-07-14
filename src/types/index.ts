@@ -56,7 +56,7 @@ export interface IReport {
   attendance: {
     service: boolean
     cell: boolean
-    info?: string
+    info: string
   }
 }
 

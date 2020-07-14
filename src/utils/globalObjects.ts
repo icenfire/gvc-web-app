@@ -39,7 +39,7 @@ export const globalObjects = () => {
           let report: IReport = {
             memberId: "c" + cell + "m" + member,
             cell: "" + cell,
-            date: date.format("YYYY/MM/DD"),
+            date: date.format("YYYY.MM.DD"),
             prayer: `Prayer of ${
               "Cell" + cell + (member === 0 ? "-Leader" : "-Member" + member)
             } created at ${date.format("Do MMM YYYY")}`,
@@ -57,7 +57,8 @@ export const globalObjects = () => {
             },
           }
           db.collection("reports")
-            .add(report)
+            .doc(`${report.date}-${report.memberId}`)
+            .set(report)
             .then(() => console.log("Complete!"))
         }
       }
